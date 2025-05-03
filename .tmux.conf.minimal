@@ -1,0 +1,67 @@
+# --- Minimal Monochrome Style ---
+
+# Vi mode và true color
+set -g status-keys vi
+set -g mode-keys vi
+set-option -g default-terminal "tmux-256color"
+set-option -ga terminal-overrides ",xterm-256color:Tc"
+
+# Prefix
+unbind C-b
+set -g prefix C-a
+bind C-a send-prefix
+
+# History dài
+set -g history-limit 100000
+
+# Giao diện pane
+bind | split-window -h
+bind - split-window -v
+unbind '"'
+unbind %
+
+bind h select-pane -L
+bind j select-pane -D
+bind k select-pane -U
+bind l select-pane -R
+
+bind -r H resize-pane -L 5
+bind -r J resize-pane -D 5
+bind -r K resize-pane -U 5
+bind -r L resize-pane -R 5
+
+# Rename window
+bind-key N command-prompt "rename-window %%"
+
+# Reload config
+bind r source-file ~/.tmux.conf \; display "Reloaded!"
+
+# Monochrome status bar
+set -g status on
+set -g status-interval 10
+set -g status-justify left
+set -g status-bg black
+set -g status-fg white
+
+# Cửa sổ chưa chọn
+setw -g window-status-format "#[fg=brightblack]#I:#W"
+# Cửa sổ đang chọn
+setw -g window-status-current-format "#[fg=white,bold,underscore]#I:#W"
+
+# Trái phải thanh trạng thái
+set -g status-left "#[fg=white]#H"
+set -g status-right "#[fg=white]%Y-%m-%d %H:%M"
+
+# Tên window tự động
+setw -g automatic-rename on
+
+# Tắt màu thừa
+set -g pane-border-style fg=brightblack
+set -g pane-active-border-style fg=white
+
+# Tắt viền ngoài
+set -g display-panes-active-colour white
+set -g display-panes-colour brightblack
+
+# Bật mouse (nếu muốn)
+set -g mouse on
