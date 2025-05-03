@@ -1,8 +1,14 @@
-format = "$directory$git_branch$character"
+format = "[$directory](bold cyan)$character"
 add_newline = false
 
-[directory]
-style = "bold blue"
+[username]
+show_always = true
+style_user = "bold white"
 
-[git_branch]
-style = "green"
+[hostname]
+ssh_only = false
+style = "bold white"
+
+[character]
+success_symbol = "[❯](bold green)"
+error_symbol = "[✗](bold red)"
