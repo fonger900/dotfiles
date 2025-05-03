@@ -1,14 +1,41 @@
-format = "[$directory](bold cyan)$character"
-add_newline = false
+# Starship Prompt – Cyberpunk Silent
 
-[username]
-show_always = true
-style_user = "bold white"
+format = """
+[▌](fg:#89b4fa)\
+[ $directory ](fg:#cdd6f4 bg:none)\
+[$git_branch](fg:#cba6f7)\
+$cmd_duration
+$character"""
 
-[hostname]
-ssh_only = false
-style = "bold white"
+add_newline = true
+
+[directory]
+truncation_length = 3
+truncate_to_repo = false
+style = "fg:#cdd6f4"
+
+[git_branch]
+format = "[ $branch](fg:#cba6f7)"
+truncation_length = 20
+only_attached = true
+
+[cmd_duration]
+min_time = 1000
+format = " [⧖ $duration](fg:#a6e3a1)"
 
 [character]
-success_symbol = "[❯](bold green)"
-error_symbol = "[✗](bold red)"
+success_symbol = "[❯](fg:#a6e3a1 bold)"
+error_symbol = "[✗](fg:#f38ba8 bold)"
+vicmd_symbol = "[❮](fg:#cba6f7 bold)"
+
+# Tắt những module không cần
+[git_status]
+disabled = true
+[hostname]
+disabled = true
+[username]
+disabled = true
+[time]
+disabled = true
+[shell]
+disabled = true

@@ -1,0 +1,54 @@
+set -g mouse on
+set -g history-limit 10000
+set -g base-index 1
+setw -g pane-base-index 1
+setw -g mode-keys vi
+set-option -g prefix C-a
+unbind C-b
+bind C-a send-prefix
+
+# Điều hướng
+bind h select-pane -L
+bind j select-pane -D
+bind k select-pane -U
+bind l select-pane -R
+
+# Chia pane
+bind v split-window -h
+bind s split-window -v
+
+# Resize
+bind -r H resize-pane -L 5
+bind -r L resize-pane -R 5
+bind -r J resize-pane -D 3
+bind -r K resize-pane -U 3
+
+# Khác
+bind x kill-pane
+bind q kill-session
+bind-key C-n new-session -A -s hermit
+
+# Minimal status bar
+set -g status on
+set -g status-interval 2
+set -g status-justify centre
+
+# Màu nền + chữ
+set -g status-bg '#1e1e2e'       # Nền tối (phù hợp WezTerm theme)
+set -g status-fg '#cdd6f4'       # Chữ trắng nhạt
+
+# Phần trái: tên host
+set -g status-left '#[fg=#89b4fa]#H#[default]'
+
+# Phần phải: ngày giờ
+set -g status-right '#[fg=#a6e3a1]%H:%M #[fg=#f5c2e7]%d-%m-%y#[default]'
+
+# Tên window đang chọn
+set-window-option -g window-status-current-format '#[fg=#f5c2e7,bold]#I:#W#[default]'
+
+# Tên window khác
+set-window-option -g window-status-format '#[fg=#585b70]#I:#W#[default]'
+
+# Đường viền pane
+set -g pane-border-style 'fg=#585b70'
+set -g pane-active-border-style 'fg=#89b4fa'

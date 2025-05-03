@@ -4,8 +4,11 @@ plugins=(git z)
 
 source $ZSH/oh-my-zsh.sh
 export PATH="$HOME/.local/bin:$PATH"
+
+# Aliases
+alias ll="ls -la"
+alias gs="git status"
 alias vim="nvim"
-alias ll='ls -lAh --color=auto'
 
 # bun completions
 [ -s "/Users/fonger/.bun/_bun" ] && source "/Users/fonger/.bun/_bun"
