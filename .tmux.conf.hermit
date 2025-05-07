@@ -1,54 +1,73 @@
-set -g mouse on
-set -g history-limit 10000
-set -g base-index 1
-setw -g pane-base-index 1
-setw -g mode-keys vi
-set-option -g prefix C-a
+
+# Shadow Gardener – tmux config (v3)
+# ===============================
+# Mục tiêu: tối giản, dễ nhớ phím, hiển thị rõ session & window.
+
+# ---------- Cơ bản ----------
+set -g mouse on                 # lăn & chọn pane bằng chuột
+set -g history-limit 10000      # lưu scrollback dài
+set -g base-index 1             # window bắt đầu từ 1
+setw -g pane-base-index 1       # pane bắt đầu từ 1
+setw -g mode-keys vi            # copy‑mode phím vi
+
+# Prefix mới (Ctrl‑a)
+set -g prefix C-a
 unbind C-b
 bind C-a send-prefix
 
-# Điều hướng
+# ---------- Điều hướng pane ----------
 bind h select-pane -L
 bind j select-pane -D
 bind k select-pane -U
 bind l select-pane -R
 
-# Chia pane
-bind v split-window -h
-bind s split-window -v
+# ---------- Chia pane ----------
+bind v split-window -h           # vertical split (hợp lý với ký tự v)
+bind s split-window -v           # horizontal split (s ≈ split)
 
-# Resize
+# ---------- Resize nhanh ----------
 bind -r H resize-pane -L 5
 bind -r L resize-pane -R 5
 bind -r J resize-pane -D 3
 bind -r K resize-pane -U 3
 
-# Khác
+# ---------- Quản lý pane / session ----------
 bind x kill-pane
 bind q kill-session
+
+# Tạo / gắn session hermit nhanh (Ctrl‑n)
 bind-key C-n new-session -A -s hermit
 
-# Minimal status bar
+# ---------- Tên session & window rõ ràng ----------
+# Khi tạo cửa sổ mới, tự động đặt định dạng: <session>:<index>-<dir>
+set -g automatic-rename-format "#S:#I-#(basename '#{pane_current_path}')"
+set -g automatic-rename on
+
+# Thêm phím nhanh để đổi tên session (prefix + $)
+bind $ command-prompt -I "#S" "rename-session -- '%%'"
+
+# ---------- Status bar tối giản ----------
 set -g status on
 set -g status-interval 2
 set -g status-justify centre
 
-# Màu nền + chữ
-set -g status-bg '#1e1e2e'       # Nền tối (phù hợp WezTerm theme)
-set -g status-fg '#cdd6f4'       # Chữ trắng nhạt
+set -g status-bg '#1e1e2e'
+set -g status-fg '#cdd6f4'
 
-# Phần trái: tên host
-set -g status-left '#[fg=#89b4fa]#H#[default]'
+# Phần trái: biểu tượng + tên session + host
+set -g status-left '#[fg=#f2cdcd] #[fg=#89b4fa]#S #[fg=#585b70]| #[fg=#89b4fa]#H#[default]'
 
-# Phần phải: ngày giờ
-set -g status-right '#[fg=#a6e3a1]%H:%M #[fg=#f5c2e7]%d-%m-%y#[default]'
+# Phần phải: pin (nếu laptop) + ngày giờ
+set -g status-right '#[fg=#fab387]#(~/system/bin/battery) #[fg=#a6e3a1]%H:%M #[fg=#f5c2e7]%d-%m-%y#[default]'
 
-# Tên window đang chọn
+# Window hiện tại highlight
 set-window-option -g window-status-current-format '#[fg=#f5c2e7,bold]#I:#W#[default]'
-
-# Tên window khác
+# Window khác mờ
 set-window-option -g window-status-format '#[fg=#585b70]#I:#W#[default]'
 
 # Đường viền pane
 set -g pane-border-style 'fg=#585b70'
 set -g pane-active-border-style 'fg=#89b4fa'
+
+# ---------- Script battery (macOS & Linux) ----------
+# ~/system/bin/battery: echo 83%🔋 / 45%⚡ nếu đang sạc
