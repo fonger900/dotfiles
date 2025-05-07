@@ -9,6 +9,7 @@ export PATH="$HOME/.local/bin:$PATH"
 alias ll="ls -la"
 alias gs="git status"
 alias vim="nvim"
+alias cat="bat"
 
 # bun completions
 [ -s "/Users/fonger/.bun/_bun" ] && source "/Users/fonger/.bun/_bun"
@@ -18,3 +19,4 @@ export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
 eval "$(starship init zsh)"
+export PATH=$HOME/system/bin:$PATH
