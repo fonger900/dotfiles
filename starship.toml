@@ -1,34 +1,38 @@
-# Starship Prompt – Cyberpunk Silent
 
-format = """
-[▌](fg:#89b4fa)\
-[ $directory ](fg:#cdd6f4 bg:none)\
-[$git_branch](fg:#cba6f7)\
-$cmd_duration
-$character"""
+# ────────────────────────────────────────────────────────────────
+#  Starship Prompt – Shadow Gardener "Cyber‑Silent" (v2)
+#  • Đường nét neon gọn, chỉ hiện tối thiểu: thư mục · branch · thời gian lệnh
+#  • Không phô trương nhưng vẫn có sắc thái cyberpunk (#89b4fa, #cba6f7…)
+# ────────────────────────────────────────────────────────────────
 
+format = "\n[▌](fg:#89b4fa)\uE0B0 $directory$git_branch$cmd_duration$line_break$character"
 add_newline = true
 
+# ───── DIRECTORY ───────────────────────────────────────────────
 [directory]
-truncation_length = 3
-truncate_to_repo = false
-style = "fg:#cdd6f4"
+style               = "fg:#cdd6f4"
+truncation_length   = 3          # ~/g/t/dotfiles
+truncate_to_repo    = false
+format              = "[ $path ]($style)"
 
+# ───── GIT BRANCH ───────────────────────────────────────────────
 [git_branch]
-format = "[ $branch](fg:#cba6f7)"
-truncation_length = 20
-only_attached = true
+format              = "[ $branch](fg:#cba6f7)"
+truncation_length   = 20
+only_attached       = true
 
+# ───── COMMAND DURATION ─────────────────────────────────────────
 [cmd_duration]
-min_time = 1000
-format = " [⧖ $duration](fg:#a6e3a1)"
+min_time            = 2000       # hiện khi >2 s
+format              = " [⧖ $duration](fg:#a6e3a1)"
 
+# ───── CHARACTER ───────────────────────────────────────────────
 [character]
-success_symbol = "[❯](fg:#a6e3a1 bold)"
-error_symbol = "[✗](fg:#f38ba8 bold)"
-vicmd_symbol = "[❮](fg:#cba6f7 bold)"
+success_symbol      = "[❯](fg:#a6e3a1 bold)"
+error_symbol        = "[✗](fg:#f38ba8 bold)"
+vicmd_symbol        = "[❮](fg:#cba6f7 bold)"
 
-# Tắt những module không cần
+# ───── DISABLED MODULES ────────────────────────────────────────
 [git_status]
 disabled = true
 [hostname]
@@ -39,3 +43,11 @@ disabled = true
 disabled = true
 [shell]
 disabled = true
+
+# ───── OPTIONAL EXTRAS (bật nếu muốn) ──────────────────────────
+# [battery]
+# disabled = false
+# full_symbol   = "🔋"
+# charging_symbol = "⚡"
+# discharging_symbol = ""
+# ────────────────────────────────────────────────────────────────
