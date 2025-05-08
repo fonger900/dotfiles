@@ -1,19 +1,19 @@
 
 # ────────────────────────────────────────────────────────────────
-#  Starship Prompt – Shadow Gardener "Cyber‑Silent" (v2)
-#  • Đường nét neon gọn, chỉ hiện tối thiểu: thư mục · branch · thời gian lệnh
-#  • Không phô trương nhưng vẫn có sắc thái cyberpunk (#89b4fa, #cba6f7…)
+#  Starship Prompt – Shadow Gardener "Cyber‑Silent" (v3)
+#  • Vạch neon ▌ + thư mục nổi bật (vàng), branch, thời gian lệnh.
+#  • Thư mục hiển thị icon ‘’ và tô đậm để dễ nhận.
 # ────────────────────────────────────────────────────────────────
 
-format = "\n[▌](fg:#89b4fa)\uE0B0 $directory$git_branch$cmd_duration$line_break$character"
+format = "[▌](fg:#89b4fa)$directory$git_branch$cmd_duration$line_break$character"
 add_newline = true
 
-# ───── DIRECTORY ───────────────────────────────────────────────
+# ───── DIRECTORY – nổi bật vàng ────────────────────────────────
 [directory]
-style               = "fg:#cdd6f4"
-truncation_length   = 3          # ~/g/t/dotfiles
+style               = "fg:#f9e2af bg:#1e1e2e bold"
+truncation_length   = 3
 truncate_to_repo    = false
-format              = "[ $path ]($style)"
+format              = "[   $path ]($style)"
 
 # ───── GIT BRANCH ───────────────────────────────────────────────
 [git_branch]
@@ -23,7 +23,7 @@ only_attached       = true
 
 # ───── COMMAND DURATION ─────────────────────────────────────────
 [cmd_duration]
-min_time            = 2000       # hiện khi >2 s
+min_time            = 2000
 format              = " [⧖ $duration](fg:#a6e3a1)"
 
 # ───── CHARACTER ───────────────────────────────────────────────
@@ -44,10 +44,9 @@ disabled = true
 [shell]
 disabled = true
 
-# ───── OPTIONAL EXTRAS (bật nếu muốn) ──────────────────────────
+# ───── OPTIONAL EXTRAS (pin, battery…) ─────────────────────────
 # [battery]
-# disabled = false
 # full_symbol   = "🔋"
-# charging_symbol = "⚡"
 # discharging_symbol = ""
+# charging_symbol = "⚡"
 # ────────────────────────────────────────────────────────────────
