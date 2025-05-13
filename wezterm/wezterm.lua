@@ -28,8 +28,8 @@ return {
   window_decorations = "RESIZE|MACOS_FORCE_DISABLE_SHADOW", -- clean edges
   inactive_pane_hsb = { saturation = 0.8, brightness = 0.7 },
   -- leader = { key = "a", mods = "CTRL", timeout_milliseconds = 1000 }, -- matches tmux prefix
-  keys = {
-    {key = "v", mods="LEADER", action=wezterm.action{SplitVertical={domain="CurrentPaneDomain"}}},
-    {key = "s", mods="LEADER", action=wezterm.action{SplitHorizontal={domain="CurrentPaneDomain"}}},
-  },
+  -- keys = {
+  --   {key = "v", mods="LEADER", action=wezterm.action{SplitVertical={domain="CurrentPaneDomain"}}},
+  --   {key = "s", mods="LEADER", action=wezterm.action{SplitHorizontal={domain="CurrentPaneDomain"}}},
+  -- },
 }
