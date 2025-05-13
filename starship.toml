@@ -4,12 +4,12 @@
 #  • Thư mục hiển thị icon ‘’ và tô đậm để dễ nhận.
 # ────────────────────────────────────────────────────────────────
 
-format = "[▌](fg:#89b4fa)$directory$git_branch$cmd_duration$line_break$character"
+format = "[▌](fg:#89b4fa)$directory$git_branch$cmd_duration$line_break$character$line_break"
 add_newline = true
 
 # ───── DIRECTORY – nổi bật vàng ────────────────────────────────
 [directory]
-style               = "fg:#f9e2af bg:#1e1e2e bold"
+style               = "fg:#f9e2af bold"
 truncation_length   = 3
 truncate_to_repo    = false
 format              = "[   $path ]($style)"
