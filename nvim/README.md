@@ -189,6 +189,7 @@ nvim/
   - Includes runtime path and workspace library settings
   - Optimized for plugin development
   - Custom type definitions in `lua/types.lua` for better LSP support
+  - Comprehensive type annotations for formatters and LSP clients
 
 ### 📦 **Plugin Management**
 

@@ -19,5 +19,12 @@
 ---@field primary boolean
 ---@field priority number
 ---@field format fun(opts?: table)
+---@field null_ls? boolean
+---@field id? number
+
+---@class LazyFormatterState
+---@field active LazyFormatter[]
+---@field available LazyFormatter[]
+---@field null_ls boolean
 
 ---@class vim.lsp.Client : lsp.Client

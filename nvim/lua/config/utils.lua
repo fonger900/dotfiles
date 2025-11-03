@@ -272,7 +272,7 @@ function M.format.format(opts)
 end
 
 ---@param buf? number
----@return table[] Array of LazyFormatter or LSP client objects
+---@return LazyFormatterState
 function M.format.get_formatters(buf)
   local buf = buf or vim.api.nvim_get_current_buf()
   local formatters = {} ---@type LazyFormatter[]
@@ -304,7 +304,7 @@ function M.format.get_formatters(buf)
   -- check for lsp formatters
   local clients = M.lsp.get_clients({ bufnr = buf })
   local null_ls = package.loaded["null-ls"] and
-  require("null-ls.sources").get_available(vim.bo[buf].filetype, "NULL_LS_FORMATTING") or {}
+      require("null-ls.sources").get_available(vim.bo[buf].filetype, "NULL_LS_FORMATTING") or {}
 
   ---@param client table LSP client object
   local function add_client(client)
