@@ -33,3 +33,6 @@ keymap('n', '<S-h>', ':bprevious<CR>', { desc = 'Previous buffer' })
 
 -- NeoTree
 keymap('n', '<leader>e', ':Neotree toggle<CR>', { desc = 'Toggle file explorer' })
+
+-- Terminal
+keymap('n', '<leader>t', ':terminal<CR>', { desc = 'Open terminal' })
