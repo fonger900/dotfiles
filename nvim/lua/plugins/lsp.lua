@@ -134,7 +134,9 @@ return {
       -- Resolve dynamic settings tables (allows lazy requiring of schemastore, etc.)
       for name, cfg in pairs(servers) do
         if type(cfg) == "table" and type(cfg.settings) == "function" then
-          local ok, res = pcall(cfg.settings)
+          local ok, res = pcall(function()
+            return cfg.settings()
+          end)
           if ok and type(res) == "table" then
             cfg.settings = res
           else
@@ -233,68 +235,6 @@ return {
     end,
   },
 
-  -- LSP UI enhancements - DISABLED due to deprecation warnings
-  -- Using native LSP features instead for better compatibility
-  --[[
-  {
-    "nvimdev/lspsaga.nvim",
-    enabled = false, -- Disabled due to deprecated API usage
-    event = "LspAttach",
-    dependencies = {
-      "nvim-treesitter/nvim-treesitter",
-      "nvim-tree/nvim-web-devicons"
-    },
-    opts = {
-      ui = {
-        border = "rounded",
-        code_action = "",
-      },
-      lightbulb = {
-        enable = false,
-      },
-      symbol_in_winbar = {
-        enable = false,
-      },
-      code_action = {
-        num_shortcut = true,
-        show_server_name = false,
-        extend_gitsigns = true,
-        keys = {
-          quit = "q",
-          exec = "<CR>",
-        },
-      },
-      definition = {
-        edit = "<C-c>o",
-        vsplit = "<C-c>v",
-        split = "<C-c>i",
-        tabe = "<C-c>t",
-        quit = "q",
-      },
-      finder = {
-        max_height = 0.5,
-        min_width = 30,
-        force_max_height = false,
-        keys = {
-          jump_to = "p",
-          expand_or_jump = "o",
-          vsplit = "s",
-          split = "i",
-          tabe = "t",
-          tabnew = "r",
-          quit = "q",
-        },
-      },
-      rename = {
-        quit = "<C-c>",
-        exec = "<CR>",
-        mark = "x",
-        confirm = "<CR>",
-        in_select = true,
-      },
-    },
-  },
-  --]]
 
   -- Schema store for JSON
   {

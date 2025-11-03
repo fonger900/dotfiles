@@ -5,7 +5,7 @@ All notable changes to this Neovim configuration will be documented in this file
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [2.0.0] - 2025-11-03
 
 ### 🔧 Modernization & Optimizations
 
@@ -16,13 +16,32 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Remove over-aggressive disabling of core runtime plugins from `config/options.lua` (managed centrally by lazy.nvim/init.lua).
 - Initialize a formatter registry in `config.utils` to prevent nil table access when registering custom formatters.
 
+### 🎛️ Snacks migration (UI + Picker)
+
+- Replace Telescope stack with Snacks:
+  - Snacks Picker for files/grep/buffers/recent/diagnostics/colorschemes.
+  - Snacks Dashboard (replaces `dashboard-nvim`).
+  - Snacks Notifier (replaces `nvim-notify`).
+  - Snacks Indent (replaces `indent-blankline.nvim`).
+  - Snacks Profiler (replaces `vim-startuptime`).
+- Remove overlapping integrations and dead code:
+  - Pruned Telescope-specific helpers and mappings; switched to native LSP navigation.
+  - Removed dashboard/notify/dressing/indent-blankline plugin specs and integrations.
+  - Updated Catppuccin integrations to drop Telescope/Lspsaga hooks.
+- Keymaps aligned with Snacks picker:
+  - Files: `<leader>ff` (and `<leader><space>`), Buffers: `<leader>,`, Grep: `<leader>sg`.
+  - Recent: `<leader>fr`, Diagnostics: `<leader>sd` / `<leader>sD`.
+  - Extras: Commands `<leader>s:`, Keymaps `<leader>sk`, Registers `<leader>sr`, Marks `<leader>sm`.
+
 ### 🧹 Cleanup
 
 - Deduplicate UI options in `config/options.lua` and avoid re-setting leader there (it is set early in `init.lua`).
+- Removed large commented blocks and stale references to deprecated/disabled plugins to simplify maintenance.
 
 ### ✅ Compatibility
 
 - Keep graceful fallbacks to older APIs where safe, while defaulting to modern ones.
+- Address deprecations: `client:supports_method`, `vim.hl.on_yank`, early `vim.diagnostic.config` signs; added `vim.validate` polyfill to quiet noisy plugin code paths.
 
 ## [2.0.0] - 2025-11-03
 
@@ -36,7 +55,7 @@ This release represents a complete restructuring of the Neovim configuration for
 
 - **Modular plugin organization**: Split monolithic `plugins.lua` into 6 logical modules:
   - `plugins/ui.lua` - UI, themes, and visual enhancements
-  - `plugins/editor.lua` - Core editing features and Telescope
+  - `plugins/editor.lua` - Core editing features
   - `plugins/coding.lua` - Completion, snippets, and coding tools
   - `plugins/lsp.lua` - Language Server Protocol configuration
   - `plugins/git.lua` - Git integration and workflow tools
@@ -56,11 +75,10 @@ This release represents a complete restructuring of the Neovim configuration for
 - **Mason.nvim** - Automatic LSP server, DAP, linter, and formatter management
 - **Conform.nvim** - Modern, fast formatting with multiple formatter support
 - **Neo-tree.nvim** - Modern file explorer with git integration
-- **Telescope.nvim** - Enhanced fuzzy finding with multiple pickers
+- **Snacks.nvim** - Lightweight picker (files/grep/buffers/recent/diagnostics/colorschemes) plus dashboard, notifier, indent guides, and profiler
 - **Which-key.nvim** - Interactive keybinding help and organization
 - **Catppuccin** - Modern, aesthetic theme with multiple variants
 - **Gitsigns.nvim** - Advanced git integration with inline blame and staging
-- **Dashboard.nvim** - Beautiful startup screen with quick actions
 - **Treesitter** - Enhanced syntax highlighting and text objects
 - **Harpoon** - Quick file navigation and project management
 - **Trouble.nvim** - Better diagnostics and quickfix management
@@ -73,7 +91,7 @@ This release represents a complete restructuring of the Neovim configuration for
 - **Enhanced diagnostics** with modern UI
 - **Code actions and refactoring** support
 - **Hover documentation** with improved formatting
-- **Symbol navigation** with Telescope integration
+- **Symbol navigation** via native LSP; pickers available via Snacks
 
 ### 🔄 Changed
 
@@ -104,9 +122,9 @@ This release represents a complete restructuring of the Neovim configuration for
 #### Deprecated Plugins (Temporarily Disabled)
 
 - **lspsaga.nvim** - Disabled due to deprecated API usage (`client.request`, `client.supports_method`)
-  - *Replacement*: Native LSP features with Telescope integration
+  - *Replacement*: Native LSP features (Snacks provides pickers where helpful)
 - **project.nvim** - Disabled due to deprecated `vim.lsp.buf_get_clients()` usage
-  - *Replacement*: `<leader>fp` → `Telescope git_files` for project navigation
+  - *Replacement*: Use Snacks files (`<leader>ff`) and recent (`<leader>fr`) for project/file navigation
 - **nvim-lint** - Disabled due to deprecated `sign_define()` usage
   - *Replacement*: LSP diagnostics + conform.nvim linting capabilities
 
@@ -134,7 +152,7 @@ This release represents a complete restructuring of the Neovim configuration for
 
 #### Compatibility
 
-- **Ensured Neovim 0.11+ compatibility**
+- **Ensured Neovim 0.10+ compatibility**
 - **Updated all plugin configurations for latest versions**
 - **Fixed lazy loading event triggers**
 
@@ -182,8 +200,8 @@ This release represents a complete restructuring of the Neovim configuration for
 
 #### Key Binding Changes
 
-- **`<leader>fp`**: Now maps to `Telescope git_files` (was project.nvim)
-- **LSP bindings**: Now use native LSP + Telescope (was lspsaga)
+- Use Snacks files (`<leader>ff`) and recent (`<leader>fr`) instead of prior project/Telescope flows
+- **LSP bindings**: Now use native LSP (lspsaga removed); Snacks covers pickers where applicable
 - **Formatting**: Now uses conform.nvim (was null-ls/lspsaga)
 
 ### 🛠️ Developer Notes

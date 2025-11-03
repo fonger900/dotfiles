@@ -37,17 +37,7 @@ local function safe_require(module)
   return result
 end
 
--- Optional: Suppress telescope vim.validate deprecation warnings
--- These are internal to telescope.nvim and should be resolved upstream; silence just these messages.
-do
-  local original_notify = vim.notify
-  vim.notify = function(msg, level, opts)
-    if type(msg) == "string" and msg:match("vim%.validate is deprecated") and msg:match("telescope") then
-      return
-    end
-    return original_notify(msg, level, opts)
-  end
-end
+-- (Removed old notify shim; polyfill below addresses validate deprecations)
 
 -- Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -71,6 +61,7 @@ require("lazy").setup({
     { import = "plugins.lsp" },
     { import = "plugins.git" },
     { import = "plugins.utils" },
+    { import = "plugins.snacks" },
   },
   defaults = { lazy = true },
   install = { colorscheme = { "catppuccin", "habamax" } },

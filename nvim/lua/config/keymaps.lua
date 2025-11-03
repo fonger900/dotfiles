@@ -192,17 +192,11 @@ function M.on_attach(client, buffer)
   end
 
   -- LSP actions
-  map_buffer("n", "gd", function()
-    require("telescope.builtin").lsp_definitions({ reuse_win = true })
-  end, { desc = "Goto Definition" })
-  map_buffer("n", "gr", "<cmd>Telescope lsp_references<cr>", { desc = "References" })
+  map_buffer("n", "gd", vim.lsp.buf.definition, { desc = "Goto Definition" })
+  map_buffer("n", "gr", vim.lsp.buf.references, { desc = "References" })
   map_buffer("n", "gD", vim.lsp.buf.declaration, { desc = "Goto Declaration" })
-  map_buffer("n", "gI", function()
-    require("telescope.builtin").lsp_implementations({ reuse_win = true })
-  end, { desc = "Goto Implementation" })
-  map_buffer("n", "gy", function()
-    require("telescope.builtin").lsp_type_definitions({ reuse_win = true })
-  end, { desc = "Goto T[y]pe Definition" })
+  map_buffer("n", "gI", vim.lsp.buf.implementation, { desc = "Goto Implementation" })
+  map_buffer("n", "gy", vim.lsp.buf.type_definition, { desc = "Goto T[y]pe Definition" })
   map_buffer("n", "K", vim.lsp.buf.hover, { desc = "Hover" })
   map_buffer("n", "gK", vim.lsp.buf.signature_help, { desc = "Signature Help" })
   map_buffer("i", "<c-k>", vim.lsp.buf.signature_help, { desc = "Signature Help" })
@@ -219,19 +213,7 @@ function M.on_attach(client, buffer)
   end, { desc = "Source Action" })
   map_buffer("n", "<leader>cr", vim.lsp.buf.rename, { desc = "Rename" })
 
-  -- LSP Saga mappings if available
-  if require("config.utils").has("lspsaga.nvim") then
-    map_buffer("n", "K", "<cmd>Lspsaga hover_doc<cr>", { desc = "Hover Documentation" })
-    map_buffer("n", "gd", "<cmd>Lspsaga goto_definition<cr>", { desc = "Goto Definition" })
-    map_buffer("n", "gp", "<cmd>Lspsaga peek_definition<cr>", { desc = "Peek Definition" })
-    map_buffer("n", "gr", "<cmd>Lspsaga finder<cr>", { desc = "LSP Finder" })
-    map_buffer("n", "<leader>ca", "<cmd>Lspsaga code_action<cr>", { desc = "Code Action" })
-    map_buffer("n", "<leader>cr", "<cmd>Lspsaga rename<cr>", { desc = "Rename" })
-    map_buffer("n", "<leader>cl", "<cmd>Lspsaga show_line_diagnostics<cr>", { desc = "Line Diagnostics" })
-    map_buffer("n", "[d", "<cmd>Lspsaga diagnostic_jump_prev<cr>", { desc = "Prev Diagnostic" })
-    map_buffer("n", "]d", "<cmd>Lspsaga diagnostic_jump_next<cr>", { desc = "Next Diagnostic" })
-    map_buffer("n", "<leader>o", "<cmd>Lspsaga outline<cr>", { desc = "Outline" })
-  end
+  -- Keep LSP native mappings only for simplicity
 end
 
 return M

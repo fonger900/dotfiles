@@ -6,6 +6,7 @@ return {
   -- Measure startuptime
   {
     "dstein64/vim-startuptime",
+    enabled = false, -- replaced by Snacks Profiler
     cmd = "StartupTime",
     config = function()
       vim.g.startuptime_tries = 10
@@ -16,7 +17,7 @@ return {
   { "nvim-lua/plenary.nvim", lazy = true },
 
   -- Makes some plugins dot-repeatable
-  { "tpope/vim-repeat", event = "VeryLazy" },
+  { "tpope/vim-repeat",      event = "VeryLazy" },
 
   -- Terminal integration
   {
@@ -24,9 +25,9 @@ return {
     version = "*",
     cmd = { "ToggleTerm", "TermExec" },
     keys = {
-      { "<leader>tt", "<cmd>ToggleTerm<cr>", desc = "Toggle Terminal" },
-      { "<leader>tf", "<cmd>ToggleTerm direction=float<cr>", desc = "Float Terminal" },
-      { "<leader>th", "<cmd>ToggleTerm direction=horizontal<cr>", desc = "Horizontal Terminal" },
+      { "<leader>tt", "<cmd>ToggleTerm<cr>",                            desc = "Toggle Terminal" },
+      { "<leader>tf", "<cmd>ToggleTerm direction=float<cr>",            desc = "Float Terminal" },
+      { "<leader>th", "<cmd>ToggleTerm direction=horizontal<cr>",       desc = "Horizontal Terminal" },
       { "<leader>tv", "<cmd>ToggleTerm direction=vertical size=80<cr>", desc = "Vertical Terminal" },
     },
     opts = {
@@ -59,33 +60,7 @@ return {
     },
   },
 
-  -- Project management - DISABLED due to deprecation warnings
-  -- Using Telescope's built-in git_files and recent files instead
-  --[[
-  {
-    "ahmedkhalf/project.nvim",
-    enabled = false, -- Disabled due to deprecated API usage
-    opts = {
-      manual_mode = false,
-      detection_methods = { "lsp", "pattern" },
-      patterns = { ".git", "_darcs", ".hg", ".bzr", ".svn", "Makefile", "package.json", "pom.xml" },
-      ignore_lsp = {},
-      exclude_dirs = {},
-      show_hidden = false,
-      silent_chdir = true,
-      scope_chdir = 'global',
-      datapath = vim.fn.stdpath("data"),
-    },
-    event = "VeryLazy",
-    config = function(_, opts)
-      require("project_nvim").setup(opts)
-      require("telescope").load_extension("projects")
-    end,
-    keys = {
-      { "<leader>fp", "<Cmd>Telescope projects<CR>", desc = "Projects" },
-    },
-  },
-  --]]
+  -- (project.nvim removed; Snacks + Harpoon cover quick project navigation)
 
   -- Improved yank and put
   {
@@ -97,24 +72,40 @@ return {
       ring = { storage = jit.os:find("Windows") and "shada" or "sqlite" },
     },
     keys = {
-      { "<leader>p", function() require("telescope").extensions.yank_history.yank_history({ }) end, desc = "Open Yank History" },
-      { "y", "<Plug>(YankyYank)", mode = { "n", "x" }, desc = "Yank text" },
-      { "p", "<Plug>(YankyPutAfter)", mode = { "n", "x" }, desc = "Put yanked text after cursor" },
-      { "P", "<Plug>(YankyPutBefore)", mode = { "n", "x" }, desc = "Put yanked text before cursor" },
-      { "gp", "<Plug>(YankyGPutAfter)", mode = { "n", "x" }, desc = "Put yanked text after selection" },
-      { "gP", "<Plug>(YankyGPutBefore)", mode = { "n", "x" }, desc = "Put yanked text before selection" },
-      { "[y", "<Plug>(YankyCycleForward)", desc = "Cycle forward through yank history" },
-      { "]y", "<Plug>(YankyCycleBackward)", desc = "Cycle backward through yank history" },
-      { "]p", "<Plug>(YankyPutIndentAfterLinewise)", desc = "Put indented after cursor (linewise)" },
-      { "[p", "<Plug>(YankyPutIndentBeforeLinewise)", desc = "Put indented before cursor (linewise)" },
-      { "]P", "<Plug>(YankyPutIndentAfterLinewise)", desc = "Put indented after cursor (linewise)" },
-      { "[P", "<Plug>(YankyPutIndentBeforeLinewise)", desc = "Put indented before cursor (linewise)" },
-      { ">p", "<Plug>(YankyPutIndentAfterShiftRight)", desc = "Put and indent right" },
-      { "<p", "<Plug>(YankyPutIndentAfterShiftLeft)", desc = "Put and indent left" },
+      {
+        "<leader>p",
+        function()
+          local ok, telescope = pcall(require, "telescope")
+          if ok and telescope and telescope.extensions and telescope.extensions.yank_history then
+            telescope.extensions.yank_history.yank_history({})
+          else
+            -- Fallback: use Yanky command if available or notify
+            if vim.fn.exists(":YankyRingHistory") == 2 then
+              vim.cmd([[YankyRingHistory]])
+            else
+              vim.notify("Yank history UI unavailable (Telescope disabled)", vim.log.levels.WARN)
+            end
+          end
+        end,
+        desc = "Open Yank History",
+      },
+      { "y",  "<Plug>(YankyYank)",                      mode = { "n", "x" },                           desc = "Yank text" },
+      { "p",  "<Plug>(YankyPutAfter)",                  mode = { "n", "x" },                           desc = "Put yanked text after cursor" },
+      { "P",  "<Plug>(YankyPutBefore)",                 mode = { "n", "x" },                           desc = "Put yanked text before cursor" },
+      { "gp", "<Plug>(YankyGPutAfter)",                 mode = { "n", "x" },                           desc = "Put yanked text after selection" },
+      { "gP", "<Plug>(YankyGPutBefore)",                mode = { "n", "x" },                           desc = "Put yanked text before selection" },
+      { "[y", "<Plug>(YankyCycleForward)",              desc = "Cycle forward through yank history" },
+      { "]y", "<Plug>(YankyCycleBackward)",             desc = "Cycle backward through yank history" },
+      { "]p", "<Plug>(YankyPutIndentAfterLinewise)",    desc = "Put indented after cursor (linewise)" },
+      { "[p", "<Plug>(YankyPutIndentBeforeLinewise)",   desc = "Put indented before cursor (linewise)" },
+      { "]P", "<Plug>(YankyPutIndentAfterLinewise)",    desc = "Put indented after cursor (linewise)" },
+      { "[P", "<Plug>(YankyPutIndentBeforeLinewise)",   desc = "Put indented before cursor (linewise)" },
+      { ">p", "<Plug>(YankyPutIndentAfterShiftRight)",  desc = "Put and indent right" },
+      { "<p", "<Plug>(YankyPutIndentAfterShiftLeft)",   desc = "Put and indent left" },
       { ">P", "<Plug>(YankyPutIndentBeforeShiftRight)", desc = "Put before and indent right" },
-      { "<P", "<Plug>(YankyPutIndentBeforeShiftLeft)", desc = "Put before and indent left" },
-      { "=p", "<Plug>(YankyPutAfterFilter)", desc = "Put after applying a filter" },
-      { "=P", "<Plug>(YankyPutBeforeFilter)", desc = "Put before applying a filter" },
+      { "<P", "<Plug>(YankyPutIndentBeforeShiftLeft)",  desc = "Put before and indent left" },
+      { "=p", "<Plug>(YankyPutAfterFilter)",            desc = "Put after applying a filter" },
+      { "=P", "<Plug>(YankyPutBeforeFilter)",           desc = "Put before applying a filter" },
     },
   },
 
@@ -134,12 +125,12 @@ return {
       require("harpoon"):setup()
     end,
     keys = {
-      { "<leader>H", function() require("harpoon"):list():append() end, desc = "Harpoon file" },
+      { "<leader>H", function() require("harpoon"):list():append() end,                                 desc = "Harpoon file" },
       { "<leader>h", function() require("harpoon").ui:toggle_quick_menu(require("harpoon"):list()) end, desc = "Harpoon quick menu" },
-      { "<leader>1", function() require("harpoon"):list():select(1) end, desc = "Harpoon to file 1" },
-      { "<leader>2", function() require("harpoon"):list():select(2) end, desc = "Harpoon to file 2" },
-      { "<leader>3", function() require("harpoon"):list():select(3) end, desc = "Harpoon to file 3" },
-      { "<leader>4", function() require("harpoon"):list():select(4) end, desc = "Harpoon to file 4" },
+      { "<leader>1", function() require("harpoon"):list():select(1) end,                                desc = "Harpoon to file 1" },
+      { "<leader>2", function() require("harpoon"):list():select(2) end,                                desc = "Harpoon to file 2" },
+      { "<leader>3", function() require("harpoon"):list():select(3) end,                                desc = "Harpoon to file 3" },
+      { "<leader>4", function() require("harpoon"):list():select(4) end,                                desc = "Harpoon to file 4" },
     },
   },
 

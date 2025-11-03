@@ -116,40 +116,7 @@ function M.get_root()
   return root
 end
 
--- this will return a function that calls telescope.
--- cwd will default to util.get_root
--- for `files`, git_files or find_files will be chosen depending on .git
-function M.telescope(builtin, opts)
-  local params = { builtin = builtin, opts = opts }
-  return function()
-    builtin = params.builtin
-    opts = params.opts
-    opts = vim.tbl_deep_extend("force", { cwd = M.get_root() }, opts or {})
-    if builtin == "files" then
-      if uv.fs_stat((opts.cwd or uv.cwd()) .. "/.git") then
-        opts.show_untracked = true
-        builtin = "git_files"
-      else
-        builtin = "find_files"
-      end
-    end
-    if opts.cwd and opts.cwd ~= uv.cwd() then
-      opts.attach_mappings = function(_, map)
-        map("i", "<a-c>", function()
-          local action_state = require("telescope.actions.state")
-          local line = action_state.get_current_line()
-          M.telescope(
-            params.builtin,
-            vim.tbl_deep_extend("force", {}, params.opts or {}, { cwd = false, default_text = line })
-          )()
-        end)
-        return true
-      end
-    end
-
-    require("telescope.builtin")[builtin](opts)
-  end
-end
+-- Simple setup aims to avoid helper wrappers tied to specific picker plugins.
 
 -- Terminal utility
 function M.terminal(cmd, opts)
@@ -225,7 +192,7 @@ function M.lsp.get_config(name)
 end
 
 ---@param name string
----@param fn fun(name:string)
+---@param fn fun(client: any, buffer: integer)
 function M.lsp.on_dynamic_capability(name, fn)
   return vim.api.nvim_create_autocmd("User", {
     pattern = "LspDynamicCapability",
@@ -333,8 +300,8 @@ function M.format.get_formatters(buf)
   end
 
   for _, client in ipairs(clients) do
-  local supports_format = client:supports_method("textDocument/formatting")
-    or client:supports_method("textDocument/rangeFormatting")
+    local supports_format = client:supports_method("textDocument/formatting")
+        or client:supports_method("textDocument/rangeFormatting")
     if supports_format and not (client.name == "null-ls" and #null_ls == 0) then
       add_client(client)
     end

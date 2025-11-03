@@ -12,7 +12,7 @@ A personalized Neovim setup for full-stack development.
 - **Fast startup time** with lazy-loading of plugins.
 - **Modern look and feel** with Catppuccin theme and custom statusline.
 - **Enhanced development experience** with LSP, autocompletion, formatting, and linting.
-- **Efficient navigation** with Telescope, Neo-tree, and Flash.
+- **Efficient navigation** with Snacks Picker, Neo-tree, and Flash.
 
 ## Plugins
 
@@ -22,7 +22,7 @@ A personalized Neovim setup for full-stack development.
 - [nvim-tree/nvim-web-devicons](https://github.com/nvim-tree/nvim-web-devicons): Icons for various plugins.
 - [nvim-lualine/lualine.nvim](https://github.com/nvim-lualine/lualine.nvim): A blazing fast and easy to configure statusline.
 - [nvim-neo-tree/neo-tree.nvim](https://github.com/nvim-neo-tree/neo-tree.nvim): A file explorer tree.
-- [stevearc/dressing.nvim](https://github.com/stevearc/dressing.nvim): To improve the UI for `vim.ui.select` and `vim.ui.input`.
+<!-- UI select/input enhanced by Snacks' built-ins; dressing.nvim not required. -->
 
 ### Syntax Highlighting
 
@@ -51,7 +51,7 @@ A personalized Neovim setup for full-stack development.
 
 ### Fuzzy Finder
 
-- [nvim-telescope/telescope.nvim](https://github.com/nvim-telescope/telescope.nvim): A highly extendable fuzzy finder over lists.
+- [folke/snacks.nvim](https://github.com/folke/snacks.nvim): Lightweight picker (files, grep, buffers, recent, diagnostics, colorschemes) plus dashboard, notifier, indent guides, and profiler.
 
 ### Formatting & Linting
 
@@ -116,7 +116,7 @@ A modern, feature-rich, and highly optimized Neovim configuration designed for f
 
 ### 🔍 **Powerful Navigation & Search**
 
-- **Telescope** fuzzy finder with advanced features
+- **Snacks Picker** for fast, built-in fuzzy finding
 - **Flash** for enhanced motion and search
 - **Harpoon** for quick file navigation
 - **Project management** with automatic detection
@@ -323,7 +323,7 @@ Edit `lua/plugins/ui.lua` to change themes or UI elements
 ### **Performance Issues**
 
 ```lua
-:StartupTime         -- Analyze startup performance
+:Snacks profile      -- Profile startup and runtime
 :Lazy profile        -- Profile plugin loading
 ```
 
@@ -337,4 +337,4 @@ This configuration is open source and available under the MIT License.
 
 ---
 
-**Happy coding with Neovim! 🎉**
+## Happy coding with Neovim! 🎉
