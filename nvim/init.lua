@@ -1,53 +1,86 @@
--- ==========================
--- Neovim Starter Config (Fullstack)
--- ==========================
+-- =============================================
+-- Enhanced Neovim Configuration
+-- =============================================
 
--- Set the leader key to space
+-- Set leader key early (must be set before plugins)
 vim.g.mapleader = " "
+vim.g.maplocalleader = " "
 
--- =============================================================================
--- -- Options
--- =============================================================================
--- For more information about the options, see `:help option-list`
+-- Disable built-in plugins for faster startup
+local disabled_plugins = {
+  "gzip", "zip", "zipPlugin", "tar", "tarPlugin",
+  "getscript", "getscriptPlugin", "vimball", "vimballPlugin",
+  "2html_plugin", "logipat", "rrhelper", "spellfile_plugin",
+  "matchit", "netrw", "netrwPlugin", "netrwSettings", "netrwFileHandlers"
+}
 
--- Editor appearance
-vim.opt.number = true -- Show line numbers
-vim.opt.relativenumber = true -- Show relative line numbers
-vim.opt.termguicolors = true -- Enable 24-bit RGB color in the TUI
-vim.opt.signcolumn = "yes" -- Always show the sign column
+for _, plugin in pairs(disabled_plugins) do
+  vim.g["loaded_" .. plugin] = 1
+end
 
--- Indentation
-vim.opt.tabstop = 4 -- Number of spaces a <Tab> in the file counts for
-vim.opt.shiftwidth = 4 -- Number of spaces to use for each step of (auto)indent
-vim.opt.expandtab = true -- Use spaces instead of tabs
+-- Safe module loading with error handling
+local function safe_require(module)
+  local ok, result = pcall(require, module)
+  if not ok then
+    vim.notify("Error loading " .. module .. ": " .. result, vim.log.levels.ERROR)
+    return nil
+  end
+  return result
+end
 
--- Search
-vim.opt.hlsearch = true -- Highlight all matches on search
-vim.opt.incsearch = true -- Show search results as you type
-vim.opt.ignorecase = true -- Ignore case in search patterns
-vim.opt.smartcase = true -- Override the 'ignorecase' option if the search pattern contains upper case characters
+-- Optional: Suppress telescope vim.validate deprecation warnings
+-- These are internal to telescope.nvim and will be fixed in future releases
+-- Uncomment the following if you want to suppress these specific warnings:
+--[[
+local original_notify = vim.notify
+vim.notify = function(msg, level, opts)
+  if type(msg) == "string" and msg:match("vim%.validate is deprecated") and msg:match("telescope") then
+    return -- Suppress telescope vim.validate warnings
+  end
+  return original_notify(msg, level, opts)
+end
+--]]
 
--- Performance
-vim.opt.updatetime = 50 -- Faster completion
-
--- Behavior
-vim.opt.clipboard = "unnamedplus" -- Use system clipboard
-vim.opt.scrolloff = 8 -- Keep 8 lines of context around the cursor
-
--- Lazy.nvim bootstrap
+-- Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
-  vim.fn.system({
-    "git", "clone", "--filter=blob:none",
-    "https://github.com/folke/lazy.nvim.git", lazypath
-  })
+if not vim.uv.fs_stat(lazypath) then
+  local lazyrepo = "https://github.com/folke/lazy.nvim.git"
+  vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
 end
 vim.opt.rtp:prepend(lazypath)
 
--- Load plugins
-require("lazy").setup("plugins")
+-- Load core configuration
+safe_require("config.options")
+safe_require("config.keymaps")
+safe_require("config.autocmds")
 
--- Load config
-require("config.keymaps")
-require("config.lsp")
-require("config.cmp")
+-- Setup lazy.nvim and load plugins
+require("lazy").setup({
+  spec = {
+    { import = "plugins.ui" },
+    { import = "plugins.editor" },
+    { import = "plugins.coding" },
+    { import = "plugins.lsp" },
+    { import = "plugins.git" },
+    { import = "plugins.utils" },
+  },
+  defaults = { lazy = true },
+  install = { colorscheme = { "catppuccin", "habamax" } },
+  checker = { enabled = true, notify = false },
+  performance = {
+    rtp = {
+      disabled_plugins = {
+        "gzip", "matchit", "matchparen", "netrwPlugin", "tarPlugin", "tohtml",
+        "tutor", "zipPlugin", "rplugin", "spellfile_plugin", "shada_plugin"
+      },
+    },
+  },
+})
+
+-- Load LSP and completion after plugins
+vim.api.nvim_create_autocmd("User", {
+  pattern = "VeryLazy",
+  callback = function()
+    safe_require("config.lsp")
+  end,
+})

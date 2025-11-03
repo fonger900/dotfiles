@@ -1,0 +1,260 @@
+-- =============================================
+-- LSP Configuration Plugins
+-- =============================================
+
+return {
+  -- LSP Configuration
+  {
+    "neovim/nvim-lspconfig",
+    event = { "BufReadPre", "BufNewFile" },
+    dependencies = {
+      { "folke/neoconf.nvim", cmd = "Neoconf", config = false, dependencies = { "nvim-lspconfig" } },
+      { "folke/neodev.nvim", opts = {} },
+      "mason.nvim",
+      "williamboman/mason-lspconfig.nvim",
+    },
+    opts = {
+      diagnostics = {
+        underline = true,
+        update_in_insert = false,
+        virtual_text = {
+          spacing = 4,
+          source = "if_many",
+          prefix = "●",
+        },
+        severity_sort = true,
+      },
+      inlay_hints = {
+        enabled = false,
+      },
+      capabilities = {},
+      format = {
+        formatting_options = nil,
+        timeout_ms = nil,
+      },
+      servers = {
+        lua_ls = {
+          settings = {
+            Lua = {
+              workspace = {
+                checkThirdParty = false,
+              },
+              completion = {
+                callSnippet = "Replace",
+              },
+            },
+          },
+        },
+        pyright = {},
+        ts_ls = {
+          root_dir = function(fname)
+            return require("lspconfig.util").root_pattern("package.json", "tsconfig.json")(fname)
+          end,
+          single_file_support = false,
+        },
+        denols = {
+          root_dir = function(fname)
+            return require("lspconfig.util").root_pattern("deno.json", "deno.jsonc")(fname)
+          end,
+        },
+        vue_ls = {
+          filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue", "json" },
+        },
+        html = {},
+        cssls = {},
+        tailwindcss = {
+          root_dir = function(fname)
+            return require("lspconfig.util").root_pattern("tailwind.config.js", "tailwind.config.ts", "postcss.config.js", "postcss.config.ts")(fname)
+          end,
+        },
+        jsonls = {
+          settings = {
+            json = {
+              format = {
+                enable = true,
+              },
+              validate = { enable = true },
+            },
+          },
+        },
+      },
+      setup = {},
+    },
+    config = function(_, opts)
+      local Util = require("config.utils")
+
+      -- Setup keymaps
+      Util.lsp.on_attach(function(client, buffer)
+        require("config.keymaps").on_attach(client, buffer)
+      end)
+
+      -- Diagnostics config
+      for name, icon in pairs(require("config.icons").diagnostics) do
+        name = "DiagnosticSign" .. name
+        vim.fn.sign_define(name, { text = icon, texthl = name, numhl = "" })
+      end
+
+      vim.diagnostic.config(vim.deepcopy(opts.diagnostics))
+
+      local servers = opts.servers
+      local has_cmp, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
+      local capabilities = vim.tbl_deep_extend(
+        "force",
+        {},
+        vim.lsp.protocol.make_client_capabilities(),
+        has_cmp and cmp_nvim_lsp.default_capabilities() or {},
+        opts.capabilities or {}
+      )
+
+      local function setup(server)
+        local server_opts = vim.tbl_deep_extend("force", {
+          capabilities = vim.deepcopy(capabilities),
+        }, servers[server] or {})
+
+        if opts.setup[server] then
+          if opts.setup[server](server, server_opts) then
+            return
+          end
+        elseif opts.setup["*"] then
+          if opts.setup["*"](server, server_opts) then
+            return
+          end
+        end
+        require("lspconfig")[server].setup(server_opts)
+      end
+
+      -- Setup mason-lspconfig
+      local have_mason, mlsp = pcall(require, "mason-lspconfig")
+      if have_mason then
+        local ensure_installed = vim.tbl_keys(servers)
+        mlsp.setup({ 
+          ensure_installed = ensure_installed, 
+          handlers = { setup } 
+        })
+      else
+        -- Fallback: setup servers manually if mason-lspconfig is not available
+        for server, _ in pairs(servers) do
+          setup(server)
+        end
+      end
+
+      -- Handle deno/tsserver conflicts in server setup
+      -- This is handled more elegantly by setting proper root_dir patterns
+      -- for each server which prevents conflicts naturally
+    end,
+  },
+
+  -- Mason for LSP installer
+  {
+    "williamboman/mason.nvim",
+    cmd = "Mason",
+    keys = { { "<leader>cm", "<cmd>Mason<cr>", desc = "Mason" } },
+    build = ":MasonUpdate",
+    opts = {
+      ensure_installed = {
+        "stylua",
+        "shfmt",
+        "flake8",
+        "prettier",
+        "prettierd",
+        "isort",
+        "black",
+      },
+    },
+    config = function(_, opts)
+      require("mason").setup(opts)
+      local mr = require("mason-registry")
+      mr:on("package:install:success", function()
+        vim.defer_fn(function()
+          require("lazy.core.handler.event").trigger({
+            event = "FileType",
+            buf = vim.api.nvim_get_current_buf(),
+          })
+        end, 100)
+      end)
+      local function ensure_installed()
+        for _, tool in ipairs(opts.ensure_installed) do
+          local p = mr.get_package(tool)
+          if not p:is_installed() then
+            p:install()
+          end
+        end
+      end
+      if mr.refresh then
+        mr.refresh(ensure_installed)
+      else
+        ensure_installed()
+      end
+    end,
+  },
+
+  -- LSP UI enhancements - DISABLED due to deprecation warnings
+  -- Using native LSP features instead for better compatibility
+  --[[
+  {
+    "nvimdev/lspsaga.nvim",
+    enabled = false, -- Disabled due to deprecated API usage
+    event = "LspAttach",
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+      "nvim-tree/nvim-web-devicons"
+    },
+    opts = {
+      ui = {
+        border = "rounded",
+        code_action = "",
+      },
+      lightbulb = {
+        enable = false,
+      },
+      symbol_in_winbar = {
+        enable = false,
+      },
+      code_action = {
+        num_shortcut = true,
+        show_server_name = false,
+        extend_gitsigns = true,
+        keys = {
+          quit = "q",
+          exec = "<CR>",
+        },
+      },
+      definition = {
+        edit = "<C-c>o",
+        vsplit = "<C-c>v",
+        split = "<C-c>i",
+        tabe = "<C-c>t",
+        quit = "q",
+      },
+      finder = {
+        max_height = 0.5,
+        min_width = 30,
+        force_max_height = false,
+        keys = {
+          jump_to = "p",
+          expand_or_jump = "o",
+          vsplit = "s",
+          split = "i",
+          tabe = "t",
+          tabnew = "r",
+          quit = "q",
+        },
+      },
+      rename = {
+        quit = "<C-c>",
+        exec = "<CR>",
+        mark = "x",
+        confirm = "<CR>",
+        in_select = true,
+      },
+    },
+  },
+  --]]
+
+  -- Schema store for JSON
+  {
+    "b0o/schemastore.nvim",
+    lazy = true,
+    version = false,
+  },
+}
