@@ -120,7 +120,8 @@ return {
       vim.api.nvim_create_autocmd("BufAdd", {
         callback = function()
           vim.schedule(function()
-            pcall(nvim_bufferline)
+            -- Refresh bufferline after adding buffers (e.g., session restore)
+            pcall(vim.cmd.redrawtabline)
           end)
         end,
       })
