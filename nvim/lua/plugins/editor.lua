@@ -82,7 +82,7 @@ return {
       { "<leader>fF", require("config.utils").telescope("files", { cwd = false }), desc = "Find Files (cwd)" },
       { "<leader>fp", "<cmd>Telescope git_files<cr>", desc = "Find Project Files (git)" },
       { "<leader>fr", "<cmd>Telescope oldfiles<cr>", desc = "Recent" },
-      { "<leader>fR", require("config.utils").telescope("oldfiles", { cwd = vim.loop.cwd() }), desc = "Recent (cwd)" },
+  { "<leader>fR", require("config.utils").telescope("oldfiles", { cwd = (vim.uv or vim.loop).cwd() }), desc = "Recent (cwd)" },
       -- git
       { "<leader>gc", "<cmd>Telescope git_commits<CR>", desc = "commits" },
       { "<leader>gs", "<cmd>Telescope git_status<CR>", desc = "status" },

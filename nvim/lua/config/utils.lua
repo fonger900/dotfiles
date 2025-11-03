@@ -4,6 +4,9 @@
 
 local M = {}
 
+-- Prefer vim.uv (Neovim >= 0.10), fallback to vim.loop for compatibility
+local uv = vim.uv or vim.loop
+
 ---@param plugin string
 function M.has(plugin)
   return require("lazy.core.config").spec.plugins[plugin] ~= nil
@@ -81,7 +84,7 @@ M.root_patterns = { ".git", "lua" }
 function M.get_root()
   ---@type string?
   local path = vim.api.nvim_buf_get_name(0)
-  path = path ~= "" and vim.loop.fs_realpath(path) or nil
+  path = path ~= "" and uv.fs_realpath(path) or nil
   ---@type string[]
   local roots = {}
   if path then
@@ -91,7 +94,7 @@ function M.get_root()
         return vim.uri_to_fname(ws.uri)
       end, workspace) or client.config.root_dir and { client.config.root_dir } or {}
       for _, p in ipairs(paths) do
-        local r = vim.loop.fs_realpath(p)
+        local r = uv.fs_realpath(p)
         if path:find(r, 1, true) then
           roots[#roots + 1] = r
         end
@@ -104,10 +107,10 @@ function M.get_root()
   ---@type string?
   local root = roots[1]
   if not root then
-    path = path and vim.fs.dirname(path) or vim.loop.cwd()
+    path = path and vim.fs.dirname(path) or uv.cwd()
     ---@type string?
     root = vim.fs.find(M.root_patterns, { path = path, upward = true })[1]
-    root = root and vim.fs.dirname(root) or vim.loop.cwd()
+    root = root and vim.fs.dirname(root) or uv.cwd()
   end
   ---@cast root string
   return root
@@ -123,14 +126,14 @@ function M.telescope(builtin, opts)
     opts = params.opts
     opts = vim.tbl_deep_extend("force", { cwd = M.get_root() }, opts or {})
     if builtin == "files" then
-      if vim.loop.fs_stat((opts.cwd or vim.loop.cwd()) .. "/.git") then
+      if uv.fs_stat((opts.cwd or uv.cwd()) .. "/.git") then
         opts.show_untracked = true
         builtin = "git_files"
       else
         builtin = "find_files"
       end
     end
-    if opts.cwd and opts.cwd ~= vim.loop.cwd() then
+    if opts.cwd and opts.cwd ~= uv.cwd() then
       opts.attach_mappings = function(_, map)
         map("i", "<a-c>", function()
           local action_state = require("telescope.actions.state")
@@ -177,10 +180,10 @@ function M.terminal(cmd, opts)
 
   -- Fallback to basic terminal
   vim.cmd("tabnew")
-  vim.cmd("terminal " .. (cmd or ""))
   if opts.cwd then
-    vim.cmd("cd " .. opts.cwd)
+    vim.cmd("lcd " .. opts.cwd)
   end
+  vim.cmd("terminal " .. (cmd or ""))
   vim.cmd("startinsert")
 end
 
@@ -238,6 +241,9 @@ end
 
 -- Format utilities
 M.format = {}
+
+-- registry for custom formatters (kept for compatibility)
+M.format.formatters = M.format.formatters or {}
 
 ---@param opts? {force?:boolean}
 function M.format.format(opts)

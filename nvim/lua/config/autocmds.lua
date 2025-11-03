@@ -112,7 +112,7 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
     if event.match:match("^%w%w+://") then
       return
     end
-    local file = vim.loop.fs_realpath(event.match) or event.match
+    local file = (vim.uv and vim.uv.fs_realpath or vim.loop.fs_realpath)(event.match) or event.match
     vim.fn.mkdir(vim.fn.fnamemodify(file, ":p:h"), "p")
   end,
 })
@@ -135,21 +135,24 @@ vim.api.nvim_create_autocmd("BufEnter", {
   command = "set fo-=c fo-=r fo-=o",
 })
 
--- Close NeoTree if it's the last window
+-- Close Neo-tree if it's the last window
 vim.api.nvim_create_autocmd("QuitPre", {
   callback = function()
-    local invalid_win = {}
     local wins = vim.api.nvim_list_wins()
-    for _, w in ipairs(wins) do
-      local bufname = vim.api.nvim_buf_get_name(vim.api.nvim_win_get_buf(w))
-      if bufname:match("NvimTree_") ~= nil then
-        table.insert(invalid_win, w)
+    local neo_wins = {}
+    local other_wins = {}
+    for _, win in ipairs(wins) do
+      local buf = vim.api.nvim_win_get_buf(win)
+      local ft = vim.bo[buf].filetype
+      if ft == "neo-tree" then
+        table.insert(neo_wins, win)
+      else
+        table.insert(other_wins, win)
       end
     end
-    if #invalid_win == #wins - 1 then
-      -- Should quit, so we close all invalid windows.
-      for _, w in ipairs(invalid_win) do
-        vim.api.nvim_win_close(w, true)
+    if #other_wins == 1 and #neo_wins > 0 then
+      for _, win in ipairs(neo_wins) do
+        pcall(vim.api.nvim_win_close, win, true)
       end
     end
   end,

@@ -89,14 +89,16 @@ return {
           end,
         },
         jsonls = {
-          settings = {
-            json = {
-              format = {
-                enable = true,
+          settings = function()
+            local ok, schemastore = pcall(require, "schemastore")
+            return {
+              json = {
+                schemas = ok and schemastore.json.schemas() or nil,
+                format = { enable = true },
+                validate = { enable = true },
               },
-              validate = { enable = true },
-            },
-          },
+            }
+          end,
         },
       },
       setup = {},
@@ -104,9 +106,15 @@ return {
     config = function(_, opts)
       local Util = require("config.utils")
 
-      -- Setup keymaps
+      -- Setup on_attach hooks (keymaps, inlay hints, highlights)
       Util.lsp.on_attach(function(client, buffer)
+        -- buffer-local keymaps
         require("config.keymaps").on_attach(client, buffer)
+        -- extra LSP UX (inlay hints, doc highlights, etc.)
+        local ok, LspCfg = pcall(require, "config.lsp")
+        if ok and LspCfg and type(LspCfg.on_attach) == "function" then
+          pcall(LspCfg.on_attach, client, buffer)
+        end
       end)
 
       -- Diagnostics config
@@ -118,6 +126,17 @@ return {
       vim.diagnostic.config(vim.deepcopy(opts.diagnostics))
 
       local servers = opts.servers
+      -- Resolve dynamic settings tables (allows lazy requiring of schemastore, etc.)
+      for name, cfg in pairs(servers) do
+        if type(cfg) == "table" and type(cfg.settings) == "function" then
+          local ok, res = pcall(cfg.settings)
+          if ok and type(res) == "table" then
+            cfg.settings = res
+          else
+            cfg.settings = {}
+          end
+        end
+      end
       local has_cmp, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
       local capabilities = vim.tbl_deep_extend(
         "force",

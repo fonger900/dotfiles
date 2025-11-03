@@ -2,6 +2,11 @@
 
 A personalized Neovim setup for full-stack development.
 
+## Requirements
+
+- Neovim 0.10 or newer
+- Git and a Nerd Font (for best UI rendering)
+
 ## Features
 
 - **Fast startup time** with lazy-loading of plugins.
@@ -28,7 +33,7 @@ A personalized Neovim setup for full-stack development.
 - [williamboman/mason.nvim](https://github.com/williamboman/mason.nvim): Portable package manager for Neovim that runs everywhere you need it.
 - [williamboman/mason-lspconfig.nvim](https://github.com/williamboman/mason-lspconfig.nvim): Extension to mason.nvim that makes it easier to use lspconfig with mason.nvim.
 - [neovim/nvim-lspconfig](https://github.com/neovim/nvim-lspconfig): A collection of common configurations for Neovim's built-in LSP.
-- [nvimdev/lspsaga.nvim](https://github.com/nvimdev/lspsaga.nvim): A light-weight lsp plugin based on neovim built-in lsp with a highly performant UI.
+<!-- lspsaga is optional and currently disabled in this setup to avoid deprecation warnings -->
 
 ### Autocomplete
 
@@ -51,7 +56,7 @@ A personalized Neovim setup for full-stack development.
 ### Formatting & Linting
 
 - [stevearc/conform.nvim](https://github.com/stevearc/conform.nvim): A lightweight formatting plugin.
-- [mfussenegger/nvim-lint](https://github.com/mfussenegger/nvim-lint): An asynchronous linting plugin.
+<!-- Linting is primarily provided via LSP diagnostics; nvim-lint is optional and currently disabled. -->
 
 ### Navigation
 
@@ -85,7 +90,7 @@ A personalized Neovim setup for full-stack development.
 | `<leader>e` | Toggle file explorer |
 | `<leader>t` | Open terminal |
 
-# ⚡ Enhanced Neovim Configuration
+## ⚡ Enhanced Neovim Configuration
 
 A modern, feature-rich, and highly optimized Neovim configuration designed for full-stack development with excellent performance and user experience.
 

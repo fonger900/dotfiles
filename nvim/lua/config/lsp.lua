@@ -1,38 +1,21 @@
 -- =============================================
--- Enhanced LSP Configuration
+-- Enhanced LSP Configuration (modernized)
 -- =============================================
 
 local M = {}
 
 -- Setup function to be called after plugins are loaded
 function M.setup()
-  local util = require("config.utils")
-
-  -- Setup diagnostics
+  -- Only apply safe, non-conflicting LSP UI defaults here.
   M.setup_diagnostics()
-
-  -- Setup formatting
-  M.setup_formatting()
-
-  -- Setup LSP handlers
   M.setup_handlers()
-
-  -- Additional LSP settings
-  M.setup_additional()
 end
 
 function M.setup_diagnostics()
-  -- Diagnostic configuration
-  vim.diagnostic.config({
-    underline = true,
-    update_in_insert = false,
-    virtual_text = {
-      spacing = 4,
-      source = "if_many",
-      prefix = "●",
-    },
-    severity_sort = true,
-    signs = true,
+  -- Don't override global diagnostics settings from plugins/lsp.lua.
+  -- Only enforce float styling here.
+  local current = vim.diagnostic.config()
+  vim.diagnostic.config(vim.tbl_deep_extend("force", current or {}, {
     float = {
       focusable = false,
       style = "minimal",
@@ -41,30 +24,23 @@ function M.setup_diagnostics()
       header = "",
       prefix = "",
     },
-  })
-
-  -- Diagnostic signs
-  local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
-  for type, icon in pairs(signs) do
-    local hl = "DiagnosticSign" .. type
-    vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
-  end
+  }))
 end
 
+-- NOTE: Formatting on save is handled by conform.nvim in this config.
+-- Guard against duplicate formatters; only add a simple fallback if conform isn't present.
 function M.setup_formatting()
-  -- Format on save
+  local ok = pcall(require, "conform")
+  if ok then
+    return
+  end
   vim.api.nvim_create_autocmd("BufWritePre", {
     group = vim.api.nvim_create_augroup("LspFormat", { clear = true }),
     callback = function(event)
       local clients = vim.lsp.get_clients({ bufnr = event.buf })
       local client = clients[1]
       if client and client.supports_method("textDocument/formatting") then
-        vim.lsp.buf.format({
-          bufnr = event.buf,
-          filter = function(c)
-            return c.name ~= "tsserver" and c.name ~= "jsonls"
-          end,
-        })
+        vim.lsp.buf.format({ bufnr = event.buf })
       end
     end,
   })
@@ -80,37 +56,10 @@ function M.setup_handlers()
     border = "rounded",
   })
 
-  -- Customize how diagnostics are displayed
-  vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
-    virtual_text = {
-      source = "always",
-      prefix = "●",
-    },
-    signs = true,
-    underline = true,
-    update_in_insert = false,
-  })
+  -- Do not override publishDiagnostics with deprecated API; use vim.diagnostic instead.
 end
 
 function M.setup_additional()
-  -- Highlight symbol under cursor
-  vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
-    group = vim.api.nvim_create_augroup("LspDocumentHighlight", { clear = true }),
-    callback = function()
-      local clients = vim.lsp.get_clients({ bufnr = 0 })
-      if #clients > 0 then
-        vim.lsp.buf.document_highlight()
-      end
-    end,
-  })
-
-  vim.api.nvim_create_autocmd("CursorMoved", {
-    group = vim.api.nvim_create_augroup("LspDocumentHighlightClear", { clear = true }),
-    callback = function()
-      vim.lsp.buf.clear_references()
-    end,
-  })
-
   -- Show line diagnostics on hover
   vim.api.nvim_create_autocmd("CursorHold", {
     group = vim.api.nvim_create_augroup("LspCursorHold", { clear = true }),
@@ -152,16 +101,14 @@ function M.on_attach(client, bufnr)
   -- Enable completion triggered by <c-x><c-o>
   vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
 
-  -- Attach keymaps
-  require("config.keymaps").on_attach(client, bufnr)
-
   -- Enable inlay hints if supported
-  if client.supports_method("textDocument/inlayHint") then
-    vim.lsp.inlay_hint(bufnr, true)
+  local ih_cfg = require("config.utils").opts("nvim-lspconfig").inlay_hints or {}
+  if ih_cfg.enabled and client.supports_method("textDocument/inlayHint") then
+    require("config.utils").toggle.inlay_hints(bufnr, true)
   end
 
   -- Disable semantic tokens for certain clients (performance)
-  if client.name == "tsserver" then
+  if client.name == "tsserver" or client.name == "ts_ls" then
     client.server_capabilities.semanticTokensProvider = nil
   end
 
@@ -177,5 +124,8 @@ function M.on_attach(client, bufnr)
     })
   end
 end
+
+-- Auto-apply safe defaults when module is loaded
+pcall(M.setup)
 
 return M

@@ -5,6 +5,25 @@ All notable changes to this Neovim configuration will be documented in this file
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### 🔧 Modernization & Optimizations
+
+- Enable `vim.loader` for faster Lua module loading on Neovim >= 0.9.
+- Prefer `vim.uv` over `vim.loop` across the codebase (with fallback) for Neovim 0.10+ APIs.
+- Fix QuitPre logic to correctly close Neo-tree when it's the last window (was checking legacy NvimTree names).
+- Integrate `schemastore.nvim` with `jsonls` for up-to-date JSON validation schemas.
+- Remove over-aggressive disabling of core runtime plugins from `config/options.lua` (managed centrally by lazy.nvim/init.lua).
+- Initialize a formatter registry in `config.utils` to prevent nil table access when registering custom formatters.
+
+### 🧹 Cleanup
+
+- Deduplicate UI options in `config/options.lua` and avoid re-setting leader there (it is set early in `init.lua`).
+
+### ✅ Compatibility
+
+- Keep graceful fallbacks to older APIs where safe, while defaulting to modern ones.
+
 ## [2.0.0] - 2025-11-03
 
 ### 🎉 Major Refactoring & Modernization

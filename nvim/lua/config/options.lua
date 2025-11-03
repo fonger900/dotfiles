@@ -52,13 +52,7 @@ opt.wrap = false                          -- Disable line wrap
 -- ============================================================================
 -- UI
 -- ============================================================================
-opt.number = true                         -- Print line number
-opt.pumblend = 10                         -- Popup blend
-opt.pumheight = 10                        -- Maximum number of entries in a popup
-opt.showmode = false                      -- Don't show mode since we have a statusline
-opt.signcolumn = "yes"                    -- Always show the signcolumn
-opt.termguicolors = true                  -- True color support
-opt.winminwidth = 5                       -- Minimum window width
+-- (UI options are set above; duplicate settings removed for clarity)
 
 -- ============================================================================
 -- Search
@@ -99,38 +93,7 @@ vim.g.markdown_recommended_style = 0
 -- ============================================================================
 -- Disable some built-in plugins we don't want
 -- ============================================================================
-local disabled_built_ins = {
-  "2html_plugin",
-  "getscript",
-  "getscriptPlugin",
-  "gzip",
-  "logipat",
-  "netrw",
-  "netrwPlugin",
-  "netrwSettings",
-  "netrwFileHandlers",
-  "matchit",
-  "tar",
-  "tarPlugin",
-  "rrhelper",
-  "spellfile_plugin",
-  "vimball",
-  "vimballPlugin",
-  "zip",
-  "zipPlugin",
-  "tutor",
-  "rplugin",
-  "syntax",
-  "synmenu",
-  "optwin",
-  "compiler",
-  "bugreport",
-  "ftplugin",
-}
-
-for _, plugin in pairs(disabled_built_ins) do
-  vim.g["loaded_" .. plugin] = 1
-end
+-- Built-in plugin disabling is handled centrally in init.lua and lazy.nvim performance opts
 
 -- ============================================================================
 -- Language-specific settings
@@ -162,8 +125,7 @@ vim.api.nvim_create_autocmd("FileType", {
 -- ============================================================================
 -- Global variables
 -- ============================================================================
-vim.g.mapleader = " "
-vim.g.maplocalleader = " "
+-- Leader is set early in init.lua
 
 -- Skip some remote provider loading
 vim.g.loaded_python3_provider = 0

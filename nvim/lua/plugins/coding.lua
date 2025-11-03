@@ -212,7 +212,7 @@ return {
       lint.linters_by_ft = opts.linters_by_ft
 
       function M.debounce(ms, fn)
-        local timer = vim.loop.new_timer()
+  local timer = (vim.uv or vim.loop).new_timer()
         return function(...)
           local argv = { ... }
           timer:start(ms, 0, function()
