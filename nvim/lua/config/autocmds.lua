@@ -164,7 +164,7 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
   group = augroup("disable_diagnostics_node_modules"),
   pattern = "*/node_modules/*",
   callback = function()
-    vim.diagnostic.disable(0)
+    vim.diagnostic.enable(false)
   end,
 })
 
