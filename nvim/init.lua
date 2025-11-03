@@ -1,6 +1,8 @@
 -- =============================================
 -- Enhanced Neovim Configuration
 -- =============================================
+-- Note: .luarc.json configures Lua LSP to recognize 'vim' global
+-- and provides proper Neovim development environment
 
 -- Set leader key early (must be set before plugins)
 vim.g.mapleader = " "

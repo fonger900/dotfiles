@@ -142,7 +142,7 @@ A modern, feature-rich, and highly optimized Neovim configuration designed for f
 
 ## 📁 Directory Structure
 
-```
+```sh
 nvim/
 ├── init.lua                    # Main configuration entry point
 ├── lazy-lock.json             # Plugin version lock file
@@ -184,6 +184,10 @@ nvim/
 - Automatic server installation and configuration
 - Enhanced diagnostics with custom styling
 - Code actions, formatting, and renaming support
+- **Lua LSP**: Properly configured with `.luarc.json` for Neovim development
+  - Recognizes `vim` global and Neovim APIs
+  - Includes runtime path and workspace library settings
+  - Optimized for plugin development
 
 ### 📦 **Plugin Management**
 

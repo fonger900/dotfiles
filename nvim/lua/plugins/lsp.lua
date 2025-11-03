@@ -9,7 +9,7 @@ return {
     event = { "BufReadPre", "BufNewFile" },
     dependencies = {
       { "folke/neoconf.nvim", cmd = "Neoconf", config = false, dependencies = { "nvim-lspconfig" } },
-      { "folke/neodev.nvim", opts = {} },
+      { "folke/neodev.nvim",  opts = {} },
       "mason.nvim",
       "williamboman/mason-lspconfig.nvim",
     },
@@ -36,11 +36,31 @@ return {
         lua_ls = {
           settings = {
             Lua = {
+              runtime = {
+                -- Tell the language server which version of Lua you're using
+                version = "LuaJIT",
+              },
+              diagnostics = {
+                -- Get the language server to recognize the `vim` global
+                globals = {
+                  "vim",
+                  "it",
+                  "describe",
+                  "before_each",
+                  "after_each"
+                },
+              },
               workspace = {
+                -- Make the server aware of Neovim runtime files
+                library = vim.api.nvim_get_runtime_file("", true),
                 checkThirdParty = false,
               },
               completion = {
                 callSnippet = "Replace",
+              },
+              -- Do not send telemetry data containing a randomized but unique identifier
+              telemetry = {
+                enable = false,
               },
             },
           },
@@ -64,7 +84,8 @@ return {
         cssls = {},
         tailwindcss = {
           root_dir = function(fname)
-            return require("lspconfig.util").root_pattern("tailwind.config.js", "tailwind.config.ts", "postcss.config.js", "postcss.config.ts")(fname)
+            return require("lspconfig.util").root_pattern("tailwind.config.js", "tailwind.config.ts", "postcss.config.js",
+              "postcss.config.ts")(fname)
           end,
         },
         jsonls = {
@@ -127,9 +148,9 @@ return {
       local have_mason, mlsp = pcall(require, "mason-lspconfig")
       if have_mason then
         local ensure_installed = vim.tbl_keys(servers)
-        mlsp.setup({ 
-          ensure_installed = ensure_installed, 
-          handlers = { setup } 
+        mlsp.setup({
+          ensure_installed = ensure_installed,
+          handlers = { setup }
         })
       else
         -- Fallback: setup servers manually if mason-lspconfig is not available
