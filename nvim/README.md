@@ -119,9 +119,12 @@ A modern, feature-rich Neovim setup optimized for full-stack development with Sn
 | `gI` | Goto implementation (via Snacks picker) |
 | `gy` | Goto type definition (via Snacks picker) |
 | `K` | Hover documentation |
+| `gK` | Signature help |
 | `<leader>ca` | Code actions |
 | `<leader>cr` | Rename symbol |
-| `<leader>cf` | Format code |
+| `<leader>cd` | Line diagnostics |
+| `[d` / `]d` | Previous/Next diagnostic |
+| `[e` / `]e` | Previous/Next error |
 
 ### 📝 **Git Workflow**
 

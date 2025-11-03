@@ -5,6 +5,43 @@ All notable changes to this Neovim configuration will be documented in this file
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.3.0] - 2025-11-04
+
+### 🔄 Reverted Lspsaga Integration
+
+- **Removed lspsaga.nvim** due to performance issues causing freezes.
+- **Fallback to native LSP handlers** for better stability and performance.
+- **Simplified LSP keymaps** using built-in Neovim LSP functions:
+  - `K` - Native hover documentation
+  - `gK` - Native signature help
+  - `<leader>ca` - Native code actions
+  - `<leader>cr` - Native rename
+  - `<leader>cd` - Native diagnostic float
+  - `[d`/`]d` - Native diagnostic navigation
+  - `[e`/`]e` - Native error navigation
+- **Maintained Snacks picker integration** for `gd`, `gr`, `gI`, `gy` for better navigation UX.
+- **Updated documentation** to reflect native LSP usage.
+
+### ✨ Enhanced LSP UI with Lspsaga (Reverted)
+
+- ~~**Added lspsaga.nvim** for beautiful LSP UI enhancements with floating windows and modern interface.~~
+- ~~**Enhanced hover documentation** with Lspsaga's styled floating windows (K key).~~
+- ~~**Peek definitions** without leaving current buffer (`gp` for definition, `gt` for type definition).~~
+- ~~**Improved code actions** with Lspsaga's enhanced floating menus (`<leader>ca`).~~
+- ~~**Better diagnostics display** with line and cursor diagnostics (`<leader>cd`, `<leader>cD`).~~
+- ~~**LSP Finder** for comprehensive symbol navigation (`<leader>cf`).~~
+- ~~**Call hierarchy** with incoming/outgoing calls support (`<leader>ci`, `<leader>co`).~~
+- ~~**Symbol outline** with automatic preview and refresh (`<leader>co`).~~
+- ~~**Enhanced rename** with floating input and live preview (`<leader>cr`).~~
+- ~~**Diagnostic navigation** with improved jump commands (`[d`/`]d`, `[e`/`]e`).~~
+
+### 🎨 UI Improvements (Reverted)
+
+- ~~**Rounded borders** and consistent theming across all Lspsaga windows.~~
+- ~~**Icon integration** with code actions, diagnostics, and call hierarchy.~~
+- ~~**Symbol winbar** showing current context in supported buffers.~~
+- ~~**Preview functionality** for definitions and type definitions without navigation.~~
+
 ## [2.2.0] - 2025-11-03
 
 ### 🎯 Keymap Refactoring & Snacks Integration

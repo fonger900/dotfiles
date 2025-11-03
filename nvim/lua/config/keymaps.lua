@@ -171,7 +171,7 @@ function M.on_attach(client, buffer)
     vim.keymap.set(mode, lhs, rhs, opts)
   end
 
-  -- Core LSP actions (not using pickers for immediate response)
+  -- Core LSP actions (native)
   map_buffer("n", "K", vim.lsp.buf.hover, { desc = "Hover" })
   map_buffer("n", "gK", vim.lsp.buf.signature_help, { desc = "Signature Help" })
   map_buffer("i", "<c-k>", vim.lsp.buf.signature_help, { desc = "Signature Help" })
@@ -185,6 +185,17 @@ function M.on_attach(client, buffer)
     })
   end, { desc = "Source Action" })
   map_buffer("n", "<leader>cr", vim.lsp.buf.rename, { desc = "Rename" })
+
+  -- Diagnostic navigation (native)
+  map_buffer("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
+  map_buffer("n", "[d", vim.diagnostic.goto_prev, { desc = "Prev Diagnostic" })
+  map_buffer("n", "]d", vim.diagnostic.goto_next, { desc = "Next Diagnostic" })
+  map_buffer("n", "[e", function()
+    vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR })
+  end, { desc = "Prev Error" })
+  map_buffer("n", "]e", function()
+    vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR })
+  end, { desc = "Next Error" })
 
   -- Note: gd, gD, gr, gI, gy are handled by Snacks picker for better UX
   -- If you prefer native LSP, uncomment these:
