@@ -1,5 +1,7 @@
+-- Get completion capabilities
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
+-- Keybindings for LSP
 local on_attach = function(_, bufnr)
 	local opts = { buffer = bufnr, silent = true }
 	vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
@@ -9,28 +11,43 @@ local on_attach = function(_, bufnr)
 	vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
 end
 
+-- Set up mason
 require("mason").setup()
+
+-- List of LSP servers to install
+local servers = {
+    "pyright",
+    "tailwindcss",
+    "html",
+    "cssls",
+    "vue_ls",
+    "denols",
+    "ts_ls",
+}
+
+-- Get the lspconfig module
+local lspconfig = require("lspconfig")
+
+-- Set up mason-lspconfig
 require("mason-lspconfig").setup({
-	ensure_installed = { "pyright", "vtsls", "tailwindcss", "html", "cssls", "vue_ls" },
-	automatic_installation = true,
-})
-
-local servers = { "pyright", "vtsls", "tailwindcss", "html", "cssls", "vue_ls" }
-
-for _, lsp in ipairs(servers) do
-	vim.lsp.config(lsp, {
-		on_attach = on_attach,
-		capabilities = capabilities,
-	})
-	vim.lsp.enable(lsp)
-end
-
-vim.lsp.config('denols', {
-	on_attach = on_attach,
-	root_markers = { "deno.json", "deno.jsonc" },
-})
-
-vim.lsp.config('vtsls', {
-	on_attach = on_attach,
-	root_markers = { "package.json", "tsconfig.json" },
+    ensure_installed = servers,
+    handlers = {
+        -- Default handler for servers
+        function (server_name)
+            local opts = {
+                on_attach = on_attach,
+                capabilities = capabilities,
+            }
+            -- Special setup for denols
+            if server_name == "denols" then
+                opts.root_dir = lspconfig.util.root_pattern("deno.json", "deno.jsonc")
+            end
+            -- Special setup for tsserver
+            if server_name == "ts_ls" then
+                opts.root_dir = lspconfig.util.root_pattern("package.json", "tsconfig.json")
+            end
+            -- Set up the server
+            lspconfig[server_name].setup(opts)
+        end,
+    }
 })

@@ -79,3 +79,11 @@ extract() {
 #---------------------------------------------------------
 # End of .zshrc v5
 #---------------------------------------------------------
+
+# pnpm
+export PNPM_HOME="/Users/fonger/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
