@@ -88,9 +88,9 @@ return {
 
   -- GitHub integration via Snacks
   -- Use the following key mappings from snacks.lua:
-  -- <leader>gi - GitHub Issues (open)
-  -- <leader>gI - GitHub Issues (all)
-  -- <leader>gp - GitHub Pull Requests (open)
-  -- <leader>gP - GitHub Pull Requests (all)
+  -- <leader>ghi - GitHub Issues (open)
+  -- <leader>ghI - GitHub Issues (all)
+  -- <leader>ghp - GitHub Pull Requests (open)
+  -- <leader>ghP - GitHub Pull Requests (all)
   -- These replace the need for octo.nvim + telescope dependency
 }

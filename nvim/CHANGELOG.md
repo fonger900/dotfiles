@@ -5,6 +5,34 @@ All notable changes to this Neovim configuration will be documented in this file
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.2.0] - 2025-11-03
+
+### 🎯 Keymap Refactoring & Snacks Integration
+
+- **Comprehensive keymap cleanup** to eliminate conflicts and redundancy between `keymaps.lua` and Snacks configuration.
+- **Centralized picker functionality** in Snacks for consistent UX across file/search/git operations.
+- **Resolved LSP mapping conflicts** by using Snacks picker for `gd`, `gD`, `gr`, `gI`, `gy` while keeping core LSP actions (`K`, `<leader>ca`, `<leader>cr`) as immediate bindings.
+- **Updated GitHub CLI integration** with cleaner mappings (`<leader>ghi`/`<leader>ghp` for issues/PRs).
+- **Streamlined UI toggles** to primarily use Snacks' built-in toggle system for consistency.
+
+### 🧹 Plugin Cleanup
+
+- **Removed unused plugins**: `vim-startuptime` (replaced by Snacks Profiler), `octo.nvim` (replaced by Snacks GitHub integration).
+- **Cleaned up telescope dependencies**: Removed telescope fallbacks from yanky.nvim and other legacy integrations.
+- **Updated lazy-lock.json**: Automatic cleanup of unused plugin entries.
+
+### 📝 Documentation Updates
+
+- **Enhanced keymap organization**: Clear separation between core editor functionality and Snacks-powered features.
+- **Updated comments**: Better documentation of which plugin handles which functionality.
+- **Improved git.lua**: Replaced octo.nvim with notes about Snacks GitHub CLI integration.
+
+### 🔧 Configuration Improvements
+
+- **Snacks feature expansion**: Enabled additional Snacks features (`bigfile`, `explorer`, `gh`, `quickfile`, `scope`, `scroll`, `statuscolumn`, `words`).
+- **Better terminal integration**: Consolidated terminal mappings with Snacks terminal while maintaining legacy compatibility.
+- **Enhanced LSP experience**: Snacks picker provides better UX for LSP navigation with fuzzy finding and preview.
+
 ## [2.1.0] - 2025-11-03
 
 ### 🔧 Modernization & Optimizations

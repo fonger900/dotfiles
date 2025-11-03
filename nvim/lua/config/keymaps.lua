@@ -1,6 +1,8 @@
 -- =============================================
 -- Keymaps Configuration
 -- =============================================
+-- Note: Many file/search/git mappings are handled by Snacks.nvim
+-- See: lua/plugins/snacks.lua for picker and utility keymaps
 
 local map = vim.keymap.set
 
@@ -39,9 +41,8 @@ map("n", "<S-h>", "<cmd>bprevious<cr>", { desc = "Prev buffer" })
 map("n", "<S-l>", "<cmd>bnext<cr>", { desc = "Next buffer" })
 map("n", "[b", "<cmd>bprevious<cr>", { desc = "Prev buffer" })
 map("n", "]b", "<cmd>bnext<cr>", { desc = "Next buffer" })
--- Close current buffer (keep window)
-map("n", "<leader>bd", "<cmd>bdelete<cr>", { desc = "Delete buffer" })
 map("n", "<leader>bD", "<cmd>bdelete!<cr>", { desc = "Delete buffer (force)" })
+-- Note: <leader>bd is handled by Snacks.bufdelete() in snacks.lua
 
 -- Clear search with <esc>
 map({ "i", "n" }, "<esc>", "<cmd>noh<cr><esc>", { desc = "Escape and clear hlsearch" })
@@ -50,33 +51,33 @@ map({ "i", "n" }, "<esc>", "<cmd>noh<cr><esc>", { desc = "Escape and clear hlsea
 map("v", "<", "<gv")
 map("v", ">", ">gv")
 
--- Lazy
-map("n", "<leader>l", "<cmd>Lazy<cr>", { desc = "Lazy" })
-
 -- New file
 map("n", "<leader>fn", "<cmd>enew<cr>", { desc = "New File" })
 
 -- Save file
 map({ "i", "x", "n", "s" }, "<C-s>", "<cmd>w<cr><esc>", { desc = "Save file" })
 
--- Quit
-map("n", "<leader>qq", "<cmd>qa<cr>", { desc = "Quit all" })
-
 -- ============================================================================
--- Leader Key Mappings
+-- Essential File & Session Operations
 -- ============================================================================
 
--- File operations
+-- Core file operations
 map("n", "<leader>w", "<cmd>w<cr>", { desc = "Save" })
 map("n", "<leader>W", "<cmd>wa<cr>", { desc = "Save all" })
 map("n", "<leader>q", "<cmd>q<cr>", { desc = "Quit" })
 map("n", "<leader>Q", "<cmd>qa!<cr>", { desc = "Quit without saving" })
 map("n", "<leader>x", "<cmd>x<cr>", { desc = "Save and quit" })
+map("n", "<leader>qq", "<cmd>qa<cr>", { desc = "Quit all" })
+
+-- Lazy plugin manager
+map("n", "<leader>l", "<cmd>Lazy<cr>", { desc = "Lazy" })
 
 -- Clear search highlights
 map("n", "<leader>h", "<cmd>nohlsearch<cr>", { desc = "Clear search highlights" })
 
--- Window management
+-- ============================================================================
+-- Window & Tab Management
+-- ============================================================================
 map("n", "<leader>ww", "<C-W>p", { desc = "Other window", remap = true })
 map("n", "<leader>wd", "<C-W>c", { desc = "Delete window", remap = true })
 map("n", "<leader>w-", "<C-W>s", { desc = "Split window below", remap = true })
@@ -93,21 +94,19 @@ map("n", "<leader><tab>]", "<cmd>tabnext<cr>", { desc = "Next Tab" })
 map("n", "<leader><tab>d", "<cmd>tabclose<cr>", { desc = "Close Tab" })
 map("n", "<leader><tab>[", "<cmd>tabprevious<cr>", { desc = "Previous Tab" })
 
--- Terminal mappings
+-- ============================================================================
+-- Terminal Management (Note: Snacks also provides terminal via <c-/>, <c-_>)
+-- ============================================================================
+
+-- Legacy terminal mappings (kept for compatibility)
 map("n", "<leader>tt", function()
   require("config.utils").terminal(nil, { cwd = require("config.utils").get_root() })
 end, { desc = "Terminal (root dir)" })
 map("n", "<leader>tT", function()
   require("config.utils").terminal()
 end, { desc = "Terminal (cwd)" })
-map("n", "<c-\\>", function()
-  require("config.utils").terminal(nil, { cwd = require("config.utils").get_root() })
-end, { desc = "Terminal (root dir)" })
-map("n", "<c-_>", function()
-  require("config.utils").terminal(nil, { cwd = require("config.utils").get_root() })
-end, { desc = "which_key_ignore" })
 
--- Terminal Mappings
+-- Terminal mode mappings
 map("t", "<esc><esc>", "<c-\\><c-n>", { desc = "Enter Normal Mode" })
 map("t", "<C-h>", "<cmd>wincmd h<cr>", { desc = "Go to left window" })
 map("t", "<C-j>", "<cmd>wincmd j<cr>", { desc = "Go to lower window" })
@@ -117,44 +116,18 @@ map("t", "<C-\\>", "<cmd>close<cr>", { desc = "Hide Terminal" })
 map("t", "<c-_>", "<cmd>close<cr>", { desc = "which_key_ignore" })
 
 -- ============================================================================
--- UI Toggles
+-- UI Toggles (Note: Many toggles now handled by Snacks in snacks.lua)
 -- ============================================================================
+-- Snacks handles: spell, wrap, relativenumber, diagnostics, inlay_hints,
+-- conceallevel, treesitter, background, line_number, indent, dim
 
-map("n", "<leader>ur", function()
-  require("config.utils").toggle("relativenumber")
-end, { desc = "Toggle Relative Number" })
-map("n", "<leader>ul", function()
+-- Additional toggles not covered by Snacks
+map("n", "<leader>uL", function()
   require("config.utils").toggle("list")
 end, { desc = "Toggle List Chars" })
-map("n", "<leader>uw", function()
-  require("config.utils").toggle("wrap")
-end, { desc = "Toggle Word Wrap" })
-map("n", "<leader>us", function()
-  require("config.utils").toggle("spell")
-end, { desc = "Toggle Spelling" })
-map("n", "<leader>uc", function()
-  require("config.utils").toggle("conceallevel", false, { 0, 2 })
-end, { desc = "Toggle Conceal" })
-map("n", "<leader>uh", function()
-  require("config.utils").toggle.inlay_hints()
-end, { desc = "Toggle Inlay Hints" })
-map("n", "<leader>ud", function()
-  require("config.utils").toggle_diagnostics()
-end, { desc = "Toggle Diagnostics" })
-
-local conceallevel = vim.o.conceallevel > 0 and vim.o.conceallevel or 3
-map("n", "<leader>uC", function()
-  require("config.utils").toggle("conceallevel", false, { 0, conceallevel })
-end, { desc = "Toggle Conceal" })
-
-if vim.lsp.buf.inlay_hint or vim.lsp.inlay_hint then
-  map("n", "<leader>uh", function()
-    require("config.utils").toggle.inlay_hints()
-  end, { desc = "Toggle Inlay Hints" })
-end
 
 -- ============================================================================
--- Formatting
+-- Formatting (Note: Manual format mapping, conform/LSP also handles this)
 -- ============================================================================
 
 map({ "n", "v" }, "<leader>cf", function()
@@ -182,8 +155,10 @@ map("n", "]w", diagnostic_goto(true, "WARN"), { desc = "Next Warning" })
 map("n", "[w", diagnostic_goto(false, "WARN"), { desc = "Prev Warning" })
 
 -- ============================================================================
--- LSP Keymaps (will be set on LSP attach)
+-- LSP Keymaps (Note: Snacks handles many LSP pickers, see snacks.lua)
 -- ============================================================================
+-- Snacks provides: gd, gD, gr, gI, gy (via picker for better UX)
+-- This section provides fallback/alternative LSP bindings
 
 local M = {}
 
@@ -196,12 +171,7 @@ function M.on_attach(client, buffer)
     vim.keymap.set(mode, lhs, rhs, opts)
   end
 
-  -- LSP actions
-  map_buffer("n", "gd", vim.lsp.buf.definition, { desc = "Goto Definition" })
-  map_buffer("n", "gr", vim.lsp.buf.references, { desc = "References" })
-  map_buffer("n", "gD", vim.lsp.buf.declaration, { desc = "Goto Declaration" })
-  map_buffer("n", "gI", vim.lsp.buf.implementation, { desc = "Goto Implementation" })
-  map_buffer("n", "gy", vim.lsp.buf.type_definition, { desc = "Goto T[y]pe Definition" })
+  -- Core LSP actions (not using pickers for immediate response)
   map_buffer("n", "K", vim.lsp.buf.hover, { desc = "Hover" })
   map_buffer("n", "gK", vim.lsp.buf.signature_help, { desc = "Signature Help" })
   map_buffer("i", "<c-k>", vim.lsp.buf.signature_help, { desc = "Signature Help" })
@@ -209,16 +179,20 @@ function M.on_attach(client, buffer)
   map_buffer("n", "<leader>cA", function()
     vim.lsp.buf.code_action({
       context = {
-        only = {
-          "source",
-        },
+        only = { "source" },
         diagnostics = {},
       },
     })
   end, { desc = "Source Action" })
   map_buffer("n", "<leader>cr", vim.lsp.buf.rename, { desc = "Rename" })
 
-  -- Keep LSP native mappings only for simplicity
+  -- Note: gd, gD, gr, gI, gy are handled by Snacks picker for better UX
+  -- If you prefer native LSP, uncomment these:
+  -- map_buffer("n", "gd", vim.lsp.buf.definition, { desc = "Goto Definition" })
+  -- map_buffer("n", "gr", vim.lsp.buf.references, { desc = "References" })
+  -- map_buffer("n", "gD", vim.lsp.buf.declaration, { desc = "Goto Declaration" })
+  -- map_buffer("n", "gI", vim.lsp.buf.implementation, { desc = "Goto Implementation" })
+  -- map_buffer("n", "gy", vim.lsp.buf.type_definition, { desc = "Goto T[y]pe Definition" })
 end
 
 return M
