@@ -182,8 +182,8 @@ map("n", "[w", diagnostic_goto(false, "WARN"), { desc = "Prev Warning" })
 
 local M = {}
 
----@param client vim.lsp.Client
----@param buffer number
+---@param client table LSP client object
+---@param buffer number Buffer number
 function M.on_attach(client, buffer)
   local function map_buffer(mode, lhs, rhs, opts)
     opts = opts or {}

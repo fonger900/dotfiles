@@ -188,6 +188,7 @@ nvim/
   - Recognizes `vim` global and Neovim APIs
   - Includes runtime path and workspace library settings
   - Optimized for plugin development
+  - Custom type definitions in `lua/types.lua` for better LSP support
 
 ### 📦 **Plugin Management**
 

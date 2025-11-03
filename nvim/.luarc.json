@@ -17,6 +17,7 @@
   "workspace.library": [
     "$VIMRUNTIME/lua",
     "$VIMRUNTIME/lua/vim/lsp",
+    "$VIMRUNTIME/lua/vim",
     "${3rd}/luv/library",
     "${3rd}/busted/library"
   ],
@@ -27,5 +28,6 @@
   "completion.keywordSnippet": "Both",
   "hint.enable": true,
   "format.enable": true,
-  "telemetry.enable": false
+  "telemetry.enable": false,
+  "type.castNumberToInteger": true
 }

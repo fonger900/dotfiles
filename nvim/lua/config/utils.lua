@@ -152,7 +152,7 @@ end
 function M.terminal(cmd, opts)
   opts = opts or {}
   local float_term = nil
-  
+
   if vim.fn.has("nvim-0.8") == 1 then
     -- Use toggleterm if available
     local ok, toggleterm = pcall(require, "toggleterm.terminal")
@@ -174,7 +174,7 @@ function M.terminal(cmd, opts)
       return
     end
   end
-  
+
   -- Fallback to basic terminal
   vim.cmd("tabnew")
   vim.cmd("terminal " .. (cmd or ""))
@@ -188,14 +188,14 @@ end
 M.lsp = {}
 
 function M.lsp.get_clients(opts)
-  local ret = {} ---@type lsp.Client[]
+  local ret = {} ---@type table[] LSP client objects
   if vim.lsp.get_clients then
     ret = vim.lsp.get_clients(opts)
   else
     ---@diagnostic disable-next-line: deprecated
     ret = vim.lsp.get_active_clients(opts)
     if opts and opts.method then
-      ---@param client lsp.Client
+      ---@param client table LSP client object
       ret = vim.tbl_filter(function(client)
         return client.supports_method(opts.method, { bufnr = opts.bufnr })
       end, ret)
@@ -272,7 +272,7 @@ function M.format.format(opts)
 end
 
 ---@param buf? number
----@return (LazyFormatter|lsp.Client)[]
+---@return table[] Array of LazyFormatter or LSP client objects
 function M.format.get_formatters(buf)
   local buf = buf or vim.api.nvim_get_current_buf()
   local formatters = {} ---@type LazyFormatter[]
@@ -303,13 +303,19 @@ function M.format.get_formatters(buf)
 
   -- check for lsp formatters
   local clients = M.lsp.get_clients({ bufnr = buf })
-  local null_ls = package.loaded["null-ls"] and require("null-ls.sources").get_available(vim.bo[buf].filetype, "NULL_LS_FORMATTING") or {}
+  local null_ls = package.loaded["null-ls"] and
+  require("null-ls.sources").get_available(vim.bo[buf].filetype, "NULL_LS_FORMATTING") or {}
 
-  ---@param client lsp.Client
+  ---@param client table LSP client object
   local function add_client(client)
-    local info = { name = client.name, primary = false, priority = 2, format = function(opts)
-      return vim.lsp.buf.format(vim.tbl_deep_extend("force", { bufnr = buf }, opts))
-    end }
+    local info = {
+      name = client.name,
+      primary = false,
+      priority = 2,
+      format = function(opts)
+        return vim.lsp.buf.format(vim.tbl_deep_extend("force", { bufnr = buf }, opts))
+      end
+    }
     -- HACK: show only one null-ls formatter
     if client.name == "null-ls" then
       if #null_ls > 0 then
@@ -322,7 +328,7 @@ function M.format.get_formatters(buf)
 
   for _, client in ipairs(clients) do
     local supports_format = client.supports_method("textDocument/formatting")
-      or client.supports_method("textDocument/rangeFormatting")
+        or client.supports_method("textDocument/rangeFormatting")
     if supports_format and not (client.name == "null-ls" and #null_ls == 0) then
       add_client(client)
     end
