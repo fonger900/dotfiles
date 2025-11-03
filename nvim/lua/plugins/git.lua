@@ -66,7 +66,7 @@ return {
       "Glgrep",
       "Gedit"
     },
-    ft = {"fugitive"}
+    ft = { "fugitive" }
   },
 
   -- GitHub integration
@@ -81,22 +81,16 @@ return {
     cmd = { "DiffviewOpen", "DiffviewClose", "DiffviewToggleFiles", "DiffviewFocusFiles" },
     config = true,
     keys = {
-      { "<leader>gd", "<cmd>DiffviewOpen<cr>", desc = "DiffView" },
+      { "<leader>gd", "<cmd>DiffviewOpen<cr>",        desc = "DiffView" },
       { "<leader>gh", "<cmd>DiffviewFileHistory<cr>", desc = "DiffView File History" },
     },
   },
 
-  -- Advanced git operations
-  {
-    "pwntester/octo.nvim",
-    cmd = "Octo",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-telescope/telescope.nvim",
-      "nvim-tree/nvim-web-devicons",
-    },
-    config = function()
-      require"octo".setup()
-    end,
-  },
+  -- GitHub integration via Snacks
+  -- Use the following key mappings from snacks.lua:
+  -- <leader>gi - GitHub Issues (open)
+  -- <leader>gI - GitHub Issues (all)
+  -- <leader>gp - GitHub Pull Requests (open)
+  -- <leader>gP - GitHub Pull Requests (all)
+  -- These replace the need for octo.nvim + telescope dependency
 }

@@ -3,16 +3,6 @@
 -- =============================================
 
 return {
-  -- Measure startuptime
-  {
-    "dstein64/vim-startuptime",
-    enabled = false, -- replaced by Snacks Profiler
-    cmd = "StartupTime",
-    config = function()
-      vim.g.startuptime_tries = 10
-    end,
-  },
-
   -- Library used by other plugins
   { "nvim-lua/plenary.nvim", lazy = true },
 
@@ -75,16 +65,11 @@ return {
       {
         "<leader>p",
         function()
-          local ok, telescope = pcall(require, "telescope")
-          if ok and telescope and telescope.extensions and telescope.extensions.yank_history then
-            telescope.extensions.yank_history.yank_history({})
+          -- Use Yanky command directly, no need for telescope fallback
+          if vim.fn.exists(":YankyRingHistory") == 2 then
+            vim.cmd([[YankyRingHistory]])
           else
-            -- Fallback: use Yanky command if available or notify
-            if vim.fn.exists(":YankyRingHistory") == 2 then
-              vim.cmd([[YankyRingHistory]])
-            else
-              vim.notify("Yank history UI unavailable (Telescope disabled)", vim.log.levels.WARN)
-            end
+            vim.notify("Yank history UI unavailable", vim.log.levels.WARN)
           end
         end,
         desc = "Open Yank History",
