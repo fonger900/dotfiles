@@ -136,6 +136,7 @@ return {
 	-- Fuzzy Finder
 	-- =====================
 	{
+		-- Fuzzy Finder
 		"nvim-telescope/telescope.nvim",
 		tag = "0.1.4",
 		dependencies = { "nvim-lua/plenary.nvim" },
@@ -192,9 +193,10 @@ return {
 	-- =====================
 	-- UI
 	-- =====================
-	{ 
-		-- Better UI for vim.ui.select and vim.ui.input
-		"stevearc/dressing.nvim", opts = {} 
+	{
+		-- UI for vim.ui.input and vim.ui.select
+		"folke/snacks.nvim",
+		config = true,
 	},
 
 	-- =====================
