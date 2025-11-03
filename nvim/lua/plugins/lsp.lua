@@ -117,13 +117,18 @@ return {
         end
       end)
 
-      -- Diagnostics config
-      for name, icon in pairs(require("config.icons").diagnostics) do
-        name = "DiagnosticSign" .. name
-        vim.fn.sign_define(name, { text = icon, texthl = name, numhl = "" })
-      end
+      -- Diagnostics config (modern API: configure signs via vim.diagnostic.config)
+      local icons = require("config.icons").diagnostics
+      local sign_text = {
+        [vim.diagnostic.severity.ERROR] = icons.Error,
+        [vim.diagnostic.severity.WARN]  = icons.Warn,
+        [vim.diagnostic.severity.HINT]  = icons.Hint,
+        [vim.diagnostic.severity.INFO]  = icons.Info,
+      }
 
-      vim.diagnostic.config(vim.deepcopy(opts.diagnostics))
+      vim.diagnostic.config(vim.tbl_deep_extend("force", vim.deepcopy(opts.diagnostics), {
+        signs = { text = sign_text },
+      }))
 
       local servers = opts.servers
       -- Resolve dynamic settings tables (allows lazy requiring of schemastore, etc.)

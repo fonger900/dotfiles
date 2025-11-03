@@ -39,7 +39,7 @@ function M.setup_formatting()
     callback = function(event)
       local clients = vim.lsp.get_clients({ bufnr = event.buf })
       local client = clients[1]
-      if client and client.supports_method("textDocument/formatting") then
+      if client and client:supports_method("textDocument/formatting") then
         vim.lsp.buf.format({ bufnr = event.buf })
       end
     end,
@@ -103,7 +103,7 @@ function M.on_attach(client, bufnr)
 
   -- Enable inlay hints if supported
   local ih_cfg = require("config.utils").opts("nvim-lspconfig").inlay_hints or {}
-  if ih_cfg.enabled and client.supports_method("textDocument/inlayHint") then
+  if ih_cfg.enabled and client:supports_method("textDocument/inlayHint") then
     require("config.utils").toggle.inlay_hints(bufnr, true)
   end
 
@@ -113,7 +113,7 @@ function M.on_attach(client, bufnr)
   end
 
   -- Setup document highlight if supported
-  if client.supports_method("textDocument/documentHighlight") then
+  if client:supports_method("textDocument/documentHighlight") then
     vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
       buffer = bufnr,
       callback = vim.lsp.buf.document_highlight,

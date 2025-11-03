@@ -20,7 +20,8 @@ vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave" }, {
 vim.api.nvim_create_autocmd("TextYankPost", {
   group = augroup("highlight_yank"),
   callback = function()
-    vim.highlight.on_yank()
+    local on_yank = (vim.hl and vim.hl.on_yank) or (vim.highlight and vim.highlight.on_yank)
+    if on_yank then on_yank() end
   end,
 })
 

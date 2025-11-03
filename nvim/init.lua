@@ -38,17 +38,16 @@ local function safe_require(module)
 end
 
 -- Optional: Suppress telescope vim.validate deprecation warnings
--- These are internal to telescope.nvim and will be fixed in future releases
--- Uncomment the following if you want to suppress these specific warnings:
---[[
-local original_notify = vim.notify
-vim.notify = function(msg, level, opts)
-  if type(msg) == "string" and msg:match("vim%.validate is deprecated") and msg:match("telescope") then
-    return -- Suppress telescope vim.validate warnings
+-- These are internal to telescope.nvim and should be resolved upstream; silence just these messages.
+do
+  local original_notify = vim.notify
+  vim.notify = function(msg, level, opts)
+    if type(msg) == "string" and msg:match("vim%.validate is deprecated") and msg:match("telescope") then
+      return
+    end
+    return original_notify(msg, level, opts)
   end
-  return original_notify(msg, level, opts)
 end
---]]
 
 -- Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"

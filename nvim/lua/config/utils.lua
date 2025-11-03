@@ -200,7 +200,7 @@ function M.lsp.get_clients(opts)
     if opts and opts.method then
       ---@param client table LSP client object
       ret = vim.tbl_filter(function(client)
-        return client.supports_method(opts.method, { bufnr = opts.bufnr })
+        return client:supports_method(opts.method, { bufnr = opts.bufnr })
       end, ret)
     end
   end
@@ -333,8 +333,8 @@ function M.format.get_formatters(buf)
   end
 
   for _, client in ipairs(clients) do
-    local supports_format = client.supports_method("textDocument/formatting")
-        or client.supports_method("textDocument/rangeFormatting")
+  local supports_format = client:supports_method("textDocument/formatting")
+    or client:supports_method("textDocument/rangeFormatting")
     if supports_format and not (client.name == "null-ls" and #null_ls == 0) then
       add_client(client)
     end
