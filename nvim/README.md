@@ -13,7 +13,7 @@ A modern, feature-rich Neovim setup optimized for full-stack development with Sn
 - **Lightning-fast startup** with lazy-loading and optimized plugin management.
 - **Modern UI/UX** with Catppuccin theme, Snacks dashboard, and integrated notifications.
 - **Comprehensive LSP integration** with fuzzy picker navigation and native actions.
-- **Efficient navigation** with Snacks Picker, Neo-tree, Flash, and Harpoon.
+- **Efficient navigation** with Snacks Picker, Snacks Explorer, Flash, and Harpoon.
 - **Enhanced Git workflow** with GitSigns, Fugitive, DiffView, and GitHub CLI integration.
 - **Smart code editing** with TreeSitter, autocompletion, formatting, and snippets.
 - **Terminal integration** with toggleable floating/split terminals.
@@ -28,7 +28,7 @@ A modern, feature-rich Neovim setup optimized for full-stack development with Sn
   - **Dashboard**: Beautiful startup screen with quick actions
   - **Notifier**: Modern notification system (replaces nvim-notify)
   - **Terminal**: Integrated terminal management
-  - **Explorer**: File browsing (complements Neo-tree)
+  - **Explorer**: Integrated file browsing and management
   - **Other**: Indent guides, profiler, zen mode, scratch buffers, toggles
 
 ### 🎨 **Theme & UI**
@@ -37,7 +37,6 @@ A modern, feature-rich Neovim setup optimized for full-stack development with Sn
 - [nvim-tree/nvim-web-devicons](https://github.com/nvim-tree/nvim-web-devicons): Icons for file types and UI elements.
 - [nvim-lualine/lualine.nvim](https://github.com/nvim-lualine/lualine.nvim): Fast and customizable statusline.
 - [akinsho/bufferline.nvim](https://github.com/akinsho/bufferline.nvim): Elegant buffer tabs.
-- [nvim-neo-tree/neo-tree.nvim](https://github.com/nvim-neo-tree/neo-tree.nvim): File explorer with git integration.
 
 ### 🧠 **LSP & Development**
 
@@ -97,7 +96,7 @@ A modern, feature-rich Neovim setup optimized for full-stack development with Sn
 | `<leader>fb` | Find buffers |
 | `<leader>fc` | Find config files |
 | `<leader>fn` | New file |
-| `<leader>e` | File explorer (Neo-tree) |
+| `<leader>e` | File explorer (Snacks) |
 
 ### 🔍 **Search & Find**
 
@@ -187,7 +186,7 @@ A modern, feature-rich, and highly optimized Neovim configuration designed for f
 - **Snacks Picker** for unified fuzzy finding (files, grep, buffers, git, GitHub)
 - **Flash** for enhanced motion and search
 - **Harpoon** for quick file navigation bookmarks
-- **Neo-tree** file explorer with git integration
+- **Snacks Explorer** for integrated file browsing and management
 - **Session persistence** with automatic restore
 
 ### 📝 **Enhanced Editing Experience**

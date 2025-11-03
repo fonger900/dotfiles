@@ -9,7 +9,10 @@ return {
   opts = {
     bigfile = { enabled = true },
     dashboard = { enabled = true },
-    explorer = { enabled = true },
+    explorer = {
+      enabled = true,
+      replace_netrw = true,  -- Replace netrw with Snacks explorer
+    },
     gh = { enabled = true }, -- GitHub CLI integration
     indent = { enabled = true },
     input = { enabled = true },

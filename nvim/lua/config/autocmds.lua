@@ -136,28 +136,8 @@ vim.api.nvim_create_autocmd("BufEnter", {
   command = "set fo-=c fo-=r fo-=o",
 })
 
--- Close Neo-tree if it's the last window
-vim.api.nvim_create_autocmd("QuitPre", {
-  callback = function()
-    local wins = vim.api.nvim_list_wins()
-    local neo_wins = {}
-    local other_wins = {}
-    for _, win in ipairs(wins) do
-      local buf = vim.api.nvim_win_get_buf(win)
-      local ft = vim.bo[buf].filetype
-      if ft == "neo-tree" then
-        table.insert(neo_wins, win)
-      else
-        table.insert(other_wins, win)
-      end
-    end
-    if #other_wins == 1 and #neo_wins > 0 then
-      for _, win in ipairs(neo_wins) do
-        pcall(vim.api.nvim_win_close, win, true)
-      end
-    end
-  end,
-})
+-- Auto-close behavior is handled by Snacks explorer automatically
+-- No manual autocmd needed for Snacks file explorer
 
 -- Disable diagnostics in node_modules
 vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {

@@ -14,10 +14,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Resolved LSP mapping conflicts** by using Snacks picker for `gd`, `gD`, `gr`, `gI`, `gy` while keeping core LSP actions (`K`, `<leader>ca`, `<leader>cr`) as immediate bindings.
 - **Updated GitHub CLI integration** with cleaner mappings (`<leader>ghi`/`<leader>ghp` for issues/PRs).
 - **Streamlined UI toggles** to primarily use Snacks' built-in toggle system for consistency.
+- **Switched to Snacks Explorer** from Neo-tree for unified file management experience.
 
 ### 🧹 Plugin Cleanup
 
 - **Removed unused plugins**: `vim-startuptime` (replaced by Snacks Profiler), `octo.nvim` (replaced by Snacks GitHub integration).
+- **Disabled Neo-tree** in favor of Snacks Explorer for better integration.
 - **Cleaned up telescope dependencies**: Removed telescope fallbacks from yanky.nvim and other legacy integrations.
 - **Updated lazy-lock.json**: Automatic cleanup of unused plugin entries.
 

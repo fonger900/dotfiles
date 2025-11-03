@@ -67,7 +67,7 @@ return {
         lualine_y = { "progress" },
         lualine_z = { "location" },
       },
-      extensions = { "neo-tree", "lazy", "mason" },
+      extensions = { "lazy", "mason" }, -- Removed neo-tree since using Snacks explorer
     },
   },
 
@@ -100,12 +100,7 @@ return {
           return vim.trim(ret)
         end,
         offsets = {
-          {
-            filetype = "neo-tree",
-            text = "Neo-tree",
-            highlight = "Directory",
-            text_align = "left",
-          },
+          -- Snacks explorer doesn't need explicit offset configuration
         },
       },
     },
@@ -123,9 +118,10 @@ return {
     end,
   },
 
-  -- File explorer
+  -- File explorer (disabled - using Snacks explorer instead)
   {
     "nvim-neo-tree/neo-tree.nvim",
+    enabled = false, -- Disabled in favor of Snacks explorer
     branch = "v3.x",
     cmd = "Neotree",
     keys = {
