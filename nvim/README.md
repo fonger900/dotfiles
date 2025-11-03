@@ -246,6 +246,17 @@ nvim/
 | `<leader>ff` | Find Files | Fuzzy find files |
 | `<leader>fg` | Live Grep | Search in files |
 
+### **Buffers & Close**
+
+| Key | Action | Description |
+|-----|--------|-------------|
+| `<leader>bd` | Delete Buffer | Close current file buffer, keep window |
+| `<leader>bD` | Force Delete Buffer | Force close current buffer |
+| `<leader>wd` | Close Window | Close current split/window |
+| `<leader>wo` | Only Window | Close all other splits |
+| `<leader>x` | Save & Quit | Write if changed, then quit |
+| `<leader>qq` | Quit All | Quit all windows |
+
 ### **Code Actions**
 
 | Key | Action | Description |
