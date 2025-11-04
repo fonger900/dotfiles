@@ -4,12 +4,10 @@
 -- Note: .luarc.json configures Lua LSP to recognize 'vim' global
 -- and provides proper Neovim development environment
 
--- Enable the compiled Lua module loader (Neovim >= 0.9) for faster startup
-pcall(function()
-  if vim.loader and vim.loader.enable then
-    vim.loader.enable()
-  end
-end)
+-- Enable the compiled Lua module loader for faster startup
+if vim.loader and vim.loader.enable then
+  vim.loader.enable()
+end
 
 -- Set leader key early (must be set before plugins)
 vim.g.mapleader = " "

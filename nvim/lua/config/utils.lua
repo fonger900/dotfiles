@@ -4,8 +4,7 @@
 
 local M = {}
 
--- Prefer vim.uv (Neovim >= 0.10), fallback to vim.loop for compatibility
-local uv = vim.uv or vim.loop
+local uv = vim.uv
 
 ---@param plugin string
 function M.has(plugin)
@@ -124,19 +123,7 @@ end
 M.lsp = {}
 
 function M.lsp.get_clients(opts)
-  local ret = {} ---@type table[] LSP client objects
-  if vim.lsp.get_clients then
-    ret = vim.lsp.get_clients(opts)
-  else
-    ---@diagnostic disable-next-line: deprecated
-    ret = vim.lsp.get_active_clients(opts)
-    if opts and opts.method then
-      ---@param client table LSP client object
-      ret = vim.tbl_filter(function(client)
-        return client:supports_method(opts.method, { bufnr = opts.bufnr })
-      end, ret)
-    end
-  end
+  local ret = vim.lsp.get_clients(opts)
   return opts and opts.filter and vim.tbl_filter(opts.filter, ret) or ret
 end
 
