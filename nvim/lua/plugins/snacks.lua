@@ -46,7 +46,7 @@ return {
     { "<leader>,",       function() Snacks.picker.buffers() end,                                    desc = "Buffers" },
     { "<leader>/",       function() Snacks.picker.grep() end,                                       desc = "Grep" },
     { "<leader>:",       function() Snacks.picker.command_history() end,                            desc = "Command History" },
-    { "<leader>n",       function() Snacks.picker.notifications() end,                              desc = "Notification History" },
+    { "<leader>n",       function() Snacks.notifier.show_history() end,                             desc = "Notification History" },
     { "<leader>e",       function() Snacks.explorer() end,                                          desc = "File Explorer" },
 
     -- Find files
@@ -161,6 +161,9 @@ return {
     snacks.setup(opts)
 
     -- Route notifications to Snacks (replaces nvim-notify)
-    vim.notify = snacks.notify
+    -- Use pcall to handle any compatibility issues gracefully
+    pcall(function()
+      vim.notify = snacks.notify
+    end)
   end,
 }
