@@ -32,13 +32,3 @@ safe_require("config.lazy")
 safe_require("config.options")
 safe_require("config.keymaps")
 safe_require("config.autocmds")
-
-
-
--- Load LSP and completion after plugins
-vim.api.nvim_create_autocmd("User", {
-  pattern = "VeryLazy",
-  callback = function()
-    safe_require("config.lsp")
-  end,
-})

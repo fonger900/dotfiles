@@ -3,7 +3,7 @@
 -- =============================================
 
 return {
-  -- LSP Configuration
+  -- LSP Configuration & Servers
   {
     "neovim/nvim-lspconfig",
     event = { "BufReadPre", "BufNewFile" },
@@ -14,6 +14,7 @@ return {
       "williamboman/mason-lspconfig.nvim",
     },
     opts = {
+      -- Default options for all servers
       diagnostics = {
         underline = true,
         update_in_insert = false,
@@ -23,45 +24,30 @@ return {
           prefix = "●",
         },
         severity_sort = true,
+        float = {
+          focusable = false,
+          style = "minimal",
+          border = "rounded",
+          source = "always",
+          header = "",
+          prefix = "",
+        },
       },
       inlay_hints = {
         enabled = false,
       },
+      -- Capabilities are dynamically set by the config function
       capabilities = {},
-      format = {
-        formatting_options = nil,
-        timeout_ms = nil,
-      },
+      -- Server-specific configurations
       servers = {
         lua_ls = {
           settings = {
             Lua = {
-              runtime = {
-                -- Tell the language server which version of Lua you're using
-                version = "LuaJIT",
-              },
-              diagnostics = {
-                -- Get the language server to recognize the `vim` global
-                globals = {
-                  "vim",
-                  "it",
-                  "describe",
-                  "before_each",
-                  "after_each"
-                },
-              },
-              workspace = {
-                -- Make the server aware of Neovim runtime files
-                library = vim.api.nvim_get_runtime_file("", true),
-                checkThirdParty = false,
-              },
-              completion = {
-                callSnippet = "Replace",
-              },
-              -- Do not send telemetry data containing a randomized but unique identifier
-              telemetry = {
-                enable = false,
-              },
+              runtime = { version = "LuaJIT" },
+              diagnostics = { globals = { "vim", "it", "describe", "before_each", "after_each" } },
+              workspace = { library = vim.api.nvim_get_runtime_file("", true), checkThirdParty = false },
+              completion = { callSnippet = "Replace" },
+              telemetry = { enable = false },
             },
           },
         },
@@ -78,8 +64,12 @@ return {
         cssls = {},
         tailwindcss = {
           root_dir = function(fname)
-            return require("lspconfig.util").root_pattern("tailwind.config.js", "tailwind.config.ts", "postcss.config.js",
-              "postcss.config.ts")(fname)
+            return require("lspconfig.util").root_pattern(
+              "tailwind.config.js",
+              "tailwind.config.ts",
+              "postcss.config.js",
+              "postcss.config.ts"
+            )(fname)
           end,
         },
         jsonls = {
@@ -95,97 +85,109 @@ return {
           end,
         },
       },
+      -- Custom server setup hooks
       setup = {},
     },
     config = function(_, opts)
-      local Util = require("config.utils")
+      local lsp_utils = require("utils.lsp")
 
-      -- Setup on_attach hooks (keymaps, inlay hints, highlights)
-      Util.lsp.on_attach(function(client, buffer)
-        -- buffer-local keymaps
-        require("config.keymaps").on_attach(client, buffer)
-        -- extra LSP UX (inlay hints, doc highlights, etc.)
-        local ok, LspCfg = pcall(require, "config.lsp")
-        if ok and LspCfg and type(LspCfg.on_attach) == "function" then
-          pcall(LspCfg.on_attach, client, buffer)
+      -- Configure buffer-local behavior on LSP attach
+      lsp_utils.on_attach(function(client, bufnr)
+        -- Keymaps
+        require("config.keymaps").on_attach(client, bufnr)
+
+        -- Inlay hints
+        local ih_cfg = opts.inlay_hints or {}
+        if ih_cfg.enabled and client.supports_method("textDocument/inlayHint") then
+          require("config.utils").toggle.inlay_hints(bufnr, true)
+        end
+
+        -- Document highlights
+        if client.supports_method("textDocument/documentHighlight") then
+          vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+            buffer = bufnr,
+            callback = vim.lsp.buf.document_highlight,
+          })
+          vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
+            buffer = bufnr,
+            callback = vim.lsp.buf.clear_references,
+          })
+        end
+
+        -- Disable semantic tokens for performance
+        if client.name == "tsserver" or client.name == "ts_ls" then
+          client.server_capabilities.semanticTokensProvider = nil
         end
       end)
 
-      -- Diagnostics config (modern API: configure signs via vim.diagnostic.config)
+      -- Configure diagnostic signs
       local icons = require("config.icons").diagnostics
-      local sign_text = {
-        [vim.diagnostic.severity.ERROR] = icons.Error,
-        [vim.diagnostic.severity.WARN]  = icons.Warn,
-        [vim.diagnostic.severity.HINT]  = icons.Hint,
-        [vim.diagnostic.severity.INFO]  = icons.Info,
-      }
-
       vim.diagnostic.config(vim.tbl_deep_extend("force", vim.deepcopy(opts.diagnostics), {
-        signs = { text = sign_text },
+        signs = {
+          text = {
+            [vim.diagnostic.severity.ERROR] = icons.Error,
+            [vim.diagnostic.severity.WARN] = icons.Warn,
+            [vim.diagnostic.severity.HINT] = icons.Hint,
+            [vim.diagnostic.severity.INFO] = icons.Info,
+          },
+        },
       }))
 
+      -- Configure LSP handlers
+      -- Hover
+vim.lsp.handlers["textDocument/hover"] = function(_, result, ctx, config)
+  config = config or {}
+  config.border = "rounded"
+  vim.lsp.util.open_floating_preview(
+    vim.lsp.util.convert_input_to_markdown_lines(result.contents),
+    "markdown",
+    config
+  )
+end
+
+-- Signature Help
+vim.lsp.handlers["textDocument/signatureHelp"] = function(_, result, ctx, config)
+  config = config or {}
+  config.border = "rounded"
+  vim.lsp.util.open_floating_preview(
+    vim.lsp.util.convert_input_to_markdown_lines(result.signatures or {}),
+    "markdown",
+    config
+  )
+end
+
+      -- Get capabilities
+      local capabilities = lsp_utils.get_capabilities()
+
+      -- Setup servers with mason-lspconfig
       local servers = opts.servers
-      -- Resolve dynamic settings tables (allows lazy requiring of schemastore, etc.)
-      for name, cfg in pairs(servers) do
-        if type(cfg) == "table" and type(cfg.settings) == "function" then
-          local ok, res = pcall(function()
-            return cfg.settings()
-          end)
-          if ok and type(res) == "table" then
-            cfg.settings = res
-          else
-            cfg.settings = {}
-          end
-        end
-      end
-      local has_cmp, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
-      local capabilities = vim.tbl_deep_extend(
-        "force",
-        {},
-        vim.lsp.protocol.make_client_capabilities(),
-        has_cmp and cmp_nvim_lsp.default_capabilities() or {},
-        opts.capabilities or {}
-      )
+      local mlsp = require("mason-lspconfig")
 
-      local function setup(server)
-        local server_opts = vim.tbl_deep_extend("force", {
-          capabilities = vim.deepcopy(capabilities),
-        }, servers[server] or {})
+      mlsp.setup({
+        ensure_installed = vim.tbl_keys(servers),
+        handlers = {
+          function(server)
+            local server_opts = vim.tbl_deep_extend("force", {
+              capabilities = vim.deepcopy(capabilities),
+            }, servers[server] or {})
 
-        if opts.setup[server] then
-          if opts.setup[server](server, server_opts) then
-            return
-          end
-        elseif opts.setup["*"] then
-          if opts.setup["*"](server, server_opts) then
-            return
-          end
-        end
-        require("lspconfig")[server].setup(server_opts)
-      end
-
-      -- Setup mason-lspconfig
-      local have_mason, mlsp = pcall(require, "mason-lspconfig")
-      if have_mason then
-        local ensure_installed = vim.tbl_keys(servers)
-        mlsp.setup({
-          ensure_installed = ensure_installed,
-          handlers = { setup }
-        })
-      else
-        -- Fallback: setup servers manually if mason-lspconfig is not available
-        for server, _ in pairs(servers) do
-          setup(server)
-        end
-      end
-
-      -- Handle deno/tsserver conflicts in server setup
-      -- This is handled more elegantly by setting proper root_dir patterns
-      -- for each server which prevents conflicts naturally
+            if opts.setup[server] then
+              if opts.setup[server](server, server_opts) then
+                return
+              end
+            elseif opts.setup["*"] then
+              if opts.setup["*"](server, server_opts) then
+                return
+              end
+            end
+            require("lspconfig")[server].setup(server_opts)
+          end,
+        },
+      })
     end,
   },
 
-  -- Mason for LSP installer
+  -- Mason for LSP/formatter/linter installers
   {
     "williamboman/mason.nvim",
     cmd = "Mason",
@@ -229,11 +231,10 @@ return {
     end,
   },
 
-
   -- Schema store for JSON
   {
     "b0o/schemastore.nvim",
     lazy = true,
-    version = false,
+    version = false, -- Avoids fatal error on startup
   },
 }
