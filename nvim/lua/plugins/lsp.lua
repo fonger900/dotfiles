@@ -66,12 +66,6 @@ return {
           },
         },
         pyright = {},
-        ts_ls = {
-          root_dir = function(fname)
-            return require("lspconfig.util").root_pattern("package.json", "tsconfig.json")(fname)
-          end,
-          single_file_support = false,
-        },
         denols = {
           root_dir = function(fname)
             return require("lspconfig.util").root_pattern("deno.json", "deno.jsonc")(fname)
