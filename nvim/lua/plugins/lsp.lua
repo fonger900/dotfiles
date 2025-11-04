@@ -1,50 +1,29 @@
--- =============================================
--- LSP Configuration Plugins
--- =============================================
-
+-- LSP Configuration
 return {
-  -- LSP Configuration & Servers
+  -- LSP servers
   {
     "neovim/nvim-lspconfig",
     event = { "BufReadPre", "BufNewFile" },
     dependencies = {
-      { "folke/neoconf.nvim", cmd = "Neoconf", config = false, dependencies = { "nvim-lspconfig" } },
+      { "folke/neoconf.nvim", cmd = "Neoconf", config = false },
       { "folke/neodev.nvim",  opts = {} },
       "mason.nvim",
       "williamboman/mason-lspconfig.nvim",
     },
     opts = {
-      -- Default options for all servers
       diagnostics = {
         underline = true,
         update_in_insert = false,
-        virtual_text = {
-          spacing = 4,
-          source = "if_many",
-          prefix = "●",
-        },
+        virtual_text = { spacing = 4, source = "if_many", prefix = "●" },
         severity_sort = true,
-        float = {
-          focusable = false,
-          style = "minimal",
-          border = "rounded",
-          source = "always",
-          header = "",
-          prefix = "",
-        },
+        float = { focusable = false, border = "rounded" },
       },
-      inlay_hints = {
-        enabled = false,
-      },
-      -- Capabilities are dynamically set by the config function
-      capabilities = {},
-      -- Server-specific configurations
       servers = {
         lua_ls = {
           settings = {
             Lua = {
               runtime = { version = "LuaJIT" },
-              diagnostics = { globals = { "vim", "it", "describe", "before_each", "after_each" } },
+              diagnostics = { globals = { "vim" } },
               workspace = { library = vim.api.nvim_get_runtime_file("", true), checkThirdParty = false },
               completion = { callSnippet = "Replace" },
               telemetry = { enable = false },
@@ -52,55 +31,20 @@ return {
           },
         },
         pyright = {},
-        denols = {
-          root_dir = function(fname)
-            return require("lspconfig.util").root_pattern("deno.json", "deno.jsonc")(fname)
-          end,
-        },
-        vue_ls = {
-          filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue", "json" },
-        },
+        ts_ls = {},
         html = {},
         cssls = {},
-        tailwindcss = {
-          root_dir = function(fname)
-            return require("lspconfig.util").root_pattern(
-              "tailwind.config.js",
-              "tailwind.config.ts",
-              "postcss.config.js",
-              "postcss.config.ts"
-            )(fname)
-          end,
-        },
-        jsonls = {
-          settings = function()
-            local ok, schemastore = pcall(require, "schemastore")
-            return {
-              json = {
-                schemas = ok and schemastore.json.schemas() or nil,
-                format = { enable = true },
-                validate = { enable = true },
-              },
-            }
-          end,
-        },
+        tailwindcss = {},
+        eslint = {},
+        rust_analyzer = {},
+        gopls = {},
+        jsonls = {},
       },
-      -- Custom server setup hooks
-      setup = {},
     },
     config = function(_, opts)
-      local lsp_utils = require("utils.lsp")
-
-      -- Configure buffer-local behavior on LSP attach
-      lsp_utils.on_attach(function(client, bufnr)
-        -- Keymaps
+      -- LSP attach function
+      local on_attach = function(client, bufnr)
         require("config.keymaps").on_attach(client, bufnr)
-
-        -- Inlay hints
-        local ih_cfg = opts.inlay_hints or {}
-        if ih_cfg.enabled and client.supports_method("textDocument/inlayHint") then
-          require("config.utils").toggle.inlay_hints(bufnr, true)
-        end
 
         -- Document highlights
         if client.supports_method("textDocument/documentHighlight") then
@@ -108,64 +52,38 @@ return {
             buffer = bufnr,
             callback = vim.lsp.buf.document_highlight,
           })
-          vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
-            buffer = bufnr,
-            callback = vim.lsp.buf.clear_references,
-          })
         end
+      end
 
-        -- Disable semantic tokens for performance
-        if client.name == "ts_ls" then
-          client.server_capabilities.semanticTokensProvider = nil
-        end
-      end)
-
-      -- Configure diagnostic signs
-      local icons = require("config.icons").diagnostics
-      vim.diagnostic.config(vim.tbl_deep_extend("force", vim.deepcopy(opts.diagnostics), {
-        signs = {
-          text = {
-            [vim.diagnostic.severity.ERROR] = icons.Error,
-            [vim.diagnostic.severity.WARN] = icons.Warn,
-            [vim.diagnostic.severity.HINT] = icons.Hint,
-            [vim.diagnostic.severity.INFO] = icons.Info,
-          },
-        },
-      }))
-
+      -- Setup diagnostics
+      vim.diagnostic.config(opts.diagnostics)
 
       -- Get capabilities
-      local capabilities = lsp_utils.get_capabilities()
+      local capabilities = vim.lsp.protocol.make_client_capabilities()
+      local cmp_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
+      if cmp_ok then
+        capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
+      end
 
-      -- Setup servers with mason-lspconfig
+      -- Setup servers
       local servers = opts.servers
-      local mlsp = require("mason-lspconfig")
+      local function setup(server)
+        local server_opts = vim.tbl_deep_extend("force", {
+          capabilities = vim.deepcopy(capabilities),
+          on_attach = on_attach,
+        }, servers[server] or {})
+        require("lspconfig")[server].setup(server_opts)
+      end
 
-      mlsp.setup({
+      local mason_lspconfig = require("mason-lspconfig")
+      mason_lspconfig.setup({
         ensure_installed = vim.tbl_keys(servers),
-        handlers = {
-          function(server)
-            local server_opts = vim.tbl_deep_extend("force", {
-              capabilities = vim.deepcopy(capabilities),
-            }, servers[server] or {})
-
-            if opts.setup[server] then
-              if opts.setup[server](server, server_opts) then
-                return
-              end
-            elseif opts.setup["*"] then
-              if opts.setup["*"](server, server_opts) then
-                return
-              end
-            end
-            require("lspconfig")[server].setup(server_opts)
-          end,
-        },
+        handlers = { setup },
       })
     end,
   },
 
-  -- Mason for LSP/formatter/linter installers
+  -- Package manager
   {
     "williamboman/mason.nvim",
     cmd = "Mason",
@@ -174,45 +92,21 @@ return {
     opts = {
       ensure_installed = {
         "stylua",
-        "shfmt",
-        "flake8",
         "prettier",
-        "prettierd",
-        "isort",
         "black",
+        "isort",
       },
     },
     config = function(_, opts)
       require("mason").setup(opts)
       local mr = require("mason-registry")
-      mr:on("package:install:success", function()
-        vim.defer_fn(function()
-          require("lazy.core.handler.event").trigger({
-            event = "FileType",
-            buf = vim.api.nvim_get_current_buf(),
-          })
-        end, 100)
-      end)
       local function ensure_installed()
         for _, tool in ipairs(opts.ensure_installed) do
           local p = mr.get_package(tool)
-          if not p:is_installed() then
-            p:install()
-          end
+          if not p:is_installed() then p:install() end
         end
       end
-      if mr.refresh then
-        mr.refresh(ensure_installed)
-      else
-        ensure_installed()
-      end
+      if mr.refresh then mr.refresh(ensure_installed) else ensure_installed() end
     end,
-  },
-
-  -- Schema store for JSON
-  {
-    "b0o/schemastore.nvim",
-    lazy = true,
-    version = false, -- Avoids fatal error on startup
   },
 }
