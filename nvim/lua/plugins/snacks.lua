@@ -159,11 +159,5 @@ return {
     local snacks = require("snacks")
     _G.Snacks = snacks
     snacks.setup(opts)
-
-    -- Route notifications to Snacks (replaces nvim-notify)
-    -- Use pcall to handle any compatibility issues gracefully
-    pcall(function()
-      vim.notify = snacks.notify
-    end)
   end,
 }
