@@ -115,8 +115,6 @@ function M.get_root()
   return root
 end
 
--- Simple setup aims to avoid helper wrappers tied to specific picker plugins.
-
 
 
 -- LSP utilities
