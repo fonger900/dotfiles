@@ -133,28 +133,6 @@ return {
         },
       }))
 
-      -- Configure LSP handlers
-      -- Hover
-vim.lsp.handlers["textDocument/hover"] = function(_, result, ctx, config)
-  config = config or {}
-  config.border = "rounded"
-  vim.lsp.util.open_floating_preview(
-    vim.lsp.util.convert_input_to_markdown_lines(result.contents),
-    "markdown",
-    config
-  )
-end
-
--- Signature Help
-vim.lsp.handlers["textDocument/signatureHelp"] = function(_, result, ctx, config)
-  config = config or {}
-  config.border = "rounded"
-  vim.lsp.util.open_floating_preview(
-    vim.lsp.util.convert_input_to_markdown_lines(result.signatures or {}),
-    "markdown",
-    config
-  )
-end
 
       -- Get capabilities
       local capabilities = lsp_utils.get_capabilities()
