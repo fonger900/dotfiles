@@ -47,11 +47,50 @@ function M.setup_formatting()
 end
 
 function M.setup_handlers()
-  -- LSP handlers
-  vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-    border = "rounded",
-  })
+  -- Patch floating preview once to enforce consistent style for all LSP popups
+  if not M._ofp_patched then
+    local orig = vim.lsp.util.open_floating_preview
+    vim.lsp.util.open_floating_preview = function(contents, syntax, opts, ...)
+      opts = opts or {}
+      opts.border = opts.border or "rounded"
+      opts.max_width = opts.max_width or math.floor(vim.o.columns * 0.5)
+      opts.max_height = opts.max_height or math.floor(vim.o.lines * 0.3)
+      opts.zindex = opts.zindex or 50
+      opts.focusable = false
+      opts.wrap = true
+      opts.winblend = opts.winblend or 0
 
+      local bufnr, winnr = orig(contents, syntax, opts, ...)
+
+      if syntax == "markdown" then
+        pcall(vim.treesitter.start, bufnr, "markdown")
+        vim.wo[winnr].conceallevel = 2
+        vim.wo[winnr].concealcursor = "n"
+      end
+
+      return bufnr, winnr
+    end
+    M._ofp_patched = true
+  end
+
+  -- Beautiful hover handler with markdown conversion and trimming
+  vim.lsp.handlers["textDocument/hover"] = function(err, result, ctx, config)
+    if err then return end
+    if not (result and result.contents) then return end
+    config = config or {}
+    config.border = config.border or "rounded"
+    config.title = config.title or " Hover "
+    config.focus_id = "hover-" .. tostring(ctx.bufnr)
+    config.close_events = config.close_events or { "CursorMoved", "InsertEnter", "BufHidden" }
+
+    local lines = vim.lsp.util.convert_input_to_markdown_lines(result.contents)
+    lines = vim.lsp.util.trim_empty_lines(lines)
+    if vim.tbl_isempty(lines) then return end
+
+    return vim.lsp.util.open_floating_preview(lines, "markdown", config)
+  end
+
+  -- Signature help with matching border
   vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
     border = "rounded",
   })
@@ -80,7 +119,7 @@ end
 -- Enhanced capabilities
 function M.get_capabilities()
   local capabilities = vim.lsp.protocol.make_client_capabilities()
-  
+
   -- nvim-cmp capabilities
   local cmp_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
   if cmp_ok then
