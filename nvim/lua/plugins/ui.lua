@@ -127,17 +127,6 @@ return {
     },
     opts = {
       lsp = {
-        progress = { enabled = true },
-        hover = {
-          enabled = true,
-          silent = false,
-          view = nil, -- use default noice hover view
-          opts = { border = "rounded" },
-        },
-        signature = {
-          enabled = true,
-          auto_open = { enabled = true, trigger = true },
-        },
         override = {
           ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
           ["vim.lsp.util.stylize_markdown"] = true,
@@ -151,18 +140,6 @@ return {
         inc_rename = false,
         lsp_doc_border = true,
       },
-      -- routes = {
-      --   -- Skip noisy LSP progress messages in the cmdline
-      --   {
-      --     filter = { event = "lsp", kind = "progress" },
-      --     opts = { skip = false },
-      --   },
-      --   -- Hide "No information available" spam
-      --   {
-      --     filter = { event = "notify", find = "No information available" },
-      --     opts = { skip = true },
-      --   },
-      -- },
     },
   },
 

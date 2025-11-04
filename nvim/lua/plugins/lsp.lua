@@ -115,7 +115,7 @@ return {
         end
 
         -- Disable semantic tokens for performance
-        if client.name == "tsserver" or client.name == "ts_ls" then
+        if client.name == "ts_ls" then
           client.server_capabilities.semanticTokensProvider = nil
         end
       end)
