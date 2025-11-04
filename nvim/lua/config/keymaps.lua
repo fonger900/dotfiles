@@ -94,17 +94,7 @@ map("n", "<leader><tab>]", "<cmd>tabnext<cr>", { desc = "Next Tab" })
 map("n", "<leader><tab>d", "<cmd>tabclose<cr>", { desc = "Close Tab" })
 map("n", "<leader><tab>[", "<cmd>tabprevious<cr>", { desc = "Previous Tab" })
 
--- ============================================================================
--- Terminal Management (Note: Snacks also provides terminal via <c-/>, <c-_>)
--- ============================================================================
 
--- Legacy terminal mappings (kept for compatibility)
-map("n", "<leader>tt", function()
-  require("config.utils").terminal(nil, { cwd = require("config.utils").get_root() })
-end, { desc = "Terminal (root dir)" })
-map("n", "<leader>tT", function()
-  require("config.utils").terminal()
-end, { desc = "Terminal (cwd)" })
 
 -- Terminal mode mappings
 map("t", "<esc><esc>", "<c-\\><c-n>", { desc = "Enter Normal Mode" })
@@ -121,18 +111,9 @@ map("t", "<c-_>", "<cmd>close<cr>", { desc = "which_key_ignore" })
 -- Snacks handles: spell, wrap, relativenumber, diagnostics, inlay_hints,
 -- conceallevel, treesitter, background, line_number, indent, dim
 
--- Additional toggles not covered by Snacks
-map("n", "<leader>uL", function()
-  require("config.utils").toggle("list")
-end, { desc = "Toggle List Chars" })
 
--- ============================================================================
--- Formatting (Note: Manual format mapping, conform/LSP also handles this)
--- ============================================================================
 
-map({ "n", "v" }, "<leader>cf", function()
-  require("config.utils").format.format({ force = true })
-end, { desc = "Format" })
+
 
 -- ============================================================================
 -- Diagnostic navigation

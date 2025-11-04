@@ -1,5 +1,5 @@
 -- =============================================
--- Snacks.nvim: modern UI, dashboard, notifier, indent, profiler, picker
+-- Snacks Plugins
 -- =============================================
 
 return {
