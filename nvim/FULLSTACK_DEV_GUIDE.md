@@ -4,12 +4,12 @@ A comprehensive guide to using this Neovim configuration for modern fullstack de
 
 ## 📋 Table of Contents
 
-- [Quick Start](#quick-start)
-- [Language Support](#language-support)
-- [Essential Keymaps](#essential-keymaps)
-- [Development Workflows](#development-workflows)
-- [Plugin Overview](#plugin-overview)
-- [Troubleshooting](#troubleshooting)
+- [Quick Start](#-quick-start)
+- [Language Support](#-language-support)
+- [Essential Keymaps](#️-essential-keymaps)
+- [Development Workflows](#-development-workflows)
+- [Plugin Overview](#-plugin-overview)
+- [Troubleshooting](#️-troubleshooting)
 
 ## 🚦 Quick Start
 
