@@ -57,6 +57,7 @@ return {
         gopls = {},         -- Go language server
         -- Configuration files
         jsonls = {},        -- JSON language server
+        vue_ls = {},
       },
     },
     config = function(_, opts)
