@@ -194,6 +194,15 @@ return {
           ["cmp.entry.get_documentation"] = true, -- requires hrsh7th/nvim-cmp
         },
       },
+      routes = {
+        {
+          filter = {
+            event = "notify",
+            find = "No information available",
+          },
+          opts = { skip = true },
+        },
+      },
       presets = {
         bottom_search = true,         -- Use bottom search bar
         command_palette = true,       -- Command palette style cmdline
