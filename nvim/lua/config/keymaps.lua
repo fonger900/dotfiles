@@ -75,9 +75,13 @@ keymap.set("t", "<esc><esc>", "<c-\\><c-n>", { desc = "Exit terminal mode" })
 
 -- Diagnostic navigation helper: Creates functions for navigating diagnostics
 local diagnostic_goto = function(next, severity)
-  local go = next and vim.diagnostic.goto_next or vim.diagnostic.goto_prev
   severity = severity and vim.diagnostic.severity[severity] or nil
-  return function() go({ severity = severity }) end
+  return function()
+    vim.diagnostic.jump({
+      count = next and 1 or -1,
+      severity = severity,
+    })
+  end
 end
 
 -- Diagnostic keymaps: Navigate and view code diagnostics
