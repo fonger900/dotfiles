@@ -29,20 +29,7 @@ return {
       -- Each server can have custom settings for language-specific features
       servers = {
         -- Lua language server (for Neovim config development)
-        lua_ls = {
-          settings = {
-            Lua = {
-              runtime = { version = "LuaJIT" },                    -- Use LuaJIT runtime
-              diagnostics = { globals = { "vim" } },               -- Recognize 'vim' as global
-              workspace = {
-                library = vim.api.nvim_get_runtime_file("", true), -- Include Neovim runtime
-                checkThirdParty = false                            -- Don't prompt for third-party configs
-              },
-              completion = { callSnippet = "Replace" },            -- Snippet completion behavior
-              telemetry = { enable = false },                      -- Disable telemetry
-            },
-          },
-        },
+        lua_ls = {},
         -- Python language server
         pyright = {},       -- Use default configuration
         -- TypeScript/JavaScript language server
