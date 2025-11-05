@@ -4,7 +4,6 @@
 
 local M = {}
 
-local uv = vim.uv
 
 ---@param plugin string
 function M.has(plugin)
@@ -38,7 +37,7 @@ end
 function M.toggle_diagnostics()
   local enabled = vim.diagnostic.is_enabled()
   if enabled then
-    vim.diagnostic.disable()
+    vim.diagnostic.enable(false)
     vim.notify("Disabled diagnostics", vim.log.levels.INFO)
   else
     vim.diagnostic.enable()
