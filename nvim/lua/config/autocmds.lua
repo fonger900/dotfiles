@@ -1,87 +1,135 @@
--- Auto commands
+-- ============================================================================
+-- Neovim Autocommands
+-- ============================================================================
+
+local api = vim.api
+local cmd = vim.cmd
+local fn = vim.fn
+local uv = vim.uv or vim.loop
+local highlight = vim.highlight
+local keymap = vim.keymap
+local opt_local = vim.opt_local
+
 local function augroup(name)
-  return vim.api.nvim_create_augroup("config_" .. name, { clear = true })
+    return api.nvim_create_augroup("config_" .. name, { clear = true })
 end
 
--- Check if we need to reload the file when it changed
-vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave" }, {
-  group = augroup("checktime"),
-  callback = function()
-    if vim.o.buftype ~= "nofile" then vim.cmd("checktime") end
-  end,
+-- Reload files automatically when they change on disk
+api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave" }, {
+    group = augroup("checktime"),
+    desc = "Reload buffers when they change on disk",
+    callback = function()
+        if api.nvim_get_option_value("buftype", { buf = 0 }) == "nofile" then
+            return
+        end
+        cmd.checktime()
+    end,
 })
 
--- Highlight on yank
-vim.api.nvim_create_autocmd("TextYankPost", {
-  group = augroup("highlight_yank"),
-  callback = function() vim.highlight.on_yank() end,
+-- Highlight yanked text
+api.nvim_create_autocmd("TextYankPost", {
+    group = augroup("highlight_yank"),
+    desc = "Briefly highlight yanked text",
+    callback = function()
+        highlight.on_yank({
+            higroup = "IncSearch",
+            timeout = 200,
+        })
+    end,
 })
 
--- Resize splits if window got resized
-vim.api.nvim_create_autocmd("VimResized", {
-  group = augroup("resize_splits"),
-  callback = function()
-    local current_tab = vim.fn.tabpagenr()
-    vim.cmd("tabdo wincmd =")
-    vim.cmd("tabnext " .. current_tab)
-  end,
+-- Resize splits to equal dimensions on UI resize
+api.nvim_create_autocmd("VimResized", {
+    group = augroup("resize_splits"),
+    desc = "Keep splits balanced",
+    callback = function()
+        local current_tab = fn.tabpagenr()
+        cmd("tabdo wincmd =")
+        cmd("tabnext " .. current_tab)
+    end,
 })
 
--- Go to last loc when opening a buffer
-vim.api.nvim_create_autocmd("BufReadPost", {
-  group = augroup("last_loc"),
-  callback = function(event)
-    local exclude = { "gitcommit" }
-    local buf = event.buf
-    if vim.tbl_contains(exclude, vim.bo[buf].filetype) or vim.b[buf].last_loc then return end
-    vim.b[buf].last_loc = true
-    local mark = vim.api.nvim_buf_get_mark(buf, '"')
-    local lcount = vim.api.nvim_buf_line_count(buf)
-    if mark[1] > 0 and mark[1] <= lcount then
-      pcall(vim.api.nvim_win_set_cursor, 0, mark)
-    end
-  end,
+-- Restore last known cursor position on buffer open
+api.nvim_create_autocmd("BufReadPost", {
+    group = augroup("last_loc"),
+    desc = "Restore last cursor position",
+    callback = function(event)
+        local excluded = { "gitcommit" }
+        if vim.tbl_contains(excluded, vim.bo[event.buf].filetype) or vim.b[event.buf].last_loc then
+            return
+        end
+
+        local mark = api.nvim_buf_get_mark(event.buf, '"')
+        if mark[1] <= 0 then
+            return
+        end
+
+        local line_count = api.nvim_buf_line_count(event.buf)
+        if mark[1] > line_count then
+            return
+        end
+
+        vim.b[event.buf].last_loc = true
+        pcall(api.nvim_win_set_cursor, 0, mark)
+    end,
 })
 
--- Close some filetypes with <q>
-vim.api.nvim_create_autocmd("FileType", {
-  group = augroup("close_with_q"),
-  pattern = { "help", "lspinfo", "man", "notify", "qf", "checkhealth" },
-  callback = function(event)
-    vim.bo[event.buf].buflisted = false
-    vim.keymap.set("n", "q", "<cmd>close<cr>", { buffer = event.buf, silent = true })
-  end,
+-- Close certain buffer types with q
+api.nvim_create_autocmd("FileType", {
+    group = augroup("close_with_q"),
+    pattern = { "checkhealth", "help", "lspinfo", "man", "notify", "qf" },
+    desc = "Close auxiliary buffers with q",
+    callback = function(event)
+        vim.bo[event.buf].buflisted = false
+        keymap.set("n", "q", "<cmd>close<cr>",
+            { buffer = event.buf, silent = true, nowait = true, desc = "Close window" })
+    end,
 })
 
--- Wrap and check for spell in text filetypes
-vim.api.nvim_create_autocmd("FileType", {
-  group = augroup("wrap_spell"),
-  pattern = { "gitcommit", "markdown" },
-  callback = function()
-    vim.opt_local.wrap = true
-    vim.opt_local.spell = true
-  end,
+-- Enable wrapping and spell check for prose
+api.nvim_create_autocmd("FileType", {
+    group = augroup("wrap_spell"),
+    pattern = { "gitcommit", "markdown" },
+    desc = "Enable wrapping and spell-check for text",
+    callback = function()
+        opt_local.wrap = true
+        opt_local.spell = true
+    end,
 })
 
--- Fix conceallevel for json files
-vim.api.nvim_create_autocmd("FileType", {
-  group = augroup("json_conceal"),
-  pattern = { "json", "jsonc", "json5" },
-  callback = function() vim.opt_local.conceallevel = 0 end,
+-- Disable concealment in JSON buffers
+api.nvim_create_autocmd("FileType", {
+    group = augroup("json_conceal"),
+    pattern = { "json", "jsonc", "json5" },
+    desc = "Disable concealment in JSON buffers",
+    callback = function()
+        opt_local.conceallevel = 0
+    end,
 })
 
--- Auto create dir when saving a file
-vim.api.nvim_create_autocmd("BufWritePre", {
-  group = augroup("auto_create_dir"),
-  callback = function(event)
-    if event.match:match("^%w%w+://") then return end
-    local file = vim.uv.fs_realpath(event.match) or event.match
-    vim.fn.mkdir(vim.fn.fnamemodify(file, ":p:h"), "p")
-  end,
+-- Create parent directories automatically before saving
+api.nvim_create_autocmd("BufWritePre", {
+    group = augroup("auto_create_dir"),
+    desc = "Create parent directories before saving",
+    callback = function(event)
+        if event.match:match("^%w%w+://") then
+            return
+        end
+
+        local file = (uv and uv.fs_realpath(event.match)) or event.match
+        local dir = vim.fs.dirname(file)
+        if dir and dir ~= "" then
+            fn.mkdir(dir, "p")
+        end
+    end,
 })
 
--- Don't auto commenting new lines
-vim.api.nvim_create_autocmd("BufEnter", {
-  pattern = "*",
-  command = "set fo-=c fo-=r fo-=o",
+-- Disable automatic comment insertion on new lines
+api.nvim_create_autocmd("BufEnter", {
+    group = augroup("format_options"),
+    pattern = "*",
+    desc = "Disable automatic comment insertion",
+    callback = function()
+        opt_local.formatoptions:remove({ "c", "r", "o" })
+    end,
 })
