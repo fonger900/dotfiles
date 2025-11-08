@@ -31,7 +31,7 @@ return {
         -- Lua language server (for Neovim config development)
         lua_ls = {},
         -- Python language server
-        pyright = {},       -- Use default configuration
+        basedpyright = {},       -- Use default configuration
         -- TypeScript/JavaScript language server
         ts_ls = {},         -- Use default configuration
         -- Web development servers
