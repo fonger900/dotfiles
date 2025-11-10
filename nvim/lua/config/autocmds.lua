@@ -133,3 +133,16 @@ api.nvim_create_autocmd("BufEnter", {
         opt_local.formatoptions:remove({ "c", "r", "o" })
     end,
 })
+
+-- Detect Django templates and set filetype accordingly
+api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+    group = augroup("django_ft"),
+    pattern = { "*/templates/*.html", "*/templates/**/*.html" },
+    desc = "Set filetype to htmldjango for Django templates",
+    callback = function(event)
+        -- Only override if not already detected
+        if vim.bo[event.buf].filetype == "html" or vim.bo[event.buf].filetype == "" then
+            vim.bo[event.buf].filetype = "htmldjango"
+        end
+    end,
+})

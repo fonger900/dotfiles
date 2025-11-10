@@ -31,7 +31,8 @@ return {
         -- Lua language server (for Neovim config development)
         lua_ls = {},
         -- Python language server
-        basedpyright = {},       -- Use default configuration
+        basedpyright = {},       -- Python type checking & intellisense
+        ruff = {},               -- Python linter & code actions
         -- TypeScript/JavaScript language server
         ts_ls = {},         -- Use default configuration
         -- Web development servers
@@ -108,6 +109,7 @@ return {
         "prettier", -- JavaScript/TypeScript/CSS/HTML formatter
         "black",    -- Python formatter
         "isort",    -- Python import sorter
+        "djlint",   -- Django/Jinja/HTMX template formatter
       },
     },
     config = function(_, opts)
