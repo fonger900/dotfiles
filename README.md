@@ -1,151 +1,50 @@
-# 🌿 Shadow Garden Dotfiles - Fullstack Developer Edition
+# dotfiles
 
-A comprehensive, modern terminal configuration optimized for fullstack development. Built with aesthetics, performance, and productivity in mind.
+My personal development environment configuration.
 
-## 🎨 Philosophy
+## Overview
 
-**Shadow Garden** theme provides a dark, elegant aesthetic with carefully chosen colors that reduce eye strain during long coding sessions while maintaining excellent readability and visual hierarchy.
+This repository contains the configuration files for my development setup, including:
 
-**Colors:**
+- **Shell**: Zsh with Starship prompt
+- **Terminal**: WezTerm
+- **Editor**: Neovim
+- **Version Control**: Git
 
-- 🟢 **Primary Green** (#7aa37a) - Success states, git clean, active elements
-- 🟣 **Deep Purple** (#9f84bd) - Directories, special states, secondary actions  
-- 🟡 **Warm Yellow** (#d1b56f) - Warnings, modifications, attention elements
-- 🔵 **Cyan Accent** (#61dafb) - Modern tech stack, React/development focus
+## Installation
 
-## 🚀 Overview
-
-This dotfiles setup provides a complete development environment with:
-
-### 🖥️ **Terminal Stack**
-
-- **Shell**: Zsh with Oh My Zsh and comprehensive plugins
-- **Prompt**: Starship with development context awareness
-- **Terminal**: WezTerm with custom Shadow Garden theme
-- **Multiplexer**: Tmux with DevStack Pro theme and developer shortcuts
-
-### 🛠️ **Development Tools**
-
-- **Editor**: Neovim with Lazy.nvim and full LSP support
-- **Version Control**: Enhanced git aliases and visual status
-- **Package Managers**: Support for npm, yarn, pnpm, pip, cargo
-- **Containers**: Docker and Docker Compose shortcuts and management
-- **Cloud**: AWS, GCP, Azure integrations
-
-### 📁 **Configuration Files**
-
-```
-dotfiles/
-├── .zshrc                 # Fullstack-optimized shell configuration
-├── .tmux.conf            # DevStack Pro theme with development shortcuts
-├── starship.toml         # Intelligent prompt with project context
-├── install.sh            # Automated setup script
-├── nvim/                 # Complete Neovim IDE configuration
-└── wezterm/              # Terminal emulator with Shadow Garden theme
-```
-
-## ✨ Key Features
-
-### 🎯 **Productivity Enhancements**
-
-- **Smart project detection** - Automatically identifies framework types
-- **Git integration** - Visual status, metrics, and convenient aliases
-- **Development shortcuts** - Quick access to common tools and tasks
-- **Session management** - Tmux session persistence and restoration
-- **Auto-completion** - Enhanced tab completion for all tools
-
-### 🌐 **Fullstack Support**
-
-- **Frontend**: React, Vue, Svelte, Next.js detection and tooling
-- **Backend**: Node.js, Python, Rust, Go language support
-- **Database**: Connection helpers and query tools
-- **Infrastructure**: Docker, Kubernetes, Terraform integration
-- **Cloud providers**: AWS, GCP, Azure context switching
-
-### ⚡ **Performance Optimized**
-
-- **Fast startup times** - Lazy loading and optimized configurations
-- **Efficient workflows** - Vim-style navigation throughout
-- **Resource monitoring** - Built-in system performance indicators
-- **Quick switching** - Instant context changes between projects
-
-## 🔧 **Shell Features (.zshrc)**
-
-### **Enhanced Aliases**
+To install these dotfiles, run the following command:
 
 ```bash
-# Git shortcuts
-gs, ga, gc, gp, gd, gb, gl    # Common git operations
-gcb, gst, gstp                # Branch and stash management
-
-# Package managers  
-ni/yi/pi + r/s/t/b/d          # npm/yarn/pnpm + run/start/test/build/dev
-
-# Docker management
-d, dc, dcu, dcd, dps, di      # Docker and compose shortcuts
-dex, dlogs, dprune            # Container management
-
-# Development servers
-serve, ports, killport        # Quick server utilities
-```
-
-### **Smart Functions**
-
-- `newreact/newnext/newvite` - Project scaffolding
-- `gitclean` - Automated branch cleanup  
-- `setupnode` - Initialize Node.js projects
-- `search` - Codebase search excluding node_modules
-
-## 🎨 **Visual Experience**
-
-### **Starship Prompt**
-
-- **Project context** - Shows current framework (React, Next.js, etc.)
-- **Git intelligence** - Branch, status, metrics, clean/dirty indicators
-- **Environment aware** - Virtual environments, Node versions
-- **Performance metrics** - Command duration, background jobs
-
-### **Tmux DevStack Theme**
-
-- **Top status bar** - Git branch, system info, real-time clock
-- **VS Code colors** - Consistent with popular editor themes
-- **Development shortcuts** - Quick access to nvim, lazygit, lazydocker
-- **Floating windows** - Popup terminals for quick tasks
-
-## 🚀 **Quick Start**
-
-```bash
-# Clone the repository
-git clone https://github.com/fonger900/dotfiles.git ~/dotfiles
-
-# Run the setup script
-cd ~/dotfiles
 ./install.sh
-
-# Reload your shell
-source ~/.zshrc
-
-# Install tmux plugins (after tmux is running)
-# Press Ctrl+A then I
 ```
 
-## 🎯 **For Developers**
+## Features
 
-This configuration is specifically optimized for:
+- **Minimal & Clean**: A distraction-free, professional aesthetic.
+- **Fullstack Ready**: Pre-configured for modern web development with Node.js, Python, Rust, Go, and more.
+- **Git Integration**: Rich Git status and branch information directly in the prompt.
+- **macOS Optimized**: Keybindings and settings tailored for macOS.
 
-- **Full-stack JavaScript/TypeScript development**
-- **Modern framework workflows** (React, Next.js, Vue)
-- **Container-based development** (Docker, Kubernetes)
-- **Multi-language projects** (Node.js, Python, Rust, Go)
-- **Cloud-native applications** (AWS, GCP, Azure)
-- **Git-centric workflows** with visual feedback
+## Configuration Details
 
-## 🌟 **Philosophy**
+### WezTerm (`wezterm.lua`)
 
-*"A terminal should be beautiful, fast, and stay out of your way while providing everything you need at your fingertips."*
+- **Theme**: Tokyo Night
+- **Font**: Fira Code
+- **Keybindings**: macOS-style (e.g., `Cmd+T` for new tab)
 
-The Shadow Garden theme creates a calming, focused environment that enhances long coding sessions while the comprehensive tooling ensures you have everything needed for modern development workflows.
+### Starship (`starship.toml`)
 
----
+- **Prompt**: Minimal and fast, showing only essential information.
+- **Modules**: Directory, Git, language versions, and command duration.
 
-*Built with 🌿 by a developer, for developers*
+### Zsh (`.zshrc`)
+
+- **Aliases**: Shortcuts for common commands (`ll`, `gst`, `k`, etc.).
+- **Functions**: Helpers for creating projects and managing environments.
+- **Version Managers**: Integration with `nvm`, `pyenv`, `asdf`, and more.
+
+### Neovim (`nvim/`)
+
+A complete Neovim setup for fullstack development. See the [Neovim README](./nvim/README.md) for more details.
