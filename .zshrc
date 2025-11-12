@@ -91,6 +91,11 @@ if command -v eksctl >/dev/null 2>&1; then
 fi
 
 # --- aliases ---------------------------------------------------------------
+
+# Enable colors for ls.
+export CLICOLOR=1
+export LSCOLORS='exfxcxdxbxegedabagacad'
+
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
