@@ -30,6 +30,7 @@ link_file "$DOTFILES_DIR/.zshrc" "$HOME/.zshrc"
 link_if_exists ".tmux.conf" "$HOME/.tmux.conf"
 link_file "$DOTFILES_DIR/nvim" "$HOME/.config/nvim"
 link_file "$DOTFILES_DIR/wezterm.lua" "$HOME/.config/wezterm/wezterm.lua"
+link_file "$DOTFILES_DIR/ghostty.conf" "$HOME/.config/ghostty/config"
 link_file "$DOTFILES_DIR/starship.toml" "$HOME/.config/starship.toml"
 
 echo "✅ Done. Restart terminal to see changes."
