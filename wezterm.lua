@@ -52,6 +52,15 @@ config.scrollback_lines = 3000
 config.max_fps = 60
 
 -- ============================================================================
+-- Terminal Behavior
+-- ============================================================================
+
+-- Additional settings to improve tmux compatibility
+config.enable_kitty_graphics = false -- Disable kitty graphics protocol that can cause issues with tmux
+config.enable_scroll_bar = false
+config.check_for_updates = false
+
+-- ============================================================================
 -- Shell and Environment Configuration
 -- ============================================================================
 
