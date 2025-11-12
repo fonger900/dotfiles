@@ -31,7 +31,7 @@ To install these dotfiles, run the following command:
 ### WezTerm (`wezterm.lua`)
 
 - **Theme**: Tokyo Night
-- **Font**: Fira Code
+- **Font**: JetBrainsMono Nerd Font
 - **Keybindings**: macOS-style (e.g., `Cmd+T` for new tab)
 
 ### Starship (`starship.toml`)
