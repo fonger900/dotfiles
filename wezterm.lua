@@ -14,7 +14,7 @@ local config = wezterm.config_builder()
 config.color_scheme = "Tokyo Night"
 
 -- Font - Clean monospace
-config.font = wezterm.font("JetBrains Mono", { weight = "Regular" })
+config.font = wezterm.font("JetBrainsMono Nerd Font", { weight = "Regular" })
 config.font_size = 12.0
 config.line_height = 1.15
 
