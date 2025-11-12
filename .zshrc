@@ -1,270 +1,167 @@
+#!/bin/zsh
 
-setopt PATH_DIRS         # let zsh find binaries in $path
-setopt AUTO_PARAM_KEYS   # nicer completions
-typeset -U path          # UNIQUE the $path array automatically
+# --- shell behavior -------------------------------------------------------
+setopt autocd                    # cd into directories by typing their name
+setopt correct                  # autocorrect commands when possible
+setopt hist_ignore_dups         # drop duplicate history entries
+setopt share_history            # share history across tabs
+setopt interactivecomments      # allow inline comments in the shell
 
-## 1. Oh‑My‑Zsh core
-export ZSH="$HOME/.oh-my-zsh"
-ZSH_THEME=""
-plugins=(git z fzf sudo colored-man-pages extract zsh-autosuggestions zsh-syntax-highlighting npm yarn docker docker-compose node)
-source "$ZSH/oh-my-zsh.sh"
+HISTSIZE=5000
+SAVEHIST=5000
+HISTFILE=${ZDOTDIR:-$HOME}/.zsh_history
 
-## 2. PATH helpers
-pathprepend() { [[ :$PATH: != *:"$1":* ]] && PATH="$1:$PATH"; }
+autoload -U colors && colors
+autoload -Uz compinit && compinit
 
-pathprepend "$HOME/system/bin"
-pathprepend "$HOME/.local/bin"
-
-## Node.js Version Management -----------------------------------
-export NVM_DIR="$HOME/.nvm"
-[[ -s "$NVM_DIR/nvm.sh" ]] && source "$NVM_DIR/nvm.sh"
-[[ -s "$NVM_DIR/bash_completion" ]] && source "$NVM_DIR/bash_completion"
-
-## Yarn global bin -----------------------------------------------
-pathprepend "$HOME/.yarn/bin"
-pathprepend "$HOME/.config/yarn/global/node_modules/.bin"
-
-## Bun runtime ----------------------------------------------------
-export BUN_INSTALL="$HOME/.bun"
-pathprepend "$BUN_INSTALL/bin"
-[[ -s "$BUN_INSTALL/_bun" ]] && source "$BUN_INSTALL/_bun"
-
-## 3. Aliases -----------------------------------------------------
-# Basic system
-alias ll="ls -lah"
-alias la="ls -A"
-alias l="ls -CF"
-
-alias ..="cd .."
-alias ...="cd ../.."
-
-# Git shortcuts
-alias gs="git status"
-alias ga="git add"
-alias gc="git commit -v"
-alias gp="git push"
-alias gco="git checkout"
-alias gl="git log --oneline --graph --decorate"
-alias gd="git diff"
-alias gb="git branch"
-alias gf="git fetch"
-alias gpl="git pull"
-alias gcb="git checkout -b"
-alias gst="git stash"
-alias gstp="git stash pop"
-
-# Safety nets
-alias cp="cp -i"
-alias mv="mv -i"
-alias rm="rm -i"
-
-# Editor and tools
-alias vim="nvim"
-alias cat="bat --theme Dracula"
-
-# Docker shortcuts
-alias d="docker"
-alias dc="docker-compose"
-alias dcu="docker-compose up"
-alias dcd="docker-compose down"
-alias dcb="docker-compose build"
-alias dps="docker ps"
-alias di="docker images"
-alias dex="docker exec -it"
-alias dlogs="docker logs -f"
-alias dprune="docker system prune -af"
-
-# NPM/Yarn shortcuts
-alias ni="npm install"
-alias nid="npm install --save-dev"
-alias nig="npm install -g"
-alias nr="npm run"
-alias ns="npm start"
-alias nt="npm test"
-alias nb="npm run build"
-alias nd="npm run dev"
-alias nw="npm run watch"
-
-alias yi="yarn install"
-alias ya="yarn add"
-alias yad="yarn add --dev"
-alias yag="yarn global add"
-alias yr="yarn run"
-alias ys="yarn start"
-alias yt="yarn test"
-alias yb="yarn build"
-alias yd="yarn dev"
-alias yw="yarn watch"
-
-# pnpm shortcuts
-alias pi="pnpm install"
-alias pa="pnpm add"
-alias pad="pnpm add -D"
-alias pag="pnpm add -g"
-alias pr="pnpm run"
-alias ps="pnpm start"
-alias pt="pnpm test"
-alias pb="pnpm build"
-alias pd="pnpm dev"
-alias pw="pnpm watch"
-
-# Development servers
-alias serve="python3 -m http.server"
-alias ports="lsof -i -P -n | grep LISTEN"
-
-# Project navigation
-alias gtree="cd ~/garden/trees"
-alias wnote="cd ~/work/notes"
-alias proj="cd ~/projects"
-alias work="cd ~/work"
-
-## 4. Prompt ------------------------------------------------------
-eval "$(starship init zsh)"
-
-## 5. FZF ---------------------------------------------------------
-[[ -f ~/.fzf.zsh ]] && source ~/.fzf.zsh
-
-## 6. Environment -------------------------------------------------
+# --- environment ----------------------------------------------------------
+export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
 export EDITOR="nvim"
-export LESS="-R"
-export LANG="en_US.UTF-8"
+export VISUAL="$EDITOR"
+export PAGER="less -R"
 
-# Development environment variables
-export NODE_ENV="development"
-export BROWSER="open"
-export TERM="xterm-256color"
+# Prefer Homebrew binaries when available.
+if [[ -d /opt/homebrew/bin ]]; then
+	export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:${PATH}"
+fi
 
-# Docker
-export DOCKER_BUILDKIT=1
-export COMPOSE_DOCKER_CLI_BUILD=1
+# pnpm/npm global binaries.
+export PNPM_HOME="$HOME/Library/pnpm"
+export NPM_CONFIG_PREFIX="$HOME/.npm-global"
+export PATH="$PNPM_HOME:$NPM_CONFIG_PREFIX/bin:$PATH"
 
-# Performance
-export NODE_OPTIONS="--max-old-space-size=8192"
+# Keep language toolchains in ~/.local/bin
+export PATH="$HOME/.local/bin:$PATH"
 
-## 7. Functions ---------------------------------------------------
-# Directory creation and navigation
-mkcd() { mkdir -p "$1" && cd "$1"; }
+# --- prompt ----------------------------------------------------------------
+if command -v starship >/dev/null 2>&1; then
+	eval "$(starship init zsh)"
+fi
 
-# Archive extraction
-extract() {
-  case "$1" in
-    *.tar.bz2) tar xjf "$1";;
-    *.tar.gz)  tar xzf "$1";;
-    *.zip)     unzip "$1";;
-    *.rar)     unrar x "$1";;
-    *)         echo "Cannot extract '$1'";;
-  esac }
+# --- version managers ------------------------------------------------------
+export NVM_DIR="$HOME/.nvm"
+if [[ -s "$NVM_DIR/nvm.sh" ]]; then
+	source "$NVM_DIR/nvm.sh"
+	[[ -s "$NVM_DIR/bash_completion" ]] && source "$NVM_DIR/bash_completion"
+fi
 
-# Development project functions
-newreact() {
-  if [[ -z "$1" ]]; then
-    echo "Usage: newreact <project-name>"
-    return 1
-  fi
-  npx create-react-app "$1" && cd "$1"
+if [[ -d "$HOME/.asdf" ]]; then
+	export ASDF_DIR="$HOME/.asdf"
+	. "$ASDF_DIR/asdf.sh"
+	fpath=(${ASDF_DIR}/completions $fpath)
+fi
+
+if command -v pyenv >/dev/null 2>&1; then
+	eval "$(pyenv init - --path)"
+	eval "$(pyenv init -)"
+	eval "$(pyenv virtualenv-init -)" 2>/dev/null
+fi
+
+if command -v rbenv >/dev/null 2>&1; then
+	eval "$(rbenv init -)"
+fi
+
+if command -v goenv >/dev/null 2>&1; then
+	export GOENV_ROOT="$HOME/.goenv"
+	export PATH="$GOENV_ROOT/bin:$PATH"
+	eval "$(goenv init -)"
+fi
+
+# --- tooling integrations --------------------------------------------------
+if command -v direnv >/dev/null 2>&1; then
+	eval "$(direnv hook zsh)"
+fi
+
+if command -v zoxide >/dev/null 2>&1; then
+	eval "$(zoxide init zsh)"
+fi
+
+if command -v fzf >/dev/null 2>&1; then
+	export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git"'
+	[[ -f "$HOME/.fzf.zsh" ]] && source "$HOME/.fzf.zsh"
+fi
+
+if command -v kubectl >/dev/null 2>&1; then
+	source <(kubectl completion zsh)
+fi
+
+if command -v eksctl >/dev/null 2>&1; then
+	source <(eksctl completion zsh)
+fi
+
+# --- aliases ---------------------------------------------------------------
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+alias gst='git status --short --branch'
+alias gco='git checkout'
+alias gl='git pull'
+alias gp='git push'
+alias gd='git diff'
+alias gcm='git commit'
+alias gsw='git switch'
+alias lg='lazygit'
+
+alias k='kubectl'
+alias d='docker'
+alias dc='docker compose'
+alias dcu='docker compose up'
+alias dcd='docker compose down'
+
+alias py='python3'
+alias pip='python3 -m pip'
+alias pn='pnpm'
+alias ni='npm install'
+
+alias serve='python3 -m http.server'
+
+# --- functions -------------------------------------------------------------
+mkproj() {
+	if [[ -z $1 ]]; then
+		echo "usage: mkproj <directory>" >&2
+		return 1
+	fi
+	mkdir -p "$1" && cd "$1" || return 1
+	git init >/dev/null 2>&1
+	echo "# $(basename "$PWD")" > README.md
 }
 
-newnext() {
-  if [[ -z "$1" ]]; then
-    echo "Usage: newnext <project-name>"
-    return 1
-  fi
-  npx create-next-app@latest "$1" && cd "$1"
+node_env() {
+	local version=${1:-lts/*}
+	if command -v nvm >/dev/null 2>&1; then
+		nvm install "$version"
+		nvm use "$version"
+	fi
+	if command -v pnpm >/dev/null 2>&1; then
+		pnpm env use --global "$version" >/dev/null 2>&1
+	fi
 }
 
-newvite() {
-  if [[ -z "$1" ]]; then
-    echo "Usage: newvite <project-name>"
-    return 1
-  fi
-  npm create vite@latest "$1" && cd "$1"
+py_env() {
+	local version=${1:-3.12.1}
+	if command -v pyenv >/dev/null 2>&1; then
+		pyenv install -s "$version"
+		pyenv virtualenv "$version" "${2:-${PWD##*/}}"
+		pyenv local "${2:-${PWD##*/}}"
+	fi
 }
 
-# Git branch cleanup
-gitclean() {
-  git branch --merged | grep -v "\*\|main\|master\|develop" | xargs -n 1 git branch -d
-}
+# --- project navigation ----------------------------------------------------
+export PROJECTS_DIR="$HOME/Projects"
+if [[ -d $PROJECTS_DIR ]]; then
+	function cproj() {
+		command -v fzf >/dev/null 2>&1 || { echo "fzf required" >&2; return 1; }
+		local target
+		target=$(find "$PROJECTS_DIR" -maxdepth 2 -type d -not -path '*/.git*' | sort | fzf)
+		[[ -n $target ]] && cd "$target"
+	}
+fi
 
-# Find process using port
-port() {
-  if [[ -z "$1" ]]; then
-    echo "Usage: port <port-number>"
-    return 1
-  fi
-  lsof -ti:"$1"
-}
+# --- macOS tweaks ----------------------------------------------------------
+export BUNDLER_EDITOR="$EDITOR"
+export GPG_TTY=$(tty)
 
-# Kill process on port
-killport() {
-  if [[ -z "$1" ]]; then
-    echo "Usage: killport <port-number>"
-    return 1
-  fi
-  lsof -ti:"$1" | xargs kill -9
-}
+# Load custom configuration if present.
+[[ -f ${ZDOTDIR:-$HOME}/.zshrc.local ]] && source ${ZDOTDIR:-$HOME}/.zshrc.local
 
-# Quick project setup
-setupnode() {
-  npm init -y
-  echo "node_modules\n.env\n.DS_Store" > .gitignore
-  git init
-  echo "# ${PWD##*/}" > README.md
-}
-
-# Docker utilities
-dcleanup() {
-  docker container prune -f
-  docker image prune -f
-  docker volume prune -f
-  docker network prune -f
-}
-
-# Search in files
-search() {
-  if [[ -z "$1" ]]; then
-    echo "Usage: search <pattern> [directory]"
-    return 1
-  fi
-  grep -r "$1" "${2:-.}" --exclude-dir=node_modules --exclude-dir=.git
-}
-
-## 8. Local overrides --------------------------------------------
-[[ -f $HOME/.zshrc.local ]] && source $HOME/.zshrc.local
-
-#---------------------------------------------------------
-# End of .zshrc v6 - Fullstack Development Edition
-#---------------------------------------------------------
-
-# pnpm
-export PNPM_HOME="/Users/fonger/Library/pnpm"
-case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
-esac
-# pnpm end
-
-# Auto-switch node versions with .nvmrc
-autoload -U add-zsh-hook
-load-nvmrc() {
-  local node_version="$(nvm version)"
-  local nvmrc_path="$(nvm_find_nvmrc)"
-
-  if [ -n "$nvmrc_path" ]; then
-    local nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
-
-    if [ "$nvmrc_node_version" = "N/A" ]; then
-      nvm install
-    elif [ "$nvmrc_node_version" != "$node_version" ]; then
-      nvm use
-    fi
-  elif [ "$node_version" != "$(nvm version default)" ]; then
-    echo "Reverting to nvm default version"
-    nvm use default
-  fi
-}
-add-zsh-hook chpwd load-nvmrc
-load-nvmrc
-
-# FZF improvements for development
-export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border --preview "bat --color=always --style=numbers --line-range=:500 {}"'
-export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git --exclude node_modules'
