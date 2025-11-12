@@ -15,7 +15,7 @@ config.color_scheme = "Tokyo Night"
 
 -- Font - Clean monospace
 config.font = wezterm.font("JetBrainsMono Nerd Font", { weight = "Regular" })
-config.font_size = 12.0
+config.font_size = 12.5
 config.line_height = 1.15
 
 -- Minimal window decoration
