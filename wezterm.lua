@@ -14,12 +14,12 @@ local config = wezterm.config_builder()
 config.color_scheme = "Tokyo Night"
 
 -- Font - Clean monospace
-config.font = wezterm.font("Fira Code", { weight = "Regular" })
+config.font = wezterm.font("JetBrains Mono", { weight = "Regular" })
 config.font_size = 11.0
 config.line_height = 1.15
 
 -- Minimal window decoration
-config.window_decorations = "NONE"
+-- config.window_decorations = "NONE"
 config.use_fancy_tab_bar = false
 config.hide_tab_bar_if_only_one_tab = true
 
