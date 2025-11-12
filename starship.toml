@@ -1,38 +1,121 @@
-# Shadow Garden Starship Theme
-add_newline = false
-format = "$all"
-
 [character]
-success_symbol = "[❯](#7aa37a)"
-error_symbol = "[✗](#d1b56f)"
+success_symbol = "[➜](bold green) "
+error_symbol = "[✗](bold red) "
 
 [directory]
+style = "bold blue"
 truncation_length = 3
-style = "bold fg:#9f84bd"
-read_only = "  "
+truncate_to_repo = false
 
 [git_branch]
-style = "fg:#7aa37a"
+symbol = " "
+style = "bold purple"
+only_attached = false
 
 [git_status]
-style = "fg:#d1b56f"
+style = "purple"
+disabled = false
+
+[nodejs]
+symbol = "⬢ "
+style = "bold green"
+
+[python]
+symbol = "🐍 "
+pyenv_version_name = true
+detect_extensions = ["py", "pyi", "pyc", "pyd", "pyw", "pyz"]
+
+[docker_context]
+symbol = "🐳 "
+style = "bold blue"
+disabled = false
+
+[aws]
+symbol = "☁ "
+style = "bold yellow"
+format = "on [$symbol($profile)]($style) "
+
+add_newline = true
+format = """
+$username$hostname$directory$git_branch$git_status
+$python$nodejs$docker_context$kubernetes$aws$time$battery$custom.deploy$character"""
+
+[username]
+style_root = "bold red"
+style_user = "dimmed"
+show_always = false
+
+[hostname]
+ssh_only = true
+format = "[@$hostname]($style) "
+style = "dimmed"
+
+[directory]
+style = "bold blue"
+truncation_length = 3
+truncate_to_repo = false
+
+[git_branch]
+symbol = " "
+style = "bold purple"
+only_attached = false
+
+[git_status]
+style = "purple"
+conflicted = "=${count}"
+ahead = "⇡${count}"
+behind = "⇣${count}"
+staged = "+${count}"
+modified = "!${count}"
+stashed = "≡${count}"
+untracked = "?${count}"
+
+[nodejs]
+symbol = "⬢ "
+style = "bold green"
+
+[python]
+symbol = "� "
+pyenv_version_name = true
+detect_extensions = ["py", "pyi", "pyc", "pyd", "pyw", "pyz"]
+format = "via [$symbol$pyenv_prefix$version]($style) "
+
+[docker_context]
+symbol = "🐳 "
+style = "bold blue"
+format = "[$symbol$context]($style) "
+
+[aws]
+symbol = "☁ "
+style = "bold yellow"
+format = "[$symbol$profile]($style) "
+
+[kubernetes]
+symbol = "☸ "
+style = "bold cyan"
+format = "[$symbol$context( $namespace)]($style) "
 
 [time]
 disabled = false
-format = "[$time](#666666) "
-
-[cmd_duration]
-min_time = 2000
-format = "[ took $duration ](#666666) "
-
-[username]
-disabled = true
-
-[hostname]
-disabled = true
+time_format = "%R"
+format = "[$time]($style) "
+style = "dimmed"
 
 [battery]
 disabled = false
-full_symbol   = "🌿"
-charging_symbol = "⚡"
-discharging_symbol = "🔋"
+format = "[$symbol$percentage]($style) "
+
+[line_break]
+disabled = true
+
+[character]
+success_symbol = "[➜](bold green) "
+error_symbol = "[✗](bold red) "
+
+[custom.deploy]
+command = "printf 'deploy'"
+when = "test -f deploy.yaml || test -f docker-compose.yaml"
+shell = ["bash", "-lc"]
+style = "bold bright-green"
+format = "[🚀 $output]($style) "
+
