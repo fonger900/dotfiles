@@ -1,123 +1,110 @@
--- ============================================================================
--- WezTerm Configuration
--- ============================================================================
--- A clean, minimal, and highly functional terminal emulator setup tailored for
--- fullstack development. This configuration prioritizes performance, aesthetics,
--- and an intuitive workflow.
--- For detailed documentation, visit: https://wezfurlong.org/wezterm/
+-- wezterm.lua
+--
+--since: 2024-01-13
+--author: fonger
+--
+-- This file is the configuration for the Wezterm terminal emulator.
+-- It is written in Lua and allows for extensive customization of the
+-- terminal's appearance and behavior.
 
-local wezterm = require("wezterm")
-local config = wezterm.config_builder()
-
--- ============================================================================
--- Visual Appearance & Theming
--- ============================================================================
-
--- Color Scheme: Defines the terminal's color palette.
--- Tokyo Night is a popular dark theme with pleasant contrast.
-config.color_scheme = "Tokyo Night"
-
--- Font Configuration: Sets the typeface for the terminal.
--- JetBrainsMono Nerd Font is recommended for its excellent readability and glyph support.
-config.font = wezterm.font("JetBrainsMono Nerd Font", { weight = "Regular" })
-config.font_size = 12.5
-config.line_height = 1.15 -- Slightly increased for better readability
-
--- Window Decorations: Controls the appearance of the window frame and tab bar.
--- "NONE" creates a borderless, minimalist look.
--- config.window_decorations = "NONE"
-config.use_fancy_tab_bar = false -- Disables the default fancy tab bar for a cleaner look.
-config.hide_tab_bar_if_only_one_tab = true -- Conserves vertical space.
-
--- Window Padding: Adjusts the inner spacing of the terminal window.
-config.window_padding = {
-  left = 8,
-  right = 8,
-  top = 8,
-  bottom = 8,
-}
-
--- ============================================================================
--- Scrollback and Buffer Management
--- ============================================================================
-
--- Defines the number of lines kept in the scrollback buffer.
-config.scrollback_lines = 3000
-
--- ============================================================================
--- Performance Tuning
--- ============================================================================
-
--- Sets the maximum frame rate for rendering. 60 FPS is smooth for most displays.
-config.max_fps = 60
-
--- ============================================================================
--- Terminal Behavior
--- ============================================================================
-
--- Additional settings to improve tmux compatibility
-config.enable_kitty_graphics = false -- Disable kitty graphics protocol that can cause issues with tmux
-config.enable_scroll_bar = false
-config.check_for_updates = false
-
--- ============================================================================
--- Shell and Environment Configuration
--- ============================================================================
-
--- Default Program: Specifies the shell to launch. The "-l" flag ensures it's a login shell.
-config.default_prog = { "/bin/zsh", "-l" }
-
--- Environment Variables: Sets environment variables for terminal sessions.
--- TERM="wezterm" enables WezTerm-specific features in applications.
--- COLORTERM="truecolor" advertises 24-bit color support.
-config.set_environment_variables = {
-  TERM = "wezterm",
-  COLORTERM = "truecolor",
-}
-
--- ============================================================================
--- Key Bindings & Actions
--- ============================================================================
-
+-- Import the wezterm module to access its configuration and action APIs.
+local wezterm = require 'wezterm'
+-- Get a reference to the action API for defining keymaps.
 local act = wezterm.action
+-- Initialize an empty configuration table.
+local config = {}
 
+-- For older versions of Wezterm, we need to use the config_builder function
+-- to get the configuration table. This ensures backward compatibility.
+if wezterm.config_builder then
+  config = wezterm.config_builder()
+end
+
+-- Font Configuration
+-- Sets the font used by the terminal. 'JetBrains Mono' is a popular choice
+-- for its readability and programming ligatures.
+config.font = wezterm.font 'JetBrainsMono Nerd Font'
+-- Sets the font size to 16.0 points.
+config.font_size = 13.0
+
+-- Theme Configuration
+-- Sets the color scheme for the terminal. 'Catppuccin Mocha' is a
+-- popular dark theme with pleasant colors.
+config.color_scheme = 'Catppuccin Mocha'
+
+-- Tab Bar Configuration
+-- Enables a fancier, more modern tab bar design.
+config.use_fancy_tab_bar = true
+-- Hides the tab bar when there is only one tab, saving vertical space.
+config.hide_tab_bar_if_only_one_tab = true
+
+-- Window Configuration
+-- Sets the padding around the inside of the terminal window.
+config.window_padding = {
+  left = 10,
+  right = 10,
+  top = 10,
+  bottom = 10,
+}
+-- Sets the background opacity of the window. 0.95 makes it slightly transparent.
+config.window_background_opacity = 0.95
+-- Removes the default window title bar and buttons, leaving only resize handles.
+config.window_decorations = 'RESIZE'
+
+-- Cursor Configuration
+-- Sets the default cursor style to a blinking bar.
+config.default_cursor_style = 'BlinkingBar'
+
+-- Scrollback Configuration
+-- Sets the number of lines of scrollback history to keep.
+config.scrollback_lines = 5000
+
+-- Keymaps Configuration
+-- Defines custom keybindings for various actions.
 config.keys = {
-  -- Tab Management: macOS-style shortcuts for creating and closing tabs.
-  { key = "t", mods = "CMD|SHIFT", action = act.SpawnTab("CurrentPaneDomain") },
-  { key = "w", mods = "CMD|SHIFT", action = act.CloseCurrentTab({ confirm = false }) },
-
-  -- Tab Navigation: Cycle through tabs using Cmd + Arrow keys.
-  { key = "LeftArrow", mods = "CMD", action = act.ActivateTabRelative(-1) },
-  { key = "RightArrow", mods = "CMD", action = act.ActivateTabRelative(1) },
-
-  -- Copy/Paste: Standard macOS clipboard shortcuts.
-  { key = "c", mods = "CMD", action = act.CopyMode("ClearPattern") },
-  { key = "v", mods = "CMD", action = act.PasteFrom("Clipboard") },
-
-  -- Search: Initiate a search within the terminal buffer.
-  { key = "f", mods = "CMD", action = act.Search("CurrentSelectionOrEmptyString") },
-
-  -- Font Sizing: Adjust font size on the fly.
-  { key = "=", mods = "CMD", action = act.IncreaseFontSize },
-  { key = "-", mods = "CMD", action = act.DecreaseFontSize },
-  { key = "0", mods = "CMD", action = act.ResetFontSize },
+  -- Create a new vertical split pane.
+  {
+    key = 'e',
+    mods = 'CTRL|SHIFT',
+    action = act.SplitVertical { domain = 'CurrentPaneDomain' },
+  },
+  -- Create a new horizontal split pane.
+  {
+    key = 'o',
+    mods = 'CTRL|SHIFT',
+    action = act.SplitHorizontal { domain = 'CurrentPaneDomain' },
+  },
+  -- Navigate to the pane on the left.
+  {
+    key = 'h',
+    mods = 'ALT',
+    action = act.ActivatePaneDirection 'Left',
+  },
+  -- Navigate to the pane on the right.
+  {
+    key = 'l',
+    mods = 'ALT',
+    action = act.ActivatePaneDirection 'Right',
+  },
+  -- Navigate to the pane above.
+  {
+    key = 'k',
+    mods = 'ALT',
+    action = act.ActivatePaneDirection 'Up',
+  },
+  -- Navigate to the pane below.
+  {
+    key = 'j',
+    mods = 'ALT',
+    action = act.ActivatePaneDirection 'Down',
+  },
+  -- Create a new tab.
+  {
+    key = 't',
+    mods = 'CTRL|SHIFT',
+    action = act.SpawnCommandInNewTab {},
+  },
 }
 
--- ============================================================================
--- Tab Appearance & Behavior
--- ============================================================================
-
--- This function formats the tab title to keep it clean and concise.
--- It truncates long titles to prevent UI clutter.
-wezterm.on("format-tab-title", function(tab)
-  local title = tab.active_pane.title or "Shell"
-  if #title > 20 then
-    title = string.sub(title, 1, 17) .. "…"
-  end
-  return title
-end)
-
--- ============================================================================
--- Final Configuration
--- ============================================================================
+-- Return the configuration table to Wezterm.
 return config
