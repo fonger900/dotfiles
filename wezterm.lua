@@ -25,7 +25,7 @@ end
 -- for its readability and programming ligatures.
 config.font = wezterm.font 'JetBrainsMono Nerd Font'
 -- Sets the font size to 16.0 points.
-config.font_size = 13.0
+config.font_size = 12.5
 
 -- Theme Configuration
 -- Sets the color scheme for the terminal. 'Catppuccin Mocha' is a
