@@ -1,0 +1,56 @@
+# Ripgrep configuration file
+# Location: ~/.ripgreprc
+# Set in .zshrc: export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
+
+# Search hidden files and directories
+--hidden
+
+# Follow symbolic links
+--follow
+
+# Use smart case (case-insensitive unless pattern contains uppercase)
+--smart-case
+
+# Ignore patterns
+--glob=!.git/
+--glob=!node_modules/
+--glob=!dist/
+--glob=!build/
+--glob=!target/
+--glob=!.next/
+--glob=!.nuxt/
+--glob=!.cache/
+--glob=!coverage/
+--glob=!.pytest_cache/
+--glob=!__pycache__/
+--glob=!*.pyc
+--glob=!venv/
+--glob=!env/
+--glob=!.venv/
+--glob=!.env/
+--glob=!*.egg-info/
+--glob=!.DS_Store
+--glob=!.idea/
+--glob=!.vscode/
+--glob=!*.log
+--glob=!*.min.js
+--glob=!*.min.css
+--glob=!*.map
+--glob=!package-lock.json
+--glob=!yarn.lock
+--glob=!pnpm-lock.yaml
+
+# Show line numbers
+--line-number
+
+# Show column numbers
+--column
+
+# Sort by file path
+--sort=path
+
+# Set colors (Catppuccin Mocha inspired)
+--colors=path:fg:cyan
+--colors=line:fg:green
+--colors=match:fg:red
+--colors=match:style:bold
