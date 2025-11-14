@@ -15,11 +15,7 @@ end
 -- ==========================================
 -- Font Configuration
 -- ==========================================
-config.font = wezterm.font_with_fallback {
-  { family = 'JetBrainsMono Nerd Font', weight = 'Medium' },
-  { family = 'FiraCode Nerd Font', weight = 'Medium' },
-  { family = 'Cascadia Code NF', weight = 'Medium' },
-}
+config.font = wezterm.font('JetBrainsMono Nerd Font', { weight = 'Medium' })
 config.font_size = 12.5
 config.line_height = 1.2
 config.freetype_load_target = 'HorizontalLcd'
