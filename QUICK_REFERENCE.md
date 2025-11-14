@@ -1,6 +1,6 @@
 # 🚀 Fullstack Dev Quick Reference
 
-**🎯 Philosophy: Use Tmux for all multi-terminal workflows, not terminal emulator panes**
+🎯 Philosophy: Use Tmux for all multi-terminal workflows, not terminal emulator panes
 
 ## Essential Shortcuts
 
@@ -54,7 +54,7 @@ Prefix + Shift+S    Sync panes (send to all)
 
 ### Wezterm (Terminal Emulator)
 
-**Note: Use tmux for splitting/multi-terminal, wezterm just for tabs**
+Note: Use tmux for splitting/multi-terminal, wezterm just for tabs
 
 ```bash
 # Tabs (multiple tmux sessions)
@@ -145,8 +145,6 @@ z project        # Jump to directory (zoxide)
 ff pattern       # Find files
 fdir pattern     # Find directories
 ```
-
-## Common Workflows
 
 ## Common Workflows
 

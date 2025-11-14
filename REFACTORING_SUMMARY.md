@@ -208,43 +208,6 @@ Your dotfiles have been completely refactored and optimized for fullstack develo
 - ✅ vim-tmux-navigator for seamless nvim integration
 - ✅ Catppuccin theme
 
----
-
-## 📚 New Documentation
-
-### 1. `SETUP_GUIDE.md`
-
-Complete installation and usage guide including:
-
-- Prerequisites and installation steps
-- Configuration overview for each file
-- Key features explanation
-- Comprehensive keyboard shortcuts reference
-- Development workflow examples
-- Troubleshooting section
-- Tips and best practices
-
-### 2. `QUICK_REFERENCE.md`
-
-Cheat sheet for quick access:
-
-- Essential shortcuts (tmux & wezterm)
-- Quick commands for all tools
-- Common workflows
-- Tips section
-
-### 3. `README.md` (Updated)
-
-Professional repository README with:
-
-- Feature highlights
-- Quick start guide
-- Documentation links
-- Workflow examples
-- Essential shortcuts table
-- Customization guide
-- Troubleshooting section
-
 ### 4. `.ripgreprc`
 
 Ripgrep configuration for better code searching:
@@ -445,5 +408,3 @@ Your dotfiles are now production-ready for fullstack development with:
 - 🔧 **Easy customization** for personal preferences
 - 🐳 **Docker-first approach** for modern development
 - 🎨 **Beautiful, consistent theming** throughout
-
-**Happy coding! 🚀**
