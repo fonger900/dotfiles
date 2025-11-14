@@ -86,7 +86,7 @@ config.initial_rows = 30
 -- ==========================================
 config.enable_tab_bar = true
 config.use_fancy_tab_bar = true
-config.hide_tab_bar_if_only_one_tab = false
+config.hide_tab_bar_if_only_one_tab = true
 config.show_tab_index_in_tab_bar = true
 config.tab_max_width = 32
 
