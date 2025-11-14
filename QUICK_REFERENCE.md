@@ -1,50 +1,72 @@
 # 🚀 Fullstack Dev Quick Reference
 
+**🎯 Philosophy: Use Tmux for all multi-terminal workflows, not terminal emulator panes**
+
 ## Essential Shortcuts
 
-### Tmux (Prefix: `Ctrl+A`)
+### Tmux (Prefix: `Ctrl+A`) - PRIMARY WORKFLOW
 
 ```bash
-# Panes
-Ctrl+Shift+E    Split vertical
-Ctrl+Shift+O    Split horizontal
-Alt+H/J/K/L     Navigate panes
-Prefix + Z      Zoom pane
-Prefix + X      Kill pane
+# Sessions (persistent workspaces)
+tmux new -s name    Create new session
+tmux ls             List sessions
+tmux attach -t name Attach to session
+Prefix + D          Detach from session
+Prefix + S          Choose session
 
-# Windows
-Ctrl+Shift+T    New window
-Alt+1-9         Jump to window
-Alt+N/P         Next/Previous
+# Panes (split current window)
+Ctrl+Shift+E        Split vertical (or Prefix + |)
+Ctrl+Shift+O        Split horizontal (or Prefix + -)
+Alt+H/J/K/L         Navigate panes (vim-style)
+Prefix + Z          Zoom/unzoom pane
+Prefix + X          Kill pane
+Prefix + Q          Show pane numbers
 
-# Layouts
-Prefix + Alt+F  Fullstack layout (editor + server + logs)
-Prefix + Alt+3  Three-column layout
-Prefix + Alt+D  Docker monitoring layout
+# Windows (tabs in tmux)
+Ctrl+Shift+T        New window
+Alt+1-9             Jump to window 1-9
+Alt+N/P             Next/Previous window
+Prefix + ,          Rename window
+Prefix + W          Choose window
 
-# Popups
-Prefix + G      Quick terminal
-Prefix + Shift+G  Git status
-Prefix + Ctrl+G   Lazygit
-Prefix + Ctrl+D   Docker status
+# Layouts (auto-arrange panes)
+Prefix + Alt+F      Fullstack layout (editor + server + logs)
+Prefix + Alt+3      Three-column layout
+Prefix + Alt+D      Docker monitoring layout
+Prefix + Space      Cycle through layouts
+
+# Popups (floating windows)
+Prefix + G          Quick terminal popup
+Prefix + Shift+G    Git status popup
+Prefix + Ctrl+G     Lazygit popup
+Prefix + Ctrl+D     Docker status popup
+
+# Copy Mode (vim-style)
+Prefix + [          Enter copy mode
+v                   Begin selection
+y                   Copy selection
+Prefix + ]          Paste
+
+# Useful
+Prefix + R          Reload tmux config
+Prefix + Shift+S    Sync panes (send to all)
 ```
 
-### Wezterm
+### Wezterm (Terminal Emulator)
+
+**Note: Use tmux for splitting/multi-terminal, wezterm just for tabs**
 
 ```bash
-# Panes
-Cmd+D          Split vertical
-Cmd+Shift+D    Split horizontal
-Alt+H/J/K/L    Navigate panes
-
-# Tabs
-Cmd+T          New tab
+# Tabs (multiple tmux sessions)
+Cmd+T          New tab (start new tmux session here)
+Cmd+W          Close tab
 Cmd+1-9        Jump to tab
 Cmd+[/]        Next/Previous tab
 
 # Utilities
-Cmd+F          Search
+Cmd+F          Search in terminal
 Cmd+Shift+P    Command palette
+Cmd+K          Clear scrollback
 ```
 
 ## Quick Commands
@@ -126,16 +148,92 @@ fdir pattern     # Find directories
 
 ## Common Workflows
 
-### Start New Fullstack Project
+## Common Workflows
+
+### Start New Fullstack Project (Tmux-First)
 
 ```bash
-cnext my-app
-cd my-app
+# Create and enter project
+cnext my-app && cd my-app
+
+# Start tmux session
 tmux new -s my-app
-# Press: Ctrl+A then Alt+F (fullstack layout)
+
+# Apply fullstack layout: Ctrl+A then Alt+F
+# This creates 3 panes automatically:
+# - Left (70%): Main workspace
+# - Right-Top (15%): Dev server
+# - Right-Bottom (15%): Git/logs
+
+# In each pane:
 # Pane 1: nvim .
 # Pane 2: npm run dev
-# Pane 3: git status
+# Pane 3: git status && echo "Ready!"
+
+# Navigate: Alt+H/J/K/L
+# Detach: Ctrl+A then D
+# Reattach later: tmux attach -t my-app
+```
+
+### Docker Development (Tmux)
+
+```bash
+cd project
+
+# Start tmux with docker layout
+tmux new -s project
+# Press: Ctrl+A then Alt+D
+
+# Auto-creates docker monitoring panes:
+# - Left: Main workspace
+# - Right-Top: docker ps -a
+# - Right-Bottom: docker stats
+
+dcud  # Start containers
+dclf  # In another pane, follow logs
+```
+
+### Microservices (Multiple Windows)
+
+```bash
+# Start session
+tmux new -s microservices
+
+# Create window for each service
+Ctrl+Shift+T  # New window
+# Rename: Ctrl+A then ,
+
+# Example:
+# Window 1: api-gateway
+# Window 2: auth-service  
+# Window 3: user-service
+# Window 4: docker-compose
+
+# Switch: Alt+1, Alt+2, Alt+3, Alt+4
+# Or: Ctrl+A then W (choose window)
+```
+
+### Full Day Workflow
+
+```bash
+# Morning: Start/resume work
+tmux attach -t project || tmux new -s project
+
+# Split for different tasks
+Ctrl+Shift+E  # Vertical split
+Ctrl+Shift+O  # Horizontal split
+
+# Lunch: Detach (keeps everything running)
+Ctrl+A then D
+
+# Afternoon: Reattach (everything as you left it)
+tmux attach -t project
+
+# Evening: Sessions auto-save every 15min
+# Just close terminal, everything persists!
+
+# Next day: Resume exactly where you left off
+tmux attach -t project
 ```
 
 ### Docker Development

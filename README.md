@@ -13,10 +13,10 @@
 - 🔧 **Comprehensive aliases** for Git, Docker, Node.js, Python, and more
 - 📦 **Smart package manager** integration (npm, yarn, pnpm, bun)
 - 🐳 **Docker-first** workflow with power commands
-- 🎯 **Vim-style navigation** everywhere (tmux, wezterm, nvim)
-- 💻 **Pre-configured layouts** for different dev scenarios
+- 🎯 **Tmux-centric multi-terminal** workflow with vim-style navigation
+- 💻 **Pre-configured tmux layouts** for different dev scenarios
 - 🔍 **Fuzzy finding** with FZF integration
-- 📊 **Session management** with automatic save/restore
+- 📊 **Persistent session management** with automatic save/restore
 - 🛠️ **Quick project initialization** for popular frameworks
 
 ---
@@ -28,8 +28,8 @@
 | File | Description |
 |------|-------------|
 | `.zshrc` | Enhanced Zsh with Oh-My-Zsh, plugins, aliases, and custom functions |
-| `.tmux.conf` | Tmux with vim-style navigation, custom layouts, and plugin management |
-| `wezterm.lua` | Wezterm terminal with smart tabs, keybindings, and theme |
+| `.tmux.conf` | **Primary workspace manager** - Tmux with vim navigation, layouts, and session persistence |
+| `wezterm.lua` | Terminal emulator with theme and basic keybindings (use tmux for panes/windows) |
 | `starship.toml` | Starship prompt configuration |
 | `nvim/` | Neovim configuration with LSP, treesitter, and plugins |
 
@@ -39,6 +39,7 @@
 |------|-------------|
 | `SETUP_GUIDE.md` | Comprehensive setup and usage guide |
 | `QUICK_REFERENCE.md` | Quick reference cheat sheet |
+| `TMUX_GUIDE.md` | **Complete tmux guide** - Your primary workspace tool |
 | `install.sh` | Automated installation script |
 
 ---
@@ -73,6 +74,7 @@ That's it! Your development environment is ready. 🎉
 ## 📖 Documentation
 
 - **[Setup Guide](SETUP_GUIDE.md)** - Complete installation and configuration guide
+- **[Tmux Guide](TMUX_GUIDE.md)** - **START HERE** - Your primary multi-terminal workspace
 - **[Quick Reference](QUICK_REFERENCE.md)** - Essential shortcuts and commands
 - **[Neovim Guide](nvim/README.md)** - Neovim-specific documentation
 
@@ -105,7 +107,36 @@ cvite my-app                 # Vite
 djstart my-project           # Django
 ```
 
-### Smart Layouts
+### Tmux-First Multi-Terminal Philosophy
+
+**Why Tmux over terminal panes?**
+
+- ✅ **Persistent sessions** - Detach/reattach anytime, survives terminal crashes
+- ✅ **Universal** - Works in any terminal (wezterm, iTerm, Terminal.app)
+- ✅ **Session management** - Auto-saves every 15 min, resume days later
+- ✅ **Named sessions** - `tmux attach -t project-name`
+- ✅ **Remote-friendly** - SSH into servers and maintain sessions
+- ✅ **Powerful layouts** - Pre-configured for different workflows
+
+**Basic workflow:**
+
+```bash
+# Start named session
+tmux new -s myproject
+
+# Use tmux splits, not terminal splits
+Ctrl+Shift+E  # Split vertical
+Ctrl+Shift+O  # Split horizontal
+Alt+H/J/K/L   # Navigate
+
+# Detach (keeps running)
+Ctrl+A then D
+
+# Reattach later
+tmux attach -t myproject
+```
+
+### Smart Tmux Layouts
 
 Press `Ctrl+A` then:
 
@@ -168,12 +199,16 @@ cd my-app
 
 # Start tmux session with fullstack layout
 tmux new -s my-app
-# Press: Ctrl+A then Alt+F
+# Press: Ctrl+A then Alt+F (creates 3-pane layout)
 
-# In the panes:
+# Work in tmux panes (not terminal panes):
 # Pane 1 (main): nvim .
 # Pane 2 (right-top): npm run dev
 # Pane 3 (right-bottom): git status
+
+# Navigate between panes: Alt+H/J/K/L
+# Detach: Ctrl+A then D
+# Reattach: tmux attach -t my-app
 ```
 
 ### Docker Development
