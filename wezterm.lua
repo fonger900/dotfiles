@@ -15,11 +15,9 @@ end
 -- ==========================================
 -- Font Configuration
 -- ==========================================
-config.font = wezterm.font('JetBrainsMono Nerd Font', { weight = 'Medium' })
+config.font = wezterm.font('JetBrainsMono Nerd Font', { weight = 'Regular' })
 config.font_size = 12.5
 config.line_height = 1.2
-config.freetype_load_target = 'HorizontalLcd'
-config.freetype_render_target = 'HorizontalLcd'
 
 -- Enable ligatures for better code display
 config.harfbuzz_features = { 'calt=1', 'clig=1', 'liga=1' }
@@ -95,10 +93,10 @@ wezterm.on('format-tab-title', function(tab, tabs, panes, config, hover, max_wid
   else
     title = tab.active_pane.title
   end
-  
+
   -- Extract just the directory name
   local cwd = title:match("([^/]+)/?$") or title
-  
+
   -- Add icon based on process
   local process_icons = {
     ['docker'] = '🐳',
@@ -115,7 +113,7 @@ wezterm.on('format-tab-title', function(tab, tabs, panes, config, hover, max_wid
     ['zsh'] = '',
     ['bash'] = '',
   }
-  
+
   local process_name = tab.active_pane.foreground_process_name
   local icon = '  '
   if process_name then
@@ -126,9 +124,9 @@ wezterm.on('format-tab-title', function(tab, tabs, panes, config, hover, max_wid
       end
     end
   end
-  
+
   local index = tab.tab_index + 1
-  
+
   return {
     { Text = ' ' .. index .. ': ' .. icon .. cwd .. ' ' },
   }
@@ -180,7 +178,7 @@ config.keys = {
     mods = 'CMD|SHIFT',
     action = act.SplitHorizontal { domain = 'CurrentPaneDomain' },
   },
-  
+
   -- Navigate panes (Vim-style with Alt)
   {
     key = 'h',
@@ -202,7 +200,7 @@ config.keys = {
     mods = 'ALT',
     action = act.ActivatePaneDirection 'Down',
   },
-  
+
   -- Resize panes
   {
     key = 'LeftArrow',
@@ -224,21 +222,21 @@ config.keys = {
     mods = 'CTRL|SHIFT',
     action = act.AdjustPaneSize { 'Down', 5 },
   },
-  
+
   -- Close pane
   {
     key = 'w',
     mods = 'CMD',
     action = act.CloseCurrentPane { confirm = false },
   },
-  
+
   -- Zoom pane
   {
     key = 'z',
     mods = 'CTRL|SHIFT',
     action = act.TogglePaneZoomState,
   },
-  
+
   -- ========== Tab Management ==========
   -- Create new tab
   {
@@ -251,7 +249,7 @@ config.keys = {
     mods = 'CTRL|SHIFT',
     action = act.SpawnTab 'CurrentPaneDomain',
   },
-  
+
   -- Navigate tabs
   {
     key = '[',
@@ -263,7 +261,7 @@ config.keys = {
     mods = 'CMD',
     action = act.ActivateTabRelative(1),
   },
-  
+
   -- Move tabs
   {
     key = '[',
@@ -275,7 +273,7 @@ config.keys = {
     mods = 'CMD|SHIFT',
     action = act.MoveTabRelative(1),
   },
-  
+
   -- Direct tab access (1-9)
   {
     key = '1',
@@ -322,7 +320,7 @@ config.keys = {
     mods = 'CMD',
     action = act.ActivateTab(8),
   },
-  
+
   -- ========== Search & Selection ==========
   -- Search mode
   {
@@ -330,21 +328,21 @@ config.keys = {
     mods = 'CMD',
     action = act.Search 'CurrentSelectionOrEmptyString',
   },
-  
+
   -- Quick select mode (URL, paths, git hashes)
   {
     key = 'Space',
     mods = 'CTRL|SHIFT',
     action = act.QuickSelect,
   },
-  
+
   -- Copy mode (vim-like navigation)
   {
     key = 'x',
     mods = 'CTRL|SHIFT',
     action = act.ActivateCopyMode,
   },
-  
+
   -- ========== Miscellaneous ==========
   -- Show launcher menu
   {
@@ -352,28 +350,28 @@ config.keys = {
     mods = 'CMD|SHIFT',
     action = act.ShowLauncher,
   },
-  
+
   -- Command palette
   {
     key = 'p',
     mods = 'CMD|SHIFT',
     action = act.ActivateCommandPalette,
   },
-  
+
   -- Reload configuration
   {
     key = 'r',
     mods = 'CMD|SHIFT',
     action = act.ReloadConfiguration,
   },
-  
+
   -- Clear scrollback
   {
     key = 'k',
     mods = 'CMD',
     action = act.ClearScrollback 'ScrollbackAndViewport',
   },
-  
+
   -- Toggle fullscreen
   {
     key = 'Enter',
@@ -480,4 +478,3 @@ config.quick_select_patterns = {
 -- end)
 
 return config
-
