@@ -41,10 +41,16 @@ require("lazy").setup({
         { import = "plugins.git" },
         { import = "plugins.snacks" },
     },
-    defaults = { lazy = true },
+    defaults = {
+        lazy = true,
+        version = false,
+    },
     install = { colorscheme = { "catppuccin", "habamax" } },
-    checker = { enabled = true, notify = false },
+    checker = { enabled = false, notify = false },
+    change_detection = { notify = false },
     performance = {
+        cache = { enabled = true },
+        reset_packpath = true,
         rtp = {
             disabled_plugins = {
                 "gzip",
@@ -58,7 +64,10 @@ require("lazy").setup({
                 "rplugin",
                 "spellfile_plugin",
                 "shada_plugin",
+                "man",
+                "osc52",
             },
         },
     },
+    ui = { border = "rounded" },
 })

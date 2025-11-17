@@ -2,10 +2,10 @@
 -- Snacks Plugins
 -- =============================================
 
+---@diagnostic disable: undefined-global
 return {
   "folke/snacks.nvim",
-  priority = 1000,
-  lazy = false,
+  event = "VeryLazy",
   opts = {
     bigfile = { enabled = true },
     dashboard = { enabled = true },
@@ -28,11 +28,11 @@ return {
         grep = { hidden = true, follow = true },
       },
     },
-    profiler = { enabled = true },
-    quickfile = { enabled = true },
-    scope = { enabled = true },
+    profiler = { enabled = false },
+    quickfile = { enabled = false },
+    scope = { enabled = false },
     scroll = { enabled = true },
-    statuscolumn = { enabled = true },
+    statuscolumn = { enabled = false },
     words = { enabled = true },
     styles = {
       notification = {
@@ -118,42 +118,33 @@ return {
     { "]]",              function() Snacks.words.jump(vim.v.count1) end,                         desc = "Next Reference",             mode = { "n", "t" } },
     { "[[",              function() Snacks.words.jump(-vim.v.count1) end,                        desc = "Prev Reference",             mode = { "n", "t" } },
   },
-  init = function()
-    vim.api.nvim_create_autocmd("User", {
-      pattern = "VeryLazy",
-      callback = function()
-        -- Setup some globals for debugging (lazy-loaded)
-        _G.dd = function(...)
-          Snacks.debug.inspect(...)
-        end
-        _G.bt = function()
-          Snacks.debug.backtrace()
-        end
-
-        -- Override print to use snacks for `:=` command
-        vim._print = function(_, ...)
-          dd(...)
-        end
-
-        -- Create some toggle mappings
-        Snacks.toggle.option("spell", { name = "Spelling" }):map("<leader>us")
-        Snacks.toggle.option("wrap", { name = "Wrap" }):map("<leader>uw")
-        Snacks.toggle.option("relativenumber", { name = "Relative Number" }):map("<leader>uL")
-        Snacks.toggle.diagnostics():map("<leader>ud")
-        Snacks.toggle.line_number():map("<leader>ul")
-        Snacks.toggle.option("conceallevel", { off = 0, on = vim.o.conceallevel > 0 and vim.o.conceallevel or 2 }):map(
-          "<leader>uc")
-        Snacks.toggle.treesitter():map("<leader>uT")
-        Snacks.toggle.option("background", { off = "light", on = "dark", name = "Dark Background" }):map("<leader>ub")
-        Snacks.toggle.inlay_hints():map("<leader>uh")
-        Snacks.toggle.indent():map("<leader>ug")
-        Snacks.toggle.dim():map("<leader>uD")
-      end,
-    })
-  end,
   config = function(_, opts)
     local snacks = require("snacks")
-    _G.Snacks = snacks
     snacks.setup(opts)
+    _G.Snacks = snacks
+
+    _G.dd = function(...)
+      snacks.debug.inspect(...)
+    end
+    _G.bt = function()
+      snacks.debug.backtrace()
+    end
+
+    vim._print = function(_, ...)
+      _G.dd(...)
+    end
+
+    snacks.toggle.option("spell", { name = "Spelling" }):map("<leader>us")
+    snacks.toggle.option("wrap", { name = "Wrap" }):map("<leader>uw")
+    snacks.toggle.option("relativenumber", { name = "Relative Number" }):map("<leader>uL")
+    snacks.toggle.diagnostics():map("<leader>ud")
+    snacks.toggle.line_number():map("<leader>ul")
+    snacks.toggle.option("conceallevel", { off = 0, on = vim.o.conceallevel > 0 and vim.o.conceallevel or 2 }):map(
+      "<leader>uc")
+    snacks.toggle.treesitter():map("<leader>uT")
+    snacks.toggle.option("background", { off = "light", on = "dark", name = "Dark Background" }):map("<leader>ub")
+    snacks.toggle.inlay_hints():map("<leader>uh")
+    snacks.toggle.indent():map("<leader>ug")
+    snacks.toggle.dim():map("<leader>uD")
   end,
 }

@@ -6,6 +6,7 @@
 --
 -- Configuration Structure:
 --   ├── config/          # Core Neovim settings
+--   │   ├── globals.lua  # Early globals (leaders, providers)
 --   │   ├── lazy.lua     # Plugin manager setup
 --   │   ├── options.lua  # Editor options and behavior
 --   │   ├── keymaps.lua  # Key bindings and shortcuts
@@ -18,22 +19,8 @@
 --       ├── git.lua      # Git integration
 --       └── snacks.lua   # Additional functionality
 
--- ============================================================================
--- Global Leader Keys
--- ============================================================================
--- Set leader keys before loading plugins (some plugins use leader in setup)
-
-vim.g.mapleader = " "      -- Use space as the main leader key
-vim.g.maplocalleader = " " -- Use space as the local leader key
-
--- ============================================================================
--- Performance Optimization
--- ============================================================================
-
--- Enable faster Lua module loading (if available in this Neovim version)
-if vim.loader then
-  vim.loader.enable()
-end
+-- Load immutable globals (leader keys, providers, loader) first
+require("config.globals")
 
 -- ============================================================================
 -- Load Configuration Modules
