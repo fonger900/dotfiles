@@ -26,6 +26,10 @@ return {
       sources = {
         files = { hidden = true, follow = true },
         grep = { hidden = true, follow = true },
+        explorer = {
+          hidden = true, -- Show hidden files (dotfiles) by default
+          -- ignored = true, -- Optional: Uncomment to also show git-ignored files
+        },
       },
     },
     profiler = { enabled = false },
@@ -50,17 +54,13 @@ return {
 
     -- Find files
     { "<leader>ff",      function() Snacks.picker.files() end,                                   desc = "Find Files" },
-    { "<leader>fF",      function() Snacks.picker.files({ cwd = false }) end,                    desc = "Find Files (cwd)" },
     { "<leader>fr",      function() Snacks.picker.recent() end,                                  desc = "Recent" },
     { "<leader>fR",      function() Snacks.picker.recent({ cwd = vim.uv.cwd() }) end,            desc = "Recent (cwd)" },
     { "<leader>fc",      function() Snacks.picker.files({ cwd = vim.fn.stdpath("config") }) end, desc = "Find Config File" },
-    { "<leader>fb",      function() Snacks.picker.buffers() end,                                 desc = "Buffers" },
     { "<leader>fg",      function() Snacks.picker.git_files() end,                               desc = "Find Git Files" },
     { "<leader>f.",      function() Snacks.quickfile() end,                                      desc = "Quickfile" },
 
     -- Search/grep
-    { "<leader>sg",      function() Snacks.picker.grep() end,                                    desc = "Grep (root dir)" },
-    { "<leader>sG",      function() Snacks.picker.grep({ cwd = false }) end,                     desc = "Grep (cwd)" },
     { "<leader>sw",      function() Snacks.picker.grep_word() end,                               desc = "Visual selection or word",   mode = { "n", "x" } },
     { "<leader>sB",      function() Snacks.picker.grep_buffers() end,                            desc = "Grep Open Buffers" },
     { "<leader>sb",      function() Snacks.picker.lines() end,                                   desc = "Buffer Lines" },
