@@ -29,10 +29,9 @@ return {
       },
     },
     profiler = { enabled = false },
-    quickfile = { enabled = false },
+    quickfile = { enabled = true },
     scope = { enabled = false },
-    scroll = { enabled = true },
-    statuscolumn = { enabled = false },
+    statuscolumn = { enabled = true },
     words = { enabled = true },
     styles = {
       notification = {
@@ -57,6 +56,7 @@ return {
     { "<leader>fc",      function() Snacks.picker.files({ cwd = vim.fn.stdpath("config") }) end, desc = "Find Config File" },
     { "<leader>fb",      function() Snacks.picker.buffers() end,                                 desc = "Buffers" },
     { "<leader>fg",      function() Snacks.picker.git_files() end,                               desc = "Find Git Files" },
+    { "<leader>f.",      function() Snacks.quickfile() end,                                      desc = "Quickfile" },
 
     -- Search/grep
     { "<leader>sg",      function() Snacks.picker.grep() end,                                    desc = "Grep (root dir)" },
@@ -123,28 +123,41 @@ return {
     snacks.setup(opts)
     _G.Snacks = snacks
 
-    _G.dd = function(...)
-      snacks.debug.inspect(...)
-    end
-    _G.bt = function()
-      snacks.debug.backtrace()
-    end
+    local toggles = {
+      { "<leader>us", snacks.toggle.option("spell", { name = "Spelling" }) },
+      { "<leader>uw", snacks.toggle.option("wrap", { name = "Wrap" }) },
+      { "<leader>uL", snacks.toggle.option("relativenumber", { name = "Relative Number" }) },
+      { "<leader>ud", snacks.toggle.diagnostics() },
+      { "<leader>ul", snacks.toggle.line_number() },
+      { "<leader>uc", snacks.toggle.option("conceallevel", { off = 0, on = vim.o.conceallevel > 0 and vim.o.conceallevel or 2 }) },
+      { "<leader>uT", snacks.toggle.treesitter() },
+      { "<leader>ub", snacks.toggle.option("background", { off = "light", on = "dark", name = "Dark Background" }) },
+      { "<leader>uh", snacks.toggle.inlay_hints() },
+      { "<leader>ug", snacks.toggle.indent() },
+      { "<leader>uD", snacks.toggle.dim() },
+    }
 
-    vim._print = function(_, ...)
-      _G.dd(...)
+    for _, toggle in ipairs(toggles) do
+      toggle[2]:map(toggle[1])
     end
-
-    snacks.toggle.option("spell", { name = "Spelling" }):map("<leader>us")
-    snacks.toggle.option("wrap", { name = "Wrap" }):map("<leader>uw")
-    snacks.toggle.option("relativenumber", { name = "Relative Number" }):map("<leader>uL")
-    snacks.toggle.diagnostics():map("<leader>ud")
-    snacks.toggle.line_number():map("<leader>ul")
-    snacks.toggle.option("conceallevel", { off = 0, on = vim.o.conceallevel > 0 and vim.o.conceallevel or 2 }):map(
-      "<leader>uc")
-    snacks.toggle.treesitter():map("<leader>uT")
-    snacks.toggle.option("background", { off = "light", on = "dark", name = "Dark Background" }):map("<leader>ub")
-    snacks.toggle.inlay_hints():map("<leader>uh")
-    snacks.toggle.indent():map("<leader>ug")
-    snacks.toggle.dim():map("<leader>uD")
   end,
 }
+
+-- =============================================
+-- Project-specific configuration
+-- =============================================
+--
+-- To override the default configuration for a specific project, you can create
+-- a `.nvim.lua` file in the root of your project. This file will be
+-- automatically loaded by Neovim.
+--
+-- For example, to disable the dashboard for a specific project, you can
+-- create a `.nvim.lua` file with the following content:
+--
+-- return {
+--   "folke/snacks.nvim",
+--   opts = {
+--     dashboard = { enabled = false },
+--   },
+-- }
+--

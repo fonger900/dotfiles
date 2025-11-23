@@ -115,4 +115,13 @@ function M.toggle.inlay_hints(buf)
   vim.lsp.inlay_hint.enable(buf, not vim.lsp.inlay_hint.is_enabled(buf))
 end
 
+
+function M.dd(...)
+  require("snacks").debug.inspect(...)
+end
+
+function M.bt()
+  require("snacks").debug.backtrace()
+end
+
 return M
