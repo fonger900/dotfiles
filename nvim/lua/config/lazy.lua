@@ -40,6 +40,7 @@ require("lazy").setup({
         { import = "plugins.lsp" },
         { import = "plugins.git" },
         { import = "plugins.snacks" },
+        { import = "plugins.markdown" },
     },
     defaults = {
         lazy = true,
