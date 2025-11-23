@@ -76,7 +76,7 @@ brew install \
 
 ## Installation
 
-1. **Clone or backup your dotfiles:**
+1. **Clone the repository:**
 
 ```bash
 cd ~
@@ -86,30 +86,30 @@ cd dotfiles
 
 2. **Run the installation script:**
 
+The `install.sh` script uses `stow` to create symlinks and will guide you through the rest of the installation.
+
 ```bash
 chmod +x install.sh
 ./install.sh
 ```
 
-3. **Install Tmux plugins:**
+3. **Follow the post-installation steps:**
 
-```bash
-# Start tmux
-tmux
-
-# Press: Ctrl+a then Shift+I (capital i)
-# Wait for plugins to install
-```
-
-4. **Reload your shell:**
-
-```bash
-source ~/.zshrc
-```
+The script will provide you with the next steps, which include restarting your shell and installing tmux plugins.
 
 ---
 
 ## Configuration Overview
+
+### Dotfile Management with Stow
+
+This setup uses `stow` to manage dotfiles. Each program's configuration is a "package" in a directory (e.g., `zsh`, `nvim`). `stow` creates symlinks from this repository to the correct locations in your home directory.
+
+**Adding new configurations:**
+1.  Create a directory for the new package (e.g., `mkdir myapp`).
+2.  Inside the package directory, replicate the target path. For `~/.config/myapp/conf`, create `myapp/.config/myapp/conf`.
+3.  Add the package name to the `STOW_PACKAGES` array in `install.sh`.
+4.  Run `./install.sh`.
 
 ### `.zshrc` - Enhanced Zsh Configuration
 

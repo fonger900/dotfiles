@@ -272,6 +272,6 @@ rm -rf node_modules && ni
 
 ```bash
 devsetup         # Check installed tools
-cat SETUP_GUIDE.md  # Full documentation
+cat docs/SETUP_GUIDE.md  # Full documentation
 tmux list-keys   # All tmux bindings
 ```

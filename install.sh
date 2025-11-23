@@ -48,47 +48,6 @@ print_info() {
     echo -e "${PURPLE}ℹ $1${NC}"
 }
 
-backup_file() {
-    local file=$1
-    if [[ -e "$file" ]] && [[ ! -L "$file" ]]; then
-        mkdir -p "$BACKUP_DIR"
-        cp -r "$file" "$BACKUP_DIR/"
-        print_warning "Backed up $file to $BACKUP_DIR"
-    fi
-}
-
-link_file() {
-    local src=$1
-    local dest=$2
-    local dest_dir
-    dest_dir=$(dirname "$dest")
-    
-    # Create destination directory if it doesn't exist
-    mkdir -p "$dest_dir"
-    
-    # Backup existing file if it's not a symlink
-    if [[ -e "$dest" ]] && [[ ! -L "$dest" ]]; then
-        backup_file "$dest"
-        rm -rf "$dest"
-    fi
-    
-    # Create symlink
-    ln -sfn "$src" "$dest"
-    print_success "Linked: $dest → $src"
-}
-
-link_if_exists() {
-    local relative=$1
-    local target=$DOTFILES_DIR/$relative
-    local destination=$2
-    
-    if [[ -e $target ]]; then
-        link_file "$target" "$destination"
-    else
-        print_warning "Skipping $relative (not found)"
-    fi
-}
-
 check_command() {
     if command -v "$1" &> /dev/null; then
         print_success "$1 is installed"
@@ -115,6 +74,10 @@ if ! check_command "git"; then
     missing_tools+=("git")
 fi
 
+if ! check_command "stow"; then
+    missing_tools+=("stow")
+fi
+
 if [[ ${#missing_tools[@]} -gt 0 ]]; then
     print_error "Missing required tools: ${missing_tools[*]}"
     print_info "Please install them first:"
@@ -128,39 +91,27 @@ echo ""
 # Main Installation
 # ==========================================
 
-print_step "Creating symlinks for configuration files..."
+print_step "Stowing configuration files..."
 echo ""
 
-# Zsh configuration
-link_file "$DOTFILES_DIR/.zshrc" "$HOME/.zshrc"
+STOW_PACKAGES=(
+    "zsh"
+    "tmux"
+    "nvim"
+    "wezterm"
+    "ghostty"
+    "starship"
+    "ripgrep"
+)
 
-# Tmux configuration
-link_if_exists ".tmux.conf" "$HOME/.tmux.conf"
-
-# Neovim configuration
-if [[ -d "$DOTFILES_DIR/nvim" ]]; then
-    link_file "$DOTFILES_DIR/nvim" "$HOME/.config/nvim"
-fi
-
-# Wezterm configuration
-if [[ -f "$DOTFILES_DIR/wezterm.lua" ]]; then
-    link_file "$DOTFILES_DIR/wezterm.lua" "$HOME/.config/wezterm/wezterm.lua"
-fi
-
-# Ghostty configuration (if exists)
-if [[ -f "$DOTFILES_DIR/ghostty.conf" ]]; then
-    link_file "$DOTFILES_DIR/ghostty.conf" "$HOME/.config/ghostty/config"
-fi
-
-# Starship prompt configuration
-if [[ -f "$DOTFILES_DIR/starship.toml" ]]; then
-    link_file "$DOTFILES_DIR/starship.toml" "$HOME/.config/starship.toml"
-fi
-
-# Ripgrep configuration
-if [[ -f "$DOTFILES_DIR/.ripgreprc" ]]; then
-    link_file "$DOTFILES_DIR/.ripgreprc" "$HOME/.ripgreprc"
-fi
+for pkg in "${STOW_PACKAGES[@]}"; do
+    if [[ -d "$DOTFILES_DIR/$pkg" ]]; then
+        stow --restow --target="$HOME" --dir="$DOTFILES_DIR" "$pkg"
+        print_success "Stowed $pkg"
+    else
+        print_warning "Skipping $pkg (directory not found)"
+    fi
+done
 
 echo ""
 

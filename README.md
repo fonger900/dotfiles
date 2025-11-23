@@ -23,24 +23,11 @@
 
 ## 📦 What's Included
 
-### Core Configurations
+This repository is structured as a collection of "packages" for each application, managed by `stow`.
 
-| File | Description |
-|------|-------------|
-| `.zshrc` | Enhanced Zsh with Oh-My-Zsh, plugins, aliases, and custom functions |
-| `.tmux.conf` | **Primary workspace manager** - Tmux with vim navigation, layouts, and session persistence |
-| `wezterm.lua` | Terminal emulator with theme and basic keybindings (use tmux for panes/windows) |
-| `starship.toml` | Starship prompt configuration |
-| `nvim/` | Neovim configuration with LSP, treesitter, and plugins |
-
-### Documentation
-
-| File | Description |
-|------|-------------|
-| `SETUP_GUIDE.md` | Comprehensive setup and usage guide |
-| `QUICK_REFERENCE.md` | Quick reference cheat sheet |
-| `TMUX_GUIDE.md` | **Complete tmux guide** - Your primary workspace tool |
-| `install.sh` | Automated installation script |
+- **`zsh/`**, **`tmux/`**, **`nvim/`**, etc.: Configuration packages for each tool.
+- **`docs/`**: Contains all the detailed guides and documentation.
+- **`install.sh`**: The installation script that orchestrates the setup.
 
 ---
 
@@ -50,6 +37,7 @@
 
 - macOS (or Linux with minor modifications)
 - [Homebrew](https://brew.sh/) installed
+- `stow` (`brew install stow`)
 - Basic command line knowledge
 
 ### Installation
@@ -73,86 +61,14 @@ That's it! Your development environment is ready. 🎉
 
 ## 📖 Documentation
 
-- **[Setup Guide](SETUP_GUIDE.md)** - Complete installation and configuration guide
-- **[Tmux Guide](TMUX_GUIDE.md)** - **START HERE** - Your primary multi-terminal workspace
-- **[Quick Reference](QUICK_REFERENCE.md)** - Essential shortcuts and commands
-- **[Neovim Guide](nvim/README.md)** - Neovim-specific documentation
+All detailed documentation has been moved to the `docs/` directory.
 
----
-
-## 🎯 Key Highlights
-
-### Intelligent Shell Configuration
-
-```bash
-# Lazy-loaded NVM for fast startup
-# Organized PATH management
-# Smart completion system
-# History optimization (100k lines, dedup, timestamps)
-```
-
-### Power Aliases
-
-```bash
-# Git shortcuts
-gaa && gcam "msg" && gp     # Add, commit, push in one line
-
-# Docker shortcuts  
-dcud                         # docker-compose up -d
-dclf                         # Follow logs
-
-# Quick project creation
-cnext my-app                 # Next.js + TypeScript + Tailwind
-cvite my-app                 # Vite
-djstart my-project           # Django
-```
-
-### Tmux-First Multi-Terminal Philosophy
-
-**Why Tmux over terminal panes?**
-
-- ✅ **Persistent sessions** - Detach/reattach anytime, survives terminal crashes
-- ✅ **Universal** - Works in any terminal (wezterm, iTerm, Terminal.app)
-- ✅ **Session management** - Auto-saves every 15 min, resume days later
-- ✅ **Named sessions** - `tmux attach -t project-name`
-- ✅ **Remote-friendly** - SSH into servers and maintain sessions
-- ✅ **Powerful layouts** - Pre-configured for different workflows
-
-**Basic workflow:**
-
-```bash
-# Start named session
-tmux new -s myproject
-
-# Use tmux splits, not terminal splits
-Ctrl+Shift+E  # Split vertical
-Ctrl+Shift+O  # Split horizontal
-Alt+H/J/K/L   # Navigate
-
-# Detach (keeps running)
-Ctrl+A then D
-
-# Reattach later
-tmux attach -t myproject
-```
-
-### Smart Tmux Layouts
-
-Press `Ctrl+A` then:
-
-- `Alt+F` - Fullstack layout (editor + server + logs)
-- `Alt+3` - Three-column layout (code + terminal + docs)
-- `Alt+D` - Docker monitoring (main + ps + stats)
-
-### Development Functions
-
-```bash
-killport 3000        # Kill process on port 3000
-serve 8000           # Quick HTTP server
-devsetup             # Check installed dev tools
-npmscripts           # View package.json scripts
-dsh container        # Shell into Docker container
-```
+- **[Setup Guide](docs/SETUP_GUIDE.md)** - Complete installation and configuration guide.
+- **[Tmux Guide](docs/TMUX_GUIDE.md)** - **START HERE** - Your primary multi-terminal workspace.
+- **[Fullstack Dev Guide](docs/FULLSTACK_DEV_GUIDE.md)** - Guide for fullstack development.
+- **[Terminal Guide](docs/TERMINAL_GUIDE.md)** - Guide for the terminal setup.
+- **[Quick Reference](docs/QUICK_REFERENCE.md)** - Essential shortcuts and commands.
+- **[Neovim Guide](nvim/.config/nvim/README.md)** - Neovim-specific documentation.
 
 ---
 
@@ -162,6 +78,7 @@ Install these for the best experience:
 
 ```bash
 brew install \
+  stow \          # Symlink manager for dotfiles
   fzf \           # Fuzzy finder
   ripgrep \       # Fast search
   fd \            # Fast find
@@ -263,6 +180,17 @@ See [Quick Reference](QUICK_REFERENCE.md) for complete list.
 
 ## 🔧 Customization
 
+### Managing Dotfiles with Stow
+
+This dotfiles repository uses `stow` to manage symlinks. All configurations are organized into "packages" in the root of the repository (e.g., `zsh`, `nvim`, `tmux`).
+
+To add a new configuration file:
+
+1.  Create a new directory for your package: `mkdir myapp`
+2.  Inside that directory, recreate the path where the config file should be in your home directory. For example, if you want to link `~/.config/myapp/config.json`, you would create `myapp/.config/myapp/config.json`.
+3.  Add the package name (`myapp` in this case) to the `STOW_PACKAGES` array in the `install.sh` script.
+4.  Run `./install.sh` to stow the new package.
+
 ### Add Personal Configurations
 
 Create `~/.zshrc.local` for machine-specific settings:
@@ -277,12 +205,7 @@ This file is sourced at the end of `.zshrc` and is git-ignored.
 
 ### Modify Existing Configs
 
-All configurations are well-commented and organized into sections. Feel free to customize:
-
-- `.zshrc` - Shell aliases, functions, environment variables
-- `.tmux.conf` - Keybindings, layouts, plugins
-- `wezterm.lua` - Theme, fonts, keybindings
-- `starship.toml` - Prompt appearance
+All configurations are well-commented and organized into sections. Feel free to customize. To find a configuration, look for the corresponding directory (e.g., `zsh/`, `tmux/`, `nvim/`).
 
 ---
 
