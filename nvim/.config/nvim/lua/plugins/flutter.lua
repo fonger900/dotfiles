@@ -15,11 +15,12 @@ return {
       "stevearc/dressing.nvim", -- optional for nice UI
     },
     config = function()
+      local flutter_path = vim.fn.expand("$HOME/flutter/bin")
       require("flutter-tools").setup({
-        flutter_path = "/Users/fonger/flutter/bin",
+        flutter_path = flutter_path,
         lsp = {
-          dart_sdk_path = "/Users/fonger/flutter/bin/cache/dart-sdk",
-          cmd = { "/Users/fonger/flutter/bin/dart", "language-server", "--protocol=lsp" },
+          dart_sdk_path = vim.fs.joinpath(flutter_path, "cache", "dart-sdk"),
+          cmd = { vim.fs.joinpath(flutter_path, "dart"), "language-server", "--protocol=lsp" },
         },
       })
     end,
