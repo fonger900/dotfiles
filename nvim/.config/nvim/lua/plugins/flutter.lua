@@ -14,7 +14,15 @@ return {
       "nvim-lua/plenary.nvim",
       "stevearc/dressing.nvim", -- optional for nice UI
     },
-    config = true,
+    config = function()
+      require("flutter-tools").setup({
+        flutter_path = "/Users/fonger/flutter/bin",
+        lsp = {
+          dart_sdk_path = "/Users/fonger/flutter/bin/cache/dart-sdk",
+          cmd = { "/Users/fonger/flutter/bin/dart", "language-server", "--protocol=lsp" },
+        },
+      })
+    end,
     ft = "dart",
   },
 }

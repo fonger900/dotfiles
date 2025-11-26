@@ -61,7 +61,6 @@ return {
         -- Configuration files
         jsonls = {},        -- JSON language server
         vue_ls = {},
-        dartls = {},
       },
     },
     config = function(_, opts)
@@ -127,7 +126,6 @@ return {
         "isort",    -- Python import sorter
         "djlint",   -- Django/Jinja/HTMX template formatter
         "deno",     -- Deno language server
-        "dart-sdk", -- Dart SDK
       },
     },
     config = function(_, opts)
