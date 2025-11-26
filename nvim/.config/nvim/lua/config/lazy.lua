@@ -41,6 +41,7 @@ require("lazy").setup({
         { import = "plugins.git" },
         { import = "plugins.snacks" },
         { import = "plugins.markdown" },
+        { import = "plugins.flutter" },
     },
     defaults = {
         lazy = true,

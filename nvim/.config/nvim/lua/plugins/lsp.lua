@@ -34,7 +34,22 @@ return {
         basedpyright = {},       -- Python type checking & intellisense
         ruff = {},               -- Python linter & code actions
         -- TypeScript/JavaScript language server
-        ts_ls = {},         -- Use default configuration
+        ts_ls = {
+          root_dir = function(fname)
+            local deno_root = require("lspconfig").util.root_pattern("deno.json", "deno.jsonc")(fname)
+            if deno_root then
+              return nil
+            end
+            return require("lspconfig").util.root_pattern("tsconfig.json", "package.json", "jsconfig.json")(
+              fname
+            )
+          end,
+        },
+        denols = {
+          root_dir = function(fname)
+            return require("lspconfig").util.root_pattern("deno.json", "deno.jsonc")(fname)
+          end,
+        },
         -- Web development servers
         html = {},          -- HTML language server
         cssls = {},         -- CSS language server
@@ -46,6 +61,7 @@ return {
         -- Configuration files
         jsonls = {},        -- JSON language server
         vue_ls = {},
+        dartls = {},
       },
     },
     config = function(_, opts)
@@ -110,6 +126,8 @@ return {
         "black",    -- Python formatter
         "isort",    -- Python import sorter
         "djlint",   -- Django/Jinja/HTMX template formatter
+        "deno",     -- Deno language server
+        "dart-sdk", -- Dart SDK
       },
     },
     config = function(_, opts)
