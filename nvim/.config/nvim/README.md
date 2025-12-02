@@ -216,7 +216,6 @@ This configuration is actively maintained and updated for:
 - **Performance optimizations** and modernizations
 - **Bug fixes** and compatibility improvements
 
-Check the [CHANGELOG.md](CHANGELOG.md) for detailed update history.
 
 ## 🤝 Contributing
 
