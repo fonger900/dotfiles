@@ -32,11 +32,6 @@ plugins=(
 # Rust
 [ -f "$HOME/.cargo/env" ] && source "$HOME/.cargo/env"
 
-# Pyenv
-if command -v pyenv &> /dev/null; then
-  eval "$(pyenv init -)"
-fi
-
 # Zoxide (Better cd)
 if command -v zoxide &> /dev/null; then
   eval "$(zoxide init zsh)"
