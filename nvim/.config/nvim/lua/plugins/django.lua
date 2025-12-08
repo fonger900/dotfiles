@@ -6,6 +6,6 @@ return {
   -- Syntax and filetype detection for Django projects
   {
     "tpope/vim-django",
-    event = { "BufReadPost", "BufNewFile" },
+    ft = { "python.django", "htmldjango" },
   },
 }

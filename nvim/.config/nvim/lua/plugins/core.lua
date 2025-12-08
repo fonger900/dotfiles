@@ -217,9 +217,9 @@ return {
   {
     "mg979/vim-visual-multi",
     keys = {
-      "<C-n>",    -- Start multi-cursor on word under cursor
-      "<C-Down>", -- Add cursor below
-      "<C-Up>"    -- Add cursor above
+      { "<C-n>", desc = "Multi-cursor word" },
+      { "<C-Down>", desc = "Multi-cursor down" },
+      { "<C-Up>", desc = "Multi-cursor up" },
     },
   },
 }
