@@ -13,9 +13,7 @@ zstyle ':omz:update' mode disabled
 plugins=(
   git
   docker
-  z
   zsh-autosuggestions
-  zsh-syntax-highlighting
   fzf
 )
 
@@ -34,8 +32,7 @@ plugins=(
 
 # Zoxide (Better cd)
 if command -v zoxide &> /dev/null; then
-  eval "$(zoxide init zsh)"
-  alias cd='z'
+  eval "$(zoxide init zsh --cmd cd)"
 fi
 
 # Starship Prompt
