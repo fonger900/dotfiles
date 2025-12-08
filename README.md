@@ -25,7 +25,7 @@
 
 This repository is structured as a collection of "packages" for each application, managed by `stow`.
 
-- **`zsh/`**, **`tmux/`**, **`nvim/`**, etc.: Configuration packages for each tool.
+- **`zsh/`**, **`tmux/`**, **`nvim/`**, **`ghostty/`**, etc.: Configuration packages for each tool.
 - **`docs/`**: Contains all the detailed guides and documentation.
 - **`install.sh`**: The installation script that orchestrates the setup.
 
@@ -98,7 +98,7 @@ brew install \
 
 All configurations use the **Catppuccin Mocha** color scheme for consistency:
 
-- Terminal: Wezterm with Catppuccin Mocha
+- Terminal: Ghostty & Wezterm with Catppuccin Mocha
 - Tmux: Catppuccin status bar
 - Shell: Starship prompt
 - Editor: Neovim with Catppuccin theme
@@ -174,7 +174,7 @@ tmux new -s microservices -n api-gateway
 | Jump to tab | `Cmd+1-9` |
 | Search | `Cmd+F` |
 
-See [Quick Reference](QUICK_REFERENCE.md) for complete list.
+See [Quick Reference](docs/QUICK_REFERENCE.md) for complete list.
 
 ---
 
@@ -232,7 +232,7 @@ All configurations are well-commented and organized into sections. Feel free to 
 echo $TERM  # Should be: xterm-256color or screen-256color
 ```
 
-See [Setup Guide](SETUP_GUIDE.md#troubleshooting) for more solutions.
+See [Setup Guide](docs/SETUP_GUIDE.md#troubleshooting) for more solutions.
 
 ---
 
