@@ -1,7 +1,5 @@
 source ~/zsh-defer/zsh-defer.plugin.zsh
 
-# Kiro CLI pre block. Keep at the top of this file.
-[[ -f "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.pre.zsh" ]] && builtin source "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.pre.zsh"
 
 # ==========================================
 # Performance-Optimized ZSH Configuration
@@ -30,8 +28,6 @@ plugins=(git docker)
 [ -f "$DOTFILES/zsh/aliases.zsh" ] && source "$DOTFILES/zsh/aliases.zsh"
 
 # 5. Lazy-loaded Tool Initializations
-# Rust (only if cargo exists)
-[ -f "$HOME/.cargo/env" ] && source "$HOME/.cargo/env"
 
 # Lazy load zoxide
 _zoxide_init() {
@@ -40,12 +36,10 @@ _zoxide_init() {
 }
 alias cd='_zoxide_init && cd'
 
-# Lazy load starship
-_starship_init() {
+# Starship
+if command -v starship &> /dev/null; then
   eval "$(starship init zsh)"
-  unfunction _starship_init
-}
-precmd_functions+=(_starship_init)
+fi
 
 # Defer syntax highlighting to end
 _load_syntax_highlighting() {
@@ -55,14 +49,17 @@ _load_syntax_highlighting() {
 }
 zsh-defer _load_syntax_highlighting
 
-# Optimized completion
-autoload -Uz compinit
-# Only regenerate compdump once per day
-if [[ -n ${ZDOTDIR}/.zcompdump(#qN.mh+24) ]]; then
-  compinit
-else
-  compinit -C
-fi
+# Optimized completion (Deferred)
+_init_completion() {
+  autoload -Uz compinit
+  # Only regenerate compdump once per day
+  if [[ -n ${ZDOTDIR}/.zcompdump(#qN.mh+24) ]]; then
+    compinit
+  else
+    compinit -C
+  fi
+}
+zsh-defer _init_completion
 
 # Lazy load mise
 _mise_init() {
@@ -81,5 +78,3 @@ export PATH="$PATH:/Users/fonger/.lmstudio/bin"
 # 6. Local Customizations
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
 
-# Kiro CLI post block. Keep at the bottom of this file.
-[[ -f "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.post.zsh" ]] && builtin source "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.post.zsh"
