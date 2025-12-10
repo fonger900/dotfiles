@@ -22,6 +22,12 @@ plugins=(git docker)
 # Define Cache Dir (Required by some OMZ libs)
 : ${ZSH_CACHE_DIR:=$ZSH/cache}
 
+# Stub compdef to capture calls before compinit loads
+typeset -a _comp_def_queue
+compdef() {
+  _comp_def_queue+=("$*")
+}
+
 # Load OMZ Libs (Manual source to bypass synchronous compinit)
 for config_file ($ZSH/lib/*.zsh); do
   source "$config_file"
@@ -65,13 +71,23 @@ zsh-defer _load_syntax_highlighting
 
 # Optimized completion (Deferred)
 _init_completion() {
+  # Restore original compdef
+  unfunction compdef
   autoload -Uz compinit
+  
   # Only regenerate compdump once per day
   if [[ -n ${ZDOTDIR}/.zcompdump(#qN.mh+24) ]]; then
     compinit
   else
     compinit -C
   fi
+  
+  # Replay captured compdef calls
+  for cmd in "${_comp_def_queue[@]}"; do
+    # split command into words safely
+    eval "compdef $cmd"
+  done
+  unset _comp_def_queue
 }
 zsh-defer _init_completion
 
