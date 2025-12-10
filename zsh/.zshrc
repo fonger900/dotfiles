@@ -11,20 +11,29 @@ source ~/zsh-defer/zsh-defer.plugin.zsh
 # ==========================================
 export DOTFILES="$HOME/dotfiles"
 
-# Skip global compinit for faster startup
-skip_global_compinit=1
-
 # 1. Path Configuration (Load first)
 [ -f "$DOTFILES/zsh/path.zsh" ] && source "$DOTFILES/zsh/path.zsh"
 
-# 2. Minimal Oh-My-Zsh Setup
+# 2. Manual Oh-My-Zsh Setup (Optimized)
 export ZSH="$HOME/.oh-my-zsh"
 zstyle ':omz:update' mode disabled
-# Reduced plugins for faster startup
 plugins=(git docker)
 
-# Load OMZ
-[ -f "$ZSH/oh-my-zsh.sh" ] && source "$ZSH/oh-my-zsh.sh"
+# Define Cache Dir (Required by some OMZ libs)
+: ${ZSH_CACHE_DIR:=$ZSH/cache}
+
+# Load OMZ Libs (Manual source to bypass synchronous compinit)
+for config_file ($ZSH/lib/*.zsh); do
+  source "$config_file"
+done
+
+# Load Plugins explicitly
+if [ -f "$ZSH/plugins/git/git.plugin.zsh" ]; then
+  source "$ZSH/plugins/git/git.plugin.zsh"
+fi
+if [ -f "$ZSH/plugins/docker/docker.plugin.zsh" ]; then
+  source "$ZSH/plugins/docker/docker.plugin.zsh"
+fi
 
 # 3. Exports & Options
 [ -f "$DOTFILES/zsh/exports.zsh" ] && source "$DOTFILES/zsh/exports.zsh"
