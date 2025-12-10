@@ -53,7 +53,11 @@ fi
 
 # Lazy load zoxide
 _zoxide_init() {
-  eval "$(zoxide init zsh --cmd cd)"
+  if command -v zoxide &> /dev/null; then
+    eval "$(zoxide init zsh --cmd cd)"
+  else
+    unalias cd 2>/dev/null
+  fi
   unfunction _zoxide_init
 }
 alias cd='_zoxide_init && cd'
@@ -93,12 +97,8 @@ _init_completion() {
 }
 zsh-defer _init_completion
 
-# Lazy load mise
-_mise_init() {
-  eval "$(~/.local/bin/mise activate zsh)"
-  unfunction _mise_init
-}
-alias mise='_mise_init && mise'
+# Mise (Version Manager)
+eval "$(~/.local/bin/mise activate zsh)"
 
 # pnpm (optimized)
 export PNPM_HOME="/Users/fonger/.local/share/pnpm"
