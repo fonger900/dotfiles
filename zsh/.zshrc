@@ -78,3 +78,8 @@ export PATH="$PATH:/Users/fonger/.lmstudio/bin"
 # 6. Local Customizations
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
 
+# Fastfetch
+if command -v fastfetch &> /dev/null; then
+  fastfetch
+fi
+
