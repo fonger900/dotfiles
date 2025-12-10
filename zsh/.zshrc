@@ -1,3 +1,8 @@
+# Start timer & Loading indicator
+zmodload zsh/datetime
+typeset -F _zsh_start_time=$EPOCHREALTIME
+echo -ne " \033[1;33m●\033[0m Loading..."
+
 source ~/zsh-defer/zsh-defer.plugin.zsh
 
 
@@ -78,8 +83,15 @@ export PATH="$PATH:/Users/fonger/.lmstudio/bin"
 # 6. Local Customizations
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
 
+# Clear loading indicator
+echo -ne "\r\033[K"
+
 # Fastfetch
 if command -v fastfetch &> /dev/null; then
   fastfetch
 fi
+
+# Display startup time
+typeset -F _zsh_duration=$(( EPOCHREALTIME - _zsh_start_time ))
+printf "\n\033[1;90mStartup: %.3fs\033[0m\n" $_zsh_duration
 
