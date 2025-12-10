@@ -2,6 +2,8 @@
 zmodload zsh/datetime
 typeset -F _zsh_start_time=$EPOCHREALTIME
 echo -ne " \033[1;33m●\033[0m Loading..."
+# Force redraw
+if [[ -o zle ]]; then zle -R; else echo -ne "\r"; fi
 
 source ~/zsh-defer/zsh-defer.plugin.zsh
 
