@@ -53,14 +53,11 @@ fi
 
 # Lazy load zoxide
 _zoxide_init() {
+  unalias cd z zi 2>/dev/null
   if command -v zoxide &> /dev/null; then
     eval "$(zoxide init zsh --cmd cd)"
     alias z=cd
     alias zi=cdi
-  else
-    unalias cd 2>/dev/null
-    unalias z 2>/dev/null
-    unalias zi 2>/dev/null
   fi
   unfunction _zoxide_init
 }
