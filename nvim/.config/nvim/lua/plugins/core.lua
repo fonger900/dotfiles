@@ -89,7 +89,7 @@ return {
     dependencies = { "nvim-tree/nvim-web-devicons" },
     opts = {
       options = {
-        theme = "catppuccin", -- Match colorscheme
+        theme = "tokyonight", -- Match colorscheme
         globalstatus = true,  -- Single statusline across all windows
       },
       sections = {
