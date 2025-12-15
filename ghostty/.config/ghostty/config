@@ -13,7 +13,6 @@ theme = Catppuccin Mocha
 
 # Custom colors (uncomment to override theme)
 # background = #1e1e2e
-# foreground = #cdd6f4
 # cursor-color = #f5e0dc
 # selection-background = #585b70
 # selection-foreground = #cdd6f4
