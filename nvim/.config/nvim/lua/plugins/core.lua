@@ -21,27 +21,47 @@ return {
   -- ============================================================================
 
   -- Catppuccin colorscheme: Modern, warm color palette
+  -- {
+  --   "catppuccin/nvim",
+  --   name = "catppuccin",
+  --   lazy = false,                     -- Load immediately for consistent appearance
+  --   priority = 1000,                  -- Load before other plugins
+  --   opts = {
+  --     flavour = "mocha",              -- Dark variant of catppuccin
+  --     transparent_background = false, -- Use theme background color
+  --     integrations = {
+  --       -- Enable theme integration with various plugins
+  --       cmp = true,        -- Completion menu
+  --       gitsigns = true,   -- Git status indicators
+  --       nvimtree = true,   -- File tree
+  --       treesitter = true, -- Syntax highlighting
+  --       mason = true,      -- Package manager
+  --       which_key = true,  -- Keymap hints
+  --     },
+  --   },
+  --   config = function(_, opts)
+  --     require("catppuccin").setup(opts)
+  --     vim.cmd.colorscheme("catppuccin") -- Apply the colorscheme
+  --   end,
+  -- },
+  
+  -- Tokyonight colorscheme: Darker, high-contrast
   {
-    "catppuccin/nvim",
-    name = "catppuccin",
-    lazy = false,                     -- Load immediately for consistent appearance
-    priority = 1000,                  -- Load before other plugins
+    "folke/tokyonight.nvim",
+    lazy = false,
+    priority = 1000,
     opts = {
-      flavour = "mocha",              -- Dark variant of catppuccin
-      transparent_background = false, -- Use theme background color
-      integrations = {
-        -- Enable theme integration with various plugins
-        cmp = true,        -- Completion menu
-        gitsigns = true,   -- Git status indicators
-        nvimtree = true,   -- File tree
-        treesitter = true, -- Syntax highlighting
-        mason = true,      -- Package manager
-        which_key = true,  -- Keymap hints
+      style = "night",
+      transparent = false,
+      terminal_colors = true,
+      styles = {
+        sidebars = "dark",
+        floats = "dark",
       },
     },
     config = function(_, opts)
-      require("catppuccin").setup(opts)
-      vim.cmd.colorscheme("catppuccin") -- Apply the colorscheme
+      require("tokyonight").setup(opts)
+      vim.cmd.colorscheme("tokyonight-night")
     end,
   },
 
