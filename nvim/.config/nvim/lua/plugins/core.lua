@@ -44,7 +44,6 @@ return {
   --     vim.cmd.colorscheme("catppuccin") -- Apply the colorscheme
   --   end,
   -- },
-  
   -- Tokyonight colorscheme: Darker, high-contrast
   {
     "folke/tokyonight.nvim",
