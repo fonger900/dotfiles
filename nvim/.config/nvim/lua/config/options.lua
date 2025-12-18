@@ -33,6 +33,7 @@ opt.wrap = false         -- Disable line wrapping for better code reading
 -- ============================================================================
 
 opt.relativenumber = true -- Show relative line numbers for easy jumping
+opt.number = true         -- Show absolute line numbers for the current line
 opt.scrolloff = 4         -- Keep 4 lines visible above/below cursor
 opt.sidescrolloff = 8     -- Keep 8 columns visible left/right of cursor
 
