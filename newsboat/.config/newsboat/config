@@ -1,0 +1,37 @@
+# Newsboat Configuration
+
+# Basic Settings
+auto-reload yes
+reload-time 60
+reload-threads 4
+browser "open %u"  # Use default system browser on macOS
+show-read-feeds no
+
+# Key Bindings
+bind-key j down
+bind-key k up
+bind-key h quit
+bind-key l open
+bind-key g home
+bind-key G end
+
+# Display
+feed-sort-order unreadarticlecount-asc
+text-width 80
+article-sort-order date-asc
+
+# Colors (Modern/Dark Theme compatible)
+color listnormal cyan default
+color listfocus black cyan bold
+color listnormal_unread yellow default
+color listfocus_unread black yellow bold
+color info green default bold
+color article white default
+
+# Macros
+macro v set browser "open %u"; open-in-browser ; set browser "elinks %u"
+
+# Highlights
+highlight article "^(Title):.*$" blue default
+highlight article "https?://[^ ]+" cyan default
+highlight article "\[image [0-9]+\]" green default
