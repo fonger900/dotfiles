@@ -103,6 +103,7 @@ STOW_PACKAGES=(
     "starship"
     "ripgrep"
     "newsboat"
+    "helix"
 )
 
 for pkg in "${STOW_PACKAGES[@]}"; do

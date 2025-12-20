@@ -1,0 +1,43 @@
+theme = "tokyonight"
+
+[editor]
+line-number = "relative"
+mouse = false
+bufferline = "always"
+cursorline = true
+color-modes = true
+
+[editor.cursor-shape]
+insert = "bar"
+normal = "block"
+select = "underline"
+
+[editor.statusline]
+left = ["mode", "spinner", "file-name", "file-modification-indicator"]
+center = []
+right = ["diagnostics", "selections", "position", "file-encoding", "file-line-ending", "file-type"]
+separator = "│"
+
+[editor.statusline.mode]
+normal = "NORMAL"
+insert = "INSERT"
+select = "SELECT"
+
+[editor.indent-guides]
+render = true
+character = "│"
+
+[keys.normal]
+C-s = ":w" # Save
+C-q = ":q" # Quit
+"C-/" = "toggle_comments" # Toggle comments
+
+[keys.insert]
+j = { k = "normal_mode" } # jk to exit insert mode
+
+# Match common nvim leader key usage if applicable, helix uses space as leader by default
+[keys.normal.space]
+f = "file_picker"
+b = "buffer_picker"
+w = ":w"
+q = ":q"
