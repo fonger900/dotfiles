@@ -1,0 +1,125 @@
+[[language]]
+name = "typescript"
+auto-format = true
+language-servers = [ "typescript-language-server", "eslint", "tailwindcss-ls" ]
+
+[[language]]
+name = "tsx"
+auto-format = true
+language-servers = [ "typescript-language-server", "eslint", "tailwindcss-ls" ]
+
+[[language]]
+name = "javascript"
+auto-format = true
+language-servers = [ "typescript-language-server", "eslint", "tailwindcss-ls" ]
+
+[[language]]
+name = "jsx"
+auto-format = true
+language-servers = [ "typescript-language-server", "eslint", "tailwindcss-ls" ]
+
+[[language]]
+name = "json"
+auto-format = true
+language-servers = [ "vscode-json-language-server" ]
+
+[[language]]
+name = "html"
+auto-format = true
+language-servers = [ "vscode-html-language-server", "tailwindcss-ls" ]
+
+[[language]]
+name = "css"
+auto-format = true
+language-servers = [ "vscode-css-language-server", "tailwindcss-ls" ]
+
+[[language]]
+name = "python"
+auto-format = true
+language-servers = [ "basedpyright", "ruff" ]
+
+[[language]]
+name = "go"
+auto-format = true
+language-servers = [ "gopls" ]
+
+[[language]]
+name = "rust"
+auto-format = true
+language-servers = [ "rust-analyzer" ]
+
+[[language]]
+name = "lua"
+auto-format = true
+language-servers = [ "lua-language-server" ]
+
+[[language]]
+name = "toml"
+auto-format = true
+language-servers = [ "taplo" ]
+
+[[language]]
+name = "yaml"
+auto-format = true
+language-servers = [ "yaml-language-server" ]
+
+[[language]]
+name = "vue"
+auto-format = true
+language-servers = [ "vue-language-server", "tailwindcss-ls" ]
+
+# Language Server Configurations
+
+[language-server.typescript-language-server]
+command = "typescript-language-server"
+args = ["--stdio"]
+
+[language-server.eslint]
+command = "vscode-eslint-language-server"
+args = ["--stdio"]
+config = { validate = "on", packageManager = "npm" }
+
+[language-server.vscode-html-language-server]
+command = "vscode-html-language-server"
+args = ["--stdio"]
+
+[language-server.vscode-css-language-server]
+command = "vscode-css-language-server"
+args = ["--stdio"]
+
+[language-server.vscode-json-language-server]
+command = "vscode-json-language-server"
+args = ["--stdio"]
+
+[language-server.basedpyright]
+command = "basedpyright-langserver"
+args = ["--stdio"]
+
+[language-server.ruff]
+command = "ruff"
+args = ["server"]
+
+[language-server.gopls]
+command = "gopls"
+
+[language-server.rust-analyzer]
+command = "rust-analyzer"
+
+[language-server.lua-language-server]
+command = "lua-language-server"
+
+[language-server.taplo]
+command = "taplo"
+args = ["lsp", "stdio"]
+
+[language-server.yaml-language-server]
+command = "yaml-language-server"
+args = ["--stdio"]
+
+[language-server.tailwindcss-ls]
+command = "tailwindcss-language-server"
+args = ["--stdio"]
+
+[language-server.vue-language-server]
+command = "vue-language-server"
+args = ["--stdio"]
