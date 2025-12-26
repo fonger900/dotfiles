@@ -41,17 +41,6 @@ read_only_style = "red"
 truncation_symbol = "…/"
 home_symbol = "~"
 
-# substitutions: Replaces long directory names with shorter symbols or nothing.
-[directory.substitutions]
-"Documents" = " "
-"Downloads" = " "
-"Desktop" = " "
-"Projects" = " "
-"src" = " "
-"lib" = " "
-"config" = " "
-"node_modules" = " "
-
 # ============================================================================
 # Git Modules
 # ============================================================================
