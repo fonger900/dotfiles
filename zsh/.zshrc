@@ -56,14 +56,26 @@ _zoxide_init() {
   unalias cd z zi 2>/dev/null
   if command -v zoxide &> /dev/null; then
     eval "$(zoxide init zsh --cmd cd)"
-    alias z=cd
-    alias zi=cdi
+    # Re-run the command that triggered this init
+    if [[ "$1" == "cd" ]]; then
+      cd "$@"
+    elif [[ "$1" == "z" ]]; then
+      z "$@"
+    elif [[ "$1" == "zi" ]]; then
+      zi "$@"
+    fi
+  else
+    # Fallback if zoxide missing
+    echo "zoxide not installed"
+    if [[ "$1" == "cd" ]]; then
+      builtin cd "$@"
+    fi
   fi
   unfunction _zoxide_init
 }
-alias cd='_zoxide_init && cd'
-alias z='_zoxide_init && z'
-alias zi='_zoxide_init && zi'
+alias cd='_zoxide_init cd'
+alias z='_zoxide_init z'
+alias zi='_zoxide_init zi'
 
 # Starship
 if command -v starship &> /dev/null; then
