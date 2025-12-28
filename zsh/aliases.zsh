@@ -3,6 +3,7 @@
 # ==========================================
 
 # General
+alias devsetup='devsetup.sh'
 alias c='clear'
 alias h='history'
 alias ll='ls -alFh'

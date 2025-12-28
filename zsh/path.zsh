@@ -6,6 +6,7 @@ typeset -U path
 
 # Base paths (Prepend)
 path=(
+  "$DOTFILES/scripts"
   "$HOME/.local/bin"
   "/opt/homebrew/bin"
   $path
