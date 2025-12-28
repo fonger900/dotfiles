@@ -53,21 +53,23 @@ fi
 
 # Lazy load zoxide
 _zoxide_init() {
+  local cmd="$1"
+  shift
   unalias cd z zi 2>/dev/null
   if command -v zoxide &> /dev/null; then
     eval "$(zoxide init zsh --cmd cd)"
     # Re-run the command that triggered this init
-    if [[ "$1" == "cd" ]]; then
+    if [[ "$cmd" == "cd" ]]; then
       cd "$@"
-    elif [[ "$1" == "z" ]]; then
+    elif [[ "$cmd" == "z" ]]; then
       z "$@"
-    elif [[ "$1" == "zi" ]]; then
+    elif [[ "$cmd" == "zi" ]]; then
       zi "$@"
     fi
   else
     # Fallback if zoxide missing
     echo "zoxide not installed"
-    if [[ "$1" == "cd" ]]; then
+    if [[ "$cmd" == "cd" ]]; then
       builtin cd "$@"
     fi
   fi
