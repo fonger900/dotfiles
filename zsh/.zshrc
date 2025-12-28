@@ -51,33 +51,10 @@ fi
 
 # 5. Lazy-loaded Tool Initializations
 
-# Lazy load zoxide
-_zoxide_init() {
-  local cmd="$1"
-  shift
-  unalias cd z zi 2>/dev/null
-  if command -v zoxide &> /dev/null; then
-    eval "$(zoxide init zsh --cmd cd)"
-    # Re-run the command that triggered this init
-    if [[ "$cmd" == "cd" ]]; then
-      cd "$@"
-    elif [[ "$cmd" == "z" ]]; then
-      z "$@"
-    elif [[ "$cmd" == "zi" ]]; then
-      zi "$@"
-    fi
-  else
-    # Fallback if zoxide missing
-    echo "zoxide not installed"
-    if [[ "$cmd" == "cd" ]]; then
-      builtin cd "$@"
-    fi
-  fi
-  unfunction _zoxide_init
-}
-alias cd='_zoxide_init cd'
-alias z='_zoxide_init z'
-alias zi='_zoxide_init zi'
+# Zoxide (smart cd)
+if command -v zoxide &> /dev/null; then
+  eval "$(zoxide init zsh --cmd cd)"
+fi
 
 # Starship
 if command -v starship &> /dev/null; then
