@@ -31,7 +31,7 @@ return {
         -- Lua language server (for Neovim config development)
         lua_ls = {},
         -- Python language server
-        basedpyright = {},       -- Python type checking & intellisense
+        pyrefly = {},
         ruff = {},               -- Python linter & code actions
         -- TypeScript/JavaScript language server
         ts_ls = {
@@ -122,8 +122,6 @@ return {
       ensure_installed = {
         "stylua",   -- Lua formatter
         "prettier", -- JavaScript/TypeScript/CSS/HTML formatter
-        "black",    -- Python formatter
-        "isort",    -- Python import sorter
         "djlint",   -- Django/Jinja/HTMX template formatter
         "deno",     -- Deno language server
       },
