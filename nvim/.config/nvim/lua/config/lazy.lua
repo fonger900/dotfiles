@@ -40,6 +40,7 @@ require("lazy").setup({
         { import = "plugins.lsp" },
         { import = "plugins.git" },
         { import = "plugins.snacks" },
+        { import = "plugins.laravel" },
         { import = "plugins.markdown" },
         { import = "plugins.flutter" },
     },
