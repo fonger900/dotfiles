@@ -135,7 +135,7 @@ return {
         lua = { "stylua" },
         fish = { "fish_indent" },
         sh = { "shfmt" },
-        python = { "isort", "black" },
+        python = { "ruff_organize_imports", "ruff_format" },
         javascript = { { "prettierd", "prettier" } },
         typescript = { { "prettierd", "prettier" } },
         javascriptreact = { { "prettierd", "prettier" } },
