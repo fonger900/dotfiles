@@ -5,7 +5,8 @@
 ---@diagnostic disable: undefined-global
 return {
   "folke/snacks.nvim",
-  event = "VeryLazy",
+  priority = 1000,
+  lazy = false,
   opts = {
     bigfile = { enabled = true },
     dashboard = { enabled = true },
@@ -113,6 +114,7 @@ return {
     { "<leader>gB",      function() Snacks.gitbrowse() end,                                      desc = "Git Browse",                 mode = { "n", "v" } },
     { "<leader>gg",      function() Snacks.lazygit() end,                                        desc = "Lazygit" },
     { "<leader>un",      function() Snacks.notifier.hide() end,                                  desc = "Dismiss All Notifications" },
+    { "<leader>tt",      function() Snacks.terminal() end,                                       desc = "Toggle Terminal" },
     { "<c-/>",           function() Snacks.terminal() end,                                       desc = "Toggle Terminal" },
     { "<c-_>",           function() Snacks.terminal() end,                                       desc = "which_key_ignore" },
     { "]]",              function() Snacks.words.jump(vim.v.count1) end,                         desc = "Next Reference",             mode = { "n", "t" } },

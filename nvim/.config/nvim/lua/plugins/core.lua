@@ -20,30 +20,6 @@ return {
   -- Visual Theme and Appearance
   -- ============================================================================
 
-  -- Catppuccin colorscheme: Modern, warm color palette
-  -- {
-  --   "catppuccin/nvim",
-  --   name = "catppuccin",
-  --   lazy = false,                     -- Load immediately for consistent appearance
-  --   priority = 1000,                  -- Load before other plugins
-  --   opts = {
-  --     flavour = "mocha",              -- Dark variant of catppuccin
-  --     transparent_background = false, -- Use theme background color
-  --     integrations = {
-  --       -- Enable theme integration with various plugins
-  --       cmp = true,        -- Completion menu
-  --       gitsigns = true,   -- Git status indicators
-  --       nvimtree = true,   -- File tree
-  --       treesitter = true, -- Syntax highlighting
-  --       mason = true,      -- Package manager
-  --       which_key = true,  -- Keymap hints
-  --     },
-  --   },
-  --   config = function(_, opts)
-  --     require("catppuccin").setup(opts)
-  --     vim.cmd.colorscheme("catppuccin") -- Apply the colorscheme
-  --   end,
-  -- },
   -- Tokyonight colorscheme: Darker, high-contrast
   {
     "folke/tokyonight.nvim",
@@ -130,24 +106,7 @@ return {
     },
   },
 
-  -- ============================================================================
-  -- Terminal Integration
-  -- ============================================================================
 
-  -- ToggleTerm: Integrated terminal with floating and split options
-  {
-    "akinsho/toggleterm.nvim",
-    cmd = { "ToggleTerm", "TermExec" }, -- Load on command
-    keys = {
-      -- Terminal keymaps
-      { "<leader>tt", "<cmd>ToggleTerm<cr>",                 desc = "Toggle Terminal" },
-      { "<leader>tf", "<cmd>ToggleTerm direction=float<cr>", desc = "Float Terminal" },
-    },
-    opts = {
-      direction = "float",                -- Default to floating terminal
-      float_opts = { border = "curved" }, -- Rounded border for aesthetics
-    },
-  },
 
   -- ============================================================================
   -- Enhanced Editing Features
