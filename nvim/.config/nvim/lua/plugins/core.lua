@@ -88,22 +88,26 @@ return {
   -- Bufferline: Tab-like interface for open buffers
   {
     "akinsho/bufferline.nvim",
-    event = "VeryLazy", -- Load after initial setup
-    dependencies = "nvim-tree/nvim-web-devicons",
+    event = "VeryLazy",
+    dependencies = { "nvim-tree/nvim-web-devicons", "tiaguinho/scope.nvim" },
     keys = {
-      -- Buffer management keymaps
       { "<leader>bp", "<Cmd>BufferLineTogglePin<CR>",   desc = "Toggle pin" },
       { "<leader>bo", "<Cmd>BufferLineCloseOthers<CR>", desc = "Delete other buffers" },
-      { "<S-h>",      "<cmd>BufferLineCyclePrev<cr>",   desc = "Prev buffer" },
-      { "<S-l>",      "<cmd>BufferLineCycleNext<cr>",   desc = "Next buffer" },
     },
     opts = {
       options = {
-        close_command = "bdelete! %d",  -- Command to close buffers
-        diagnostics = "nvim_lsp",       -- Show LSP diagnostics in bufferline
-        always_show_bufferline = false, -- Hide when only one buffer open
+        close_command = "bdelete! %d",
+        diagnostics = "nvim_lsp",
+        always_show_bufferline = false,
       },
     },
+  },
+
+  -- Scope: Scopes buffers to tabs so they don't "leak" across layouts
+  {
+    "tiagovla/scope.nvim",
+    event = "VeryLazy",
+    config = true,
   },
 
 

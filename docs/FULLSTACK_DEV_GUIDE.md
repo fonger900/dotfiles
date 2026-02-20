@@ -132,7 +132,7 @@ K               -- Show hover documentation
 -- Git Operations
 <leader>gg      -- Open Lazygit
 <leader>gb      -- Blame line
-<leader>gd      -- Diff this
+<leader>gv      -- Diff this
 <leader>gh      -- Preview hunk
 ```
 

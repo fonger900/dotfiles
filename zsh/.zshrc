@@ -116,3 +116,11 @@ fi
 typeset -F _zsh_duration=$(( EPOCHREALTIME - _zsh_start_time ))
 printf "\n\033[1;90mStartup: %.3fs\033[0m\n" $_zsh_duration
 
+
+
+# Herd injected PHP binary.
+export PATH="/Users/fonger/Library/Application Support/Herd/bin/":$PATH
+
+
+# Herd injected PHP 8.4 configuration.
+export HERD_PHP_84_INI_SCAN_DIR="/Users/fonger/Library/Application Support/Herd/config/php/84/"
