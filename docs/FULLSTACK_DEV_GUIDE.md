@@ -69,6 +69,8 @@ Ensure you have the following installed:
 
 **Docker** - Syntax highlighting, validation
 
+**Container** - Native macOS container runtime support
+
 **YAML/JSON** - Schema validation for Kubernetes, GitHub Actions
 
 ## ⌨️ Essential Keymaps

@@ -2,7 +2,7 @@
 
 > A comprehensive, production-ready development environment for fullstack engineers
 
-**Optimized for:** Node.js, Python, Go, Rust, Docker, Kubernetes, and modern web development
+**Optimized for:** Node.js, Python, Go, Rust, Docker, macOS Native Containers, Kubernetes, and modern web development
 
 ---
 
@@ -89,7 +89,8 @@ brew install \
   tmux \          # Terminal multiplexer
   neovim \        # Text editor
   lazygit \       # Git TUI
-  lazydocker      # Docker TUI
+  lazydocker \    # Docker TUI
+  container       # Native macOS Containers
 ```
 
 ---
@@ -138,6 +139,20 @@ tmux new -s project
 # Panes show: main workspace, docker ps, docker stats
 dcud  # Start containers in detached mode
 dclf  # Follow logs
+```
+
+### Native macOS Container Development
+
+```bash
+# Start the container service
+cs start
+
+# Run a container
+cr -it alpine
+# Inside container: ls /
+
+# List containers
+cl
 ```
 
 ### Microservices

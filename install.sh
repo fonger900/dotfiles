@@ -199,7 +199,8 @@ recommended_tools=(
     "nvim:neovim editor"
     "node:Node.js runtime"
     "python3:Python interpreter"
-    "docker:containerization"
+    "docker:containerization (legacy)"
+    "container:native macOS containerization"
 )
 
 missing_recommended=()

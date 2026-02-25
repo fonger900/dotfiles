@@ -56,6 +56,7 @@ brew install \
   rust \
   docker \
   docker-compose \
+  container \
   kubectl \
   terraform
 
@@ -215,6 +216,23 @@ dclf         # docker-compose logs -f
 dclean       # Clean all Docker resources
 dcleanimg    # Clean images only
 dprune       # System prune
+```
+
+### 🍎 Native macOS Container Commands
+
+```bash
+# System operations
+cs start     # Start container system
+cs stop      # Stop container system
+
+# Container operations
+cr -it image # Run interactive container
+cl           # List containers
+cl -a        # List all containers
+
+# Image operations
+cp image     # Pull image
+cb -t tag .  # Build image
 ```
 
 ### 🎯 Git Workflow Shortcuts

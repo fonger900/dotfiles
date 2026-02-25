@@ -59,6 +59,7 @@ check_tool "Node.js" "node" "brew install node"
 check_tool "Python" "python3" "brew install python3"
 check_tool "Go" "go" "brew install go"
 check_tool "Rust" "cargo" "curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh"
+check_tool "Container" "container" "brew install container"
 
 echo ""
 if [ $MISSING_TOOLS -eq 1 ]; then

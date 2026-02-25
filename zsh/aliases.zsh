@@ -36,11 +36,19 @@ alias gs='git status'
 alias gd='git diff'
 alias glg='git log --graph --oneline --decorate --all'
 
-# Docker
+# Docker & Containers
 alias d='docker'
 alias dc='docker-compose'
 alias dps='docker ps -a'
 alias di='docker images'
+
+# Apple Native Container
+alias c='container'
+alias cr='container run'
+alias cl='container ls'
+alias cp='container image pull'
+alias cb='container build'
+alias cs='container system'
 
 # Apps
 alias bt='Budget_Tracker'
