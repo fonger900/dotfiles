@@ -63,6 +63,7 @@ That's it! Your development environment is ready. 🎉
 
 - **[Setup Guide](docs/SETUP_GUIDE.md)** - Complete installation and configuration guide.
 - **[Workspace Guide](docs/WORKSPACE_GUIDE.md)** - **START HERE** - Tmux and Terminal workflows.
+- **[Fullstack Workflow](docs/FULLSTACK_WORKFLOW.md)** - A "day in the life" guide for building apps.
 - **[Neovim Guide](docs/NEOVIM_GUIDE.md)** - Editor configuration and keymaps.
 - **[Languages Guide](docs/LANGUAGES_GUIDE.md)** - Fullstack development tips (Node, Python, Go, etc.).
 - **[Quick Reference](docs/QUICK_REFERENCE.md)** - Condensed cheat sheet.
