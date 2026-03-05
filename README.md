@@ -61,14 +61,12 @@ That's it! Your development environment is ready. 🎉
 
 ## 📖 Documentation
 
-All detailed documentation has been moved to the `docs/` directory.
-
 - **[Setup Guide](docs/SETUP_GUIDE.md)** - Complete installation and configuration guide.
-- **[Tmux Guide](docs/TMUX_GUIDE.md)** - **START HERE** - Your primary multi-terminal workspace.
-- **[Fullstack Dev Guide](docs/FULLSTACK_DEV_GUIDE.md)** - Guide for fullstack development.
-- **[Terminal Guide](docs/TERMINAL_GUIDE.md)** - Guide for the terminal setup.
-- **[Quick Reference](docs/QUICK_REFERENCE.md)** - Essential shortcuts and commands.
-- **[Neovim Guide](nvim/.config/nvim/README.md)** - Neovim-specific documentation.
+- **[Workspace Guide](docs/WORKSPACE_GUIDE.md)** - **START HERE** - Tmux and Terminal workflows.
+- **[Neovim Guide](docs/NEOVIM_GUIDE.md)** - Editor configuration and keymaps.
+- **[Languages Guide](docs/LANGUAGES_GUIDE.md)** - Fullstack development tips (Node, Python, Go, etc.).
+- **[Quick Reference](docs/QUICK_REFERENCE.md)** - Condensed cheat sheet.
+- **[Helix Guide](docs/HELIX_GUIDE.md)** - Alternative editor configuration.
 
 ---
 
