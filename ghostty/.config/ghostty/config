@@ -37,8 +37,8 @@ adjust-cell-width = 0
 # ==========================================
 # Window Appearance
 # ==========================================
-window-padding-x = 8
-window-padding-y = 0
+window-padding-x = 6
+window-padding-y = 6
 window-padding-balance = true
 window-decoration = false
 window-theme = auto
