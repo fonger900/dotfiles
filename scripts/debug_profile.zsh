@@ -9,7 +9,8 @@ printf "Path: %.3fs\n" $(( t2 - t1 ))
 
 export ZSH="$HOME/.oh-my-zsh"
 zstyle ':omz:update' mode disabled
-plugins=(git docker)
+plugins=(git)
+command -v docker &> /dev/null && plugins+=(docker)
 source "$ZSH/oh-my-zsh.sh"
 t3=$EPOCHREALTIME
 printf "OMZ: %.3fs\n" $(( t3 - t2 ))

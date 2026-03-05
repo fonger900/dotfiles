@@ -29,9 +29,10 @@ brew install \
   ripgrep \
   fd \
   bat \
-  exa \
+  eza \
   zoxide \
-  starship
+  starship \
+  fastfetch
 
 # Install Oh-My-Zsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"

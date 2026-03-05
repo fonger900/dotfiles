@@ -19,7 +19,6 @@ export DOTFILES="$HOME/dotfiles"
 # 2. Manual Oh-My-Zsh Setup (Optimized)
 export ZSH="$HOME/.oh-my-zsh"
 zstyle ':omz:update' mode disabled
-plugins=(git docker)
 
 # Define Cache Dir (Required by some OMZ libs)
 : ${ZSH_CACHE_DIR:=$ZSH/cache}
@@ -39,7 +38,7 @@ done
 if [ -f "$ZSH/plugins/git/git.plugin.zsh" ]; then
   source "$ZSH/plugins/git/git.plugin.zsh"
 fi
-if [ -f "$ZSH/plugins/docker/docker.plugin.zsh" ]; then
+if [ -f "$ZSH/plugins/docker/docker.plugin.zsh" ] && command -v docker &> /dev/null; then
   source "$ZSH/plugins/docker/docker.plugin.zsh"
 fi
 
@@ -94,13 +93,6 @@ zsh-defer _init_completion
 # Mise (Version Manager)
 eval "$(~/.local/bin/mise activate zsh)"
 
-# pnpm (optimized)
-export PNPM_HOME="/Users/fonger/.local/share/pnpm"
-[[ ":$PATH:" != *":$PNPM_HOME:"* ]] && export PATH="$PNPM_HOME:$PATH"
-
-# LM Studio
-export PATH="$PATH:/Users/fonger/.lmstudio/bin"
-
 # 6. Local Customizations
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
 
@@ -115,12 +107,3 @@ fi
 # Display startup time
 typeset -F _zsh_duration=$(( EPOCHREALTIME - _zsh_start_time ))
 printf "\n\033[1;90mStartup: %.3fs\033[0m\n" $_zsh_duration
-
-
-
-# Herd injected PHP binary.
-export PATH="/Users/fonger/Library/Application Support/Herd/bin/":$PATH
-
-
-# Herd injected PHP 8.4 configuration.
-export HERD_PHP_84_INI_SCAN_DIR="/Users/fonger/Library/Application Support/Herd/config/php/84/"

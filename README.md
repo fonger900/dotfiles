@@ -83,9 +83,10 @@ brew install \
   ripgrep \       # Fast search
   fd \            # Fast find
   bat \           # Better cat
-  exa \           # Better ls
+  eza \           # Better ls
   zoxide \        # Smart cd
   starship \      # Shell prompt
+  fastfetch \     # System info
   tmux \          # Terminal multiplexer
   neovim \        # Text editor
   lazygit \       # Git TUI

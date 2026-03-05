@@ -104,6 +104,7 @@ STOW_PACKAGES=(
     "ripgrep"
     "newsboat"
     "helix"
+    "fastfetch"
 )
 
 for pkg in "${STOW_PACKAGES[@]}"; do
@@ -192,7 +193,7 @@ recommended_tools=(
     "ripgrep:fast search tool"
     "fd:fast find alternative"
     "bat:better cat"
-    "exa:better ls"
+    "eza:better ls"
     "zoxide:smart cd"
     "starship:shell prompt"
     "tmux:terminal multiplexer"
@@ -222,7 +223,7 @@ if [[ ${#missing_recommended[@]} -gt 0 ]]; then
         echo "  - $tool"
     done
     echo ""
-    print_info "Install with: brew install fzf ripgrep fd bat exa zoxide starship tmux neovim"
+    print_info "Install with: brew install fzf ripgrep fd bat eza zoxide starship tmux neovim"
 fi
 
 echo ""
