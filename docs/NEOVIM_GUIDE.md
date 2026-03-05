@@ -58,4 +58,4 @@ Formatting is handled by **conform.nvim**. Most languages are set to **format on
 
 ---
 
-**See Also**: [Fullstack Dev Guide](./FULLSTACK_DEV_GUIDE.md) for language-specific tips.
+**See Also**: [Languages Guide](./LANGUAGES_GUIDE.md) for environment-specific tips.
