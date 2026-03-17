@@ -1,2 +1,34 @@
+# OS generated files
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
 
+# Local/Personal configurations
+*.local
+.zshrc.local
+.env
+.env.*
+
+# History files (if they accidentally end up here)
+.zsh_history
+.bash_history
+.python_history
+.lesshst
+.sqlite_history
+.node_repl_history
+
+# Backup files
+*.bak
+*.swp
+*~
+.dotfiles_backup_*
+
+# Editor specific
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace

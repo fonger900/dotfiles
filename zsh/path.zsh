@@ -29,11 +29,11 @@ path=(
   "$HOME/.lmstudio/bin"
   "$HOME/Library/Android/sdk/platform-tools"
   "$HOME/Library/Android/sdk/tools"
-  "/Users/fonger/.local/share/pnpm"
-  "/Users/fonger/Library/Application Support/Herd/bin/"
+  "$HOME/.local/share/pnpm"
+  "$HOME/Library/Application Support/Herd/bin/"
 )
 
-export PNPM_HOME="/Users/fonger/.local/share/pnpm"
-export HERD_PHP_84_INI_SCAN_DIR="/Users/fonger/Library/Application Support/Herd/config/php/84/"
+export PNPM_HOME="$HOME/.local/share/pnpm"
+export HERD_PHP_84_INI_SCAN_DIR="$HOME/Library/Application Support/Herd/config/php/84/"
 
 export PATH
