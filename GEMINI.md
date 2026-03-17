@@ -1,0 +1,70 @@
+# 🚀 Fonger's Dotfiles: Project Context
+
+This document serves as the primary instructional context for Gemini CLI interactions within this repository.
+
+## 📖 Project Overview
+
+This is a comprehensive, production-ready development environment configuration ("dotfiles") repository, primarily optimized for **fullstack engineering** (Node.js, Python, Go, Rust) and **macOS**.
+
+The project uses a **modular architecture** where configurations for different tools (Zsh, Neovim, Tmux, etc.) are isolated into "packages." These packages are managed using **GNU Stow**, which symlinks them into the user's home directory.
+
+### 🛠️ Core Technology Stack
+- **Shell**: Zsh (with Oh-My-Zsh, powerlevel10k-style Starship prompt)
+- **Multiplexer**: Tmux (Prefix: `Ctrl+A`, integrated with Catppuccin theme)
+- **Editors**: Neovim (Modular Lua config), Helix (Modern alternative)
+- **Terminals**: Ghostty (Primary), Wezterm (Secondary)
+- **Package Managers**: Homebrew (System), Mise (Runtimes), PNPM (Node.js)
+- **Utilities**: `fzf`, `ripgrep`, `fd`, `eza`, `bat`, `zoxide`
+
+## 🏗️ Building and Running
+
+### Installation
+The environment is bootstrapped using the `install.sh` script:
+```bash
+# Main installation and symlinking
+./install.sh
+```
+This script:
+1.  Verifies prerequisites (`zsh`, `git`, `stow`).
+2.  Stows all packages listed in `STOW_PACKAGES` to `$HOME`.
+3.  Prompts to install Oh-My-Zsh and essential Zsh/Tmux plugins.
+4.  Checks for recommended CLI tools.
+
+### Verification
+A health check script is provided to verify the environment:
+```bash
+./scripts/devsetup.sh
+```
+
+### Runtime
+- **Reloading Zsh**: `reload` (alias for `source ~/.zshrc`)
+- **Tmux Plugins**: `Prefix + I` (inside Tmux)
+- **Neovim Plugins**: Automatically managed by `Lazy.nvim` on startup.
+
+## 📝 Development Conventions
+
+### Configuration Structure
+- **Stow Packages**: Each top-level directory (e.g., `zsh/`, `nvim/`, `tmux/`) represents a Stow package.
+- **XDG Compliance**: Most configurations follow the XDG Base Directory Specification, with files located in `.config/` subdirectories.
+
+### Extension & Overrides
+To keep the main repository generic and shareable, machine-specific or sensitive configurations should be placed in:
+- **Zsh**: `~/.zshrc.local` (sourced automatically)
+- **Git**: `~/.gitconfig.local`
+- **Other Tools**: Use `.local` suffix for ignored files.
+
+### Coding & Shell Style
+- **Shell Scripts**: Use `set -euo pipefail` for robustness.
+- **Aliases**: Defined in `zsh/aliases.zsh`. Avoid adding heavy logic to aliases; use scripts in `scripts/` instead.
+- **Modular Neovim**: The Neovim config is split into `config/` (settings) and `plugins/` (individual tool setup).
+
+### Path Management
+- Paths are managed in `zsh/path.zsh`.
+- Use the `typeset -U path` command in Zsh to ensure unique entries in the `$PATH`.
+- **Prepend** project-specific or priority paths (like `scripts/`) and **append** system or auxiliary paths.
+
+## 📂 Key Directories
+- `docs/`: Extensive documentation on workflows, keymaps, and tool-specific guides.
+- `scripts/`: Custom automation scripts added to the user's `$PATH`.
+- `zsh/`: Modular Zsh configuration (`aliases.zsh`, `exports.zsh`, `path.zsh`).
+- `nvim/`: Modular Neovim configuration following modern Lua practices.
