@@ -64,27 +64,55 @@ confirm() {
 # Core Logic
 # ==========================================
 
-check_prerequisites() {
-  log_step "Checking prerequisites..."
-
-  # OS Check
-  if [[ "$OSTYPE" != "darwin"* ]]; then
-    log_warn "This script is optimized for macOS. Some steps may fail on Linux."
+get_os() {
+  if [[ "$OSTYPE" == "darwin"* ]]; then
+    echo "macos"
+  elif [[ -f /etc/os-release ]]; then
+    echo "linux"
+  else
+    echo "unknown"
   fi
+}
 
-  # Homebrew Check
-  if ! command -v brew &>/dev/null; then
-    log_warn "Homebrew not found."
-    if confirm "Install Homebrew?"; then
-      /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+install_tool() {
+  local tool=$1
+  local os=$(get_os)
+
+  if [[ "$os" == "macos" ]]; then
+    brew install "$tool"
+  elif [[ "$os" == "linux" ]]; then
+    if command -v apt-get &>/dev/null; then
+      sudo apt-get update && sudo apt-get install -y "$tool"
+    elif command -v pacman &>/dev/null; then
+      sudo pacman -Sy --noconfirm "$tool"
+    elif command -v dnf &>/dev/null; then
+      sudo dnf install -y "$tool"
     else
-      log_error "Homebrew is required for most tools. Proceeding anyway..."
+      log_error "Unsupported package manager. Please install $tool manually."
+      return 1
+    fi
+  fi
+}
+
+check_prerequisites() {
+  local os=$(get_os)
+  log_step "Checking prerequisites for $os..."
+
+  # Homebrew Check (Universal, but optional on Linux)
+  if ! command -v brew &>/dev/null; then
+    if [[ "$os" == "macos" ]]; then
+      log_warn "Homebrew not found."
+      if confirm "Install Homebrew?"; then
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+      fi
+    else
+      log_info "Homebrew not found. Using system package manager instead."
     fi
   fi
 
   # Core tools
   local missing=()
-  for tool in git stow zsh; do
+  for tool in git stow zsh curl; do
     if ! command -v "$tool" &>/dev/null; then
       missing+=("$tool")
     fi
@@ -92,12 +120,9 @@ check_prerequisites() {
 
   if [[ ${#missing[@]} -gt 0 ]]; then
     log_info "Installing missing core tools: ${missing[*]}"
-    if command -v brew &>/dev/null; then
-      brew install "${missing[@]}"
-    else
-      log_error "Please install ${missing[*]} manually and restart."
-      exit 1
-    fi
+    for tool in "${missing[@]}"; do
+      install_tool "$tool"
+    done
   fi
 }
 
