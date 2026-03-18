@@ -1,11 +1,32 @@
 #!/usr/bin/env bash
-# ==========================================
-# Dotfiles Installation Script
-# Author: fonger
-# Updated: 2025-11-14
-# ==========================================
+# ============================================================================
+# 🚀 Fullstack Dev Dotfiles - Enhanced Installation Script
+# ============================================================================
+# This script automates the setup of the development environment using GNU Stow.
+# It handles backups, prerequisites, and optional component installation.
 
 set -euo pipefail
+
+# ==========================================
+# Configuration & Globals
+# ==========================================
+
+DOTFILES_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+BACKUP_DIR="$HOME/.dotfiles_backup/$(date +%Y%m%d_%H%M%S)"
+DRY_RUN=false
+
+STOW_PACKAGES=(
+  "zsh"
+  "tmux"
+  "nvim"
+  "wezterm"
+  "ghostty"
+  "starship"
+  "ripgrep"
+  "newsboat"
+  "helix"
+  "fastfetch"
+)
 
 # Colors for output
 RED='\033[0;31m'
@@ -14,270 +35,174 @@ YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 PURPLE='\033[0;35m'
 CYAN='\033[0;36m'
-NC='\033[0m' # No Color
-
-echo -e "${CYAN}╔═══════════════════════════════════════════════╗${NC}"
-echo -e "${CYAN}║   🚀 Fullstack Dev Dotfiles Installation     ║${NC}"
-echo -e "${CYAN}╚═══════════════════════════════════════════════╝${NC}"
-echo ""
-
-DOTFILES_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
-BACKUP_DIR="$HOME/.dotfiles_backup_$(date +%Y%m%d_%H%M%S)"
+NC='\033[0m'
 
 # ==========================================
-# Helper Functions
+# UI Helpers
 # ==========================================
 
-print_step() {
-    echo -e "${BLUE}▶ $1${NC}"
+print_header() {
+  echo -e "${CYAN}╔═══════════════════════════════════════════════╗${NC}"
+  echo -e "${CYAN}║   🚀 Fullstack Dev Dotfiles Installation     ║${NC}"
+  echo -e "${CYAN}╚═══════════════════════════════════════════════╝${NC}"
+  echo ""
 }
 
-print_success() {
-    echo -e "${GREEN}✓ $1${NC}"
+log_step() { echo -e "${BLUE}▶ $1${NC}"; }
+log_success() { echo -e "${GREEN}✓ $1${NC}"; }
+log_info() { echo -e "${PURPLE}ℹ $1${NC}"; }
+log_warn() { echo -e "${YELLOW}⚠ $1${NC}"; }
+log_error() { echo -e "${RED}✗ $1${NC}"; }
+
+confirm() {
+  read -p "$1 (y/n) " -n 1 -r
+  echo ""
+  [[ $REPLY =~ ^[Yy]$ ]]
 }
 
-print_warning() {
-    echo -e "${YELLOW}⚠ $1${NC}"
-}
+# ==========================================
+# Core Logic
+# ==========================================
 
-print_error() {
-    echo -e "${RED}✗ $1${NC}"
-}
+check_prerequisites() {
+  log_step "Checking prerequisites..."
 
-print_info() {
-    echo -e "${PURPLE}ℹ $1${NC}"
-}
+  # OS Check
+  if [[ "$OSTYPE" != "darwin"* ]]; then
+    log_warn "This script is optimized for macOS. Some steps may fail on Linux."
+  fi
 
-check_command() {
-    if command -v "$1" &> /dev/null; then
-        print_success "$1 is installed"
-        return 0
+  # Homebrew Check
+  if ! command -v brew &>/dev/null; then
+    log_warn "Homebrew not found."
+    if confirm "Install Homebrew?"; then
+      /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     else
-        print_error "$1 is not installed"
-        return 1
+      log_error "Homebrew is required for most tools. Proceeding anyway..."
     fi
+  fi
+
+  # Core tools
+  local missing=()
+  for tool in git stow zsh; do
+    if ! command -v "$tool" &>/dev/null; then
+      missing+=("$tool")
+    fi
+  done
+
+  if [[ ${#missing[@]} -gt 0 ]]; then
+    log_info "Installing missing core tools: ${missing[*]}"
+    if command -v brew &>/dev/null; then
+      brew install "${missing[@]}"
+    else
+      log_error "Please install ${missing[*]} manually and restart."
+      exit 1
+    fi
+  fi
 }
 
-# ==========================================
-# Pre-installation Checks
-# ==========================================
+backup_conflicts() {
+  local package=$1
+  log_step "Backing up conflicts for $package..."
 
-print_step "Checking prerequisites..."
+  # Run stow in simulation mode to find conflicts
+  local conflicts
+  conflicts=$(stow -nv -t "$HOME" -d "$DOTFILES_DIR" "$package" 2>&1 | grep "existing target is not owned by stow" | awk '{print $NF}' || true)
 
-missing_tools=()
+  if [[ -n "$conflicts" ]]; then
+    mkdir -p "$BACKUP_DIR"
+    while read -r file; do
+      local target="$HOME/$file"
+      if [[ -e "$target" || -L "$target" ]]; then
+        log_info "Moving $target to $BACKUP_DIR/$file"
+        mkdir -p "$(dirname "$BACKUP_DIR/$file")"
+        mv "$target" "$BACKUP_DIR/$file"
+      fi
+    done <<< "$conflicts"
+  fi
+}
 
-if ! check_command "zsh"; then
-    missing_tools+=("zsh")
-fi
+stow_packages() {
+  log_step "Stowing configuration packages..."
 
-if ! check_command "git"; then
-    missing_tools+=("git")
-fi
-
-if ! check_command "stow"; then
-    missing_tools+=("stow")
-fi
-
-if [[ ${#missing_tools[@]} -gt 0 ]]; then
-    print_error "Missing required tools: ${missing_tools[*]}"
-    print_info "Please install them first:"
-    echo "  brew install ${missing_tools[*]}"
-    exit 1
-fi
-
-echo ""
-
-# ==========================================
-# Main Installation
-# ==========================================
-
-print_step "Stowing configuration files..."
-echo ""
-
-STOW_PACKAGES=(
-    "zsh"
-    "tmux"
-    "nvim"
-    "wezterm"
-    "ghostty"
-    "starship"
-    "ripgrep"
-    "newsboat"
-    "helix"
-    "fastfetch"
-)
-
-for pkg in "${STOW_PACKAGES[@]}"; do
+  for pkg in "${STOW_PACKAGES[@]}"; do
     if [[ -d "$DOTFILES_DIR/$pkg" ]]; then
-        stow --restow --target="$HOME" --dir="$DOTFILES_DIR" "$pkg"
-        print_success "Stowed $pkg"
+      backup_conflicts "$pkg"
+      if $DRY_RUN; then
+        stow -nv -t "$HOME" -d "$DOTFILES_DIR" "$pkg"
+        log_success "Simulated stow for $pkg"
+      else
+        stow -R -t "$HOME" -d "$DOTFILES_DIR" "$pkg"
+        log_success "Stowed $pkg"
+      fi
     else
-        print_warning "Skipping $pkg (directory not found)"
+      log_warn "Package directory $pkg not found, skipping."
     fi
-done
+  done
+}
 
-echo ""
+install_optional() {
+  log_step "Checking optional components..."
 
-# ==========================================
-# Optional Components Installation
-# ==========================================
-
-print_step "Checking optional components..."
-echo ""
-
-# Oh-My-Zsh
-if [[ ! -d "$HOME/.oh-my-zsh" ]]; then
-    print_warning "Oh-My-Zsh not found"
-    read -p "Install Oh-My-Zsh? (y/n) " -n 1 -r
-    echo
-    if [[ $REPLY =~ ^[Yy]$ ]]; then
-        sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
-        print_success "Oh-My-Zsh installed"
+  # Oh-My-Zsh
+  if [[ ! -d "$HOME/.oh-my-zsh" ]]; then
+    if confirm "Install Oh-My-Zsh?"; then
+      sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
     fi
-else
-    print_success "Oh-My-Zsh already installed"
-fi
+  fi
 
-# Zsh plugins
-ZSH_CUSTOM="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
+  # Zsh Plugins
+  local ZSH_CUSTOM="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
+  local plugins=(
+    "zsh-users/zsh-autosuggestions"
+    "zsh-users/zsh-syntax-highlighting"
+    "zsh-users/zsh-completions"
+  )
 
-if [[ ! -d "$ZSH_CUSTOM/plugins/zsh-autosuggestions" ]]; then
-    print_info "Installing zsh-autosuggestions..."
-    git clone https://github.com/zsh-users/zsh-autosuggestions "$ZSH_CUSTOM/plugins/zsh-autosuggestions"
-    print_success "zsh-autosuggestions installed"
-else
-    print_success "zsh-autosuggestions already installed"
-fi
-
-if [[ ! -d "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting" ]]; then
-    print_info "Installing zsh-syntax-highlighting..."
-    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting"
-    print_success "zsh-syntax-highlighting installed"
-else
-    print_success "zsh-syntax-highlighting already installed"
-fi
-
-if [[ ! -d "$ZSH_CUSTOM/plugins/zsh-completions" ]]; then
-    print_info "Installing zsh-completions..."
-    git clone https://github.com/zsh-users/zsh-completions "$ZSH_CUSTOM/plugins/zsh-completions"
-    print_success "zsh-completions installed"
-else
-    print_success "zsh-completions already installed"
-fi
-
-# Tmux Plugin Manager
-if [[ ! -d "$HOME/.tmux/plugins/tpm" ]]; then
-    print_warning "Tmux Plugin Manager (TPM) not found"
-    read -p "Install TPM? (y/n) " -n 1 -r
-    echo
-    if [[ $REPLY =~ ^[Yy]$ ]]; then
-        git clone https://github.com/tmux-plugins/tpm "$HOME/.tmux/plugins/tpm"
-        print_success "TPM installed"
-        print_info "Start tmux and press Ctrl+A then Shift+I to install plugins"
+  for plugin in "${plugins[@]}"; do
+    local name=$(basename "$plugin")
+    if [[ ! -d "$ZSH_CUSTOM/plugins/$name" ]]; then
+      log_info "Installing $name..."
+      git clone "https://github.com/$plugin" "$ZSH_CUSTOM/plugins/$name"
     fi
-else
-    print_success "TPM already installed"
-fi
+  done
 
-echo ""
-
-# ==========================================
-# Recommended Tools Check
-# ==========================================
-
-print_step "Checking recommended tools..."
-echo ""
-
-recommended_tools=(
-    "fzf:fuzzy finder"
-    "ripgrep:fast search tool"
-    "fd:fast find alternative"
-    "bat:better cat"
-    "eza:better ls"
-    "zoxide:smart cd"
-    "starship:shell prompt"
-    "tmux:terminal multiplexer"
-    "nvim:neovim editor"
-    "node:Node.js runtime"
-    "python3:Python interpreter"
-    "docker:containerization (legacy)"
-    "container:native macOS containerization"
-)
-
-missing_recommended=()
-
-for tool_info in "${recommended_tools[@]}"; do
-    IFS=':' read -r tool desc <<< "$tool_info"
-    if check_command "$tool"; then
-        # Tool exists
-        :
-    else
-        missing_recommended+=("$tool ($desc)")
+  # TPM
+  if [[ ! -d "$HOME/.tmux/plugins/tpm" ]]; then
+    if confirm "Install Tmux Plugin Manager?"; then
+      git clone https://github.com/tmux-plugins/tpm "$HOME/.tmux/plugins/tpm"
     fi
-done
-
-if [[ ${#missing_recommended[@]} -gt 0 ]]; then
-    echo ""
-    print_warning "Optional tools not installed:"
-    for tool in "${missing_recommended[@]}"; do
-        echo "  - $tool"
-    done
-    echo ""
-    print_info "Install with: brew install fzf ripgrep fd bat eza zoxide starship tmux neovim"
-fi
-
-echo ""
+  fi
+}
 
 # ==========================================
-# Post-installation Steps
+# Main Execution
 # ==========================================
 
-print_step "Post-installation steps..."
-echo ""
+main() {
+  # Parse flags
+  while [[ $# -gt 0 ]]; do
+    case $1 in
+      --dry-run) DRY_RUN=true; shift ;;
+      *) log_error "Unknown option: $1"; exit 1 ;;
+    esac
+  done
 
-# Change default shell to zsh if needed
-if [[ "$SHELL" != */zsh ]]; then
-    print_warning "Your default shell is not zsh"
-    read -p "Change default shell to zsh? (y/n) " -n 1 -r
-    echo
-    if [[ $REPLY =~ ^[Yy]$ ]]; then
-        chsh -s "$(which zsh)"
-        print_success "Default shell changed to zsh (restart required)"
-    fi
-else
-    print_success "Default shell is already zsh"
-fi
+  print_header
+  check_prerequisites
+  stow_packages
+  install_optional
 
-echo ""
+  echo ""
+  log_success "Installation Complete!"
+  if [[ -d "$BACKUP_DIR" ]]; then
+    log_info "Conflicts backed up to: $BACKUP_DIR"
+  fi
+  echo ""
+  echo -e "${YELLOW}Next Steps:${NC}"
+  echo "  1. Restart your terminal (exec zsh)"
+  echo "  2. Open Tmux and press Prefix + I to install plugins"
+  echo "  3. Explore documentation in the docs/ folder"
+}
 
-# ==========================================
-# Summary
-# ==========================================
-
-echo -e "${CYAN}╔═══════════════════════════════════════════════╗${NC}"
-echo -e "${CYAN}║   ✨ Installation Complete!                   ║${NC}"
-echo -e "${CYAN}╚═══════════════════════════════════════════════╝${NC}"
-echo ""
-
-print_success "Dotfiles installed successfully!"
-echo ""
-
-if [[ -d "$BACKUP_DIR" ]]; then
-    print_info "Backup created at: $BACKUP_DIR"
-fi
-
-echo ""
-echo -e "${YELLOW}Next steps:${NC}"
-echo "  1. Restart your terminal or run: source ~/.zshrc"
-echo "  2. Read the tmux guide: cat TMUX_GUIDE.md (your primary tool!)"
-echo "  3. Start tmux and press: Ctrl+A then Shift+I (to install plugins)"
-echo "  4. Try a project: tmux new -s test (then Ctrl+A + Alt+F for layout)"
-echo "  5. Run 'devsetup' to check your development tools"
-echo ""
-echo -e "${CYAN}📚 Documentation:${NC}"
-echo "  - TMUX_GUIDE.md      → Complete tmux reference (start here!)"
-echo "  - QUICK_REFERENCE.md → Essential shortcuts"
-echo "  - SETUP_GUIDE.md     → Full setup documentation"
-echo ""
-echo -e "${GREEN}Happy coding! 🚀${NC}"
-
+main "$@"
