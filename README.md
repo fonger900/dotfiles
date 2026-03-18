@@ -18,6 +18,7 @@
 - 🔍 **Fuzzy finding** with FZF integration
 - 📊 **Persistent session management** with automatic save/restore
 - 🛠️ **Quick project initialization** for popular frameworks
+- 🤖 **AI-Ready** with `GEMINI.md` context for AI-driven development
 
 ---
 
@@ -27,7 +28,9 @@ This repository is structured as a collection of "packages" for each application
 
 - **`zsh/`**, **`tmux/`**, **`nvim/`**, **`ghostty/`**, etc.: Configuration packages for each tool.
 - **`docs/`**: Contains all the detailed guides and documentation.
+- **`scripts/`**: Custom automation scripts added to your `$PATH`.
 - **`install.sh`**: The installation script that orchestrates the setup.
+- **`GEMINI.md`**: Instructional context for AI agents (like Gemini) to understand the project architecture.
 
 ---
 
@@ -35,7 +38,7 @@ This repository is structured as a collection of "packages" for each application
 
 ### Prerequisites
 
-- macOS (or Linux with minor modifications)
+- macOS (Primary) or Linux
 - [Homebrew](https://brew.sh/) installed
 - `stow` (`brew install stow`)
 - Basic command line knowledge
@@ -68,6 +71,7 @@ That's it! Your development environment is ready. 🎉
 - **[Languages Guide](docs/LANGUAGES_GUIDE.md)** - Fullstack development tips (Node, Python, Go, etc.).
 - **[Quick Reference](docs/QUICK_REFERENCE.md)** - Condensed cheat sheet.
 - **[Helix Guide](docs/HELIX_GUIDE.md)** - Alternative editor configuration.
+- **[Known Bugs & Fixes](docs/bugs/)** - Solutions for common environment quirks.
 
 ---
 
@@ -141,29 +145,6 @@ dcud  # Start containers in detached mode
 dclf  # Follow logs
 ```
 
-### Native macOS Container Development
-
-```bash
-# Start the container service
-cs start
-
-# Run a container
-cr -it alpine
-# Inside container: ls /
-
-# List containers
-cl
-```
-
-### Microservices
-
-```bash
-# Use tmux windows for each service
-tmux new -s microservices -n api-gateway
-# Ctrl+A then C to create new window for each service
-# Alt+1, Alt+2, Alt+3 to switch between them
-```
-
 ---
 
 ## ⌨️ Essential Shortcuts
@@ -179,7 +160,7 @@ tmux new -s microservices -n api-gateway
 | New window | `Ctrl+Shift+T` |
 | Jump to window | `Alt+1-9` |
 
-### Wezterm
+### Terminal (Ghostty/Wezterm)
 
 | Action | Shortcut |
 |--------|----------|
@@ -188,8 +169,6 @@ tmux new -s microservices -n api-gateway
 | New tab | `Cmd+T` |
 | Jump to tab | `Cmd+1-9` |
 | Search | `Cmd+F` |
-
-See [Quick Reference](docs/QUICK_REFERENCE.md) for complete list.
 
 ---
 
@@ -208,46 +187,29 @@ To add a new configuration file:
 
 ### Add Personal Configurations
 
-Create `~/.zshrc.local` for machine-specific settings:
+To keep the main repo clean and generic, use these local override files (automatically git-ignored):
 
+- **Zsh**: `~/.zshrc.local` (sourced at the end of `.zshrc`)
+- **Git**: `~/.gitconfig.local` (can be included in your main `.gitconfig`)
+
+Example `~/.zshrc.local`:
 ```bash
-# ~/.zshrc.local
 export CUSTOM_VAR="value"
 alias myalias="my command"
 ```
-
-This file is sourced at the end of `.zshrc` and is git-ignored.
-
-### Modify Existing Configs
-
-All configurations are well-commented and organized into sections. Feel free to customize. To find a configuration, look for the corresponding directory (e.g., `zsh/`, `tmux/`, `nvim/`).
 
 ---
 
 ## 🐛 Troubleshooting
 
 ### Slow shell startup?
+Run `scripts/debug_profile.zsh` to identify slow components.
 
-```bash
-# NVM is already lazy-loaded
-# Check what's taking time:
-# Uncomment zprof lines in .zshrc
-```
-
-### Tmux plugins not working?
-
-```bash
-# In tmux, press: Ctrl+A then Shift+I
-# Or reinstall: rm -rf ~/.tmux/plugins/tpm && git clone ...
-```
+### Cursor escapes Lazygit in Neovim?
+We have disabled `better-escape.nvim` in terminal mode. See [this guide](docs/bugs/LAZYGIT_JK_ESCAPE.md) for details.
 
 ### Colors not correct?
-
-```bash
-echo $TERM  # Should be: xterm-256color or screen-256color
-```
-
-See [Setup Guide](docs/SETUP_GUIDE.md#troubleshooting) for more solutions.
+Ensure your `$TERM` is set to `xterm-256color` and you are using a Nerd Font.
 
 ---
 
@@ -263,7 +225,7 @@ Suggestions and improvements are welcome! Feel free to:
 
 ## 📝 License
 
-MIT License - Feel free to use and modify as you wish.
+This project is licensed under the [MIT License](LICENSE).
 
 ---
 
@@ -275,4 +237,5 @@ Built with inspiration from:
 - [Catppuccin](https://github.com/catppuccin/catppuccin)
 - [Starship](https://starship.rs/)
 - [Wezterm](https://wezfurlong.org/wezterm/)
+- [Ghostty](https://ghostty.org/)
 - [TPM](https://github.com/tmux-plugins/tpm)
