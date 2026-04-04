@@ -192,6 +192,19 @@ install_optional() {
     fi
   done
 
+  # zsh-defer (standalone)
+  if [[ ! -d "$HOME/zsh-defer" ]]; then
+    log_info "Installing zsh-defer..."
+    git clone https://github.com/romkatv/zsh-defer "$HOME/zsh-defer"
+  fi
+
+  # Starship
+  if ! command -v starship &>/dev/null; then
+    if confirm "Install Starship prompt?"; then
+      curl -sS https://starship.rs/install.sh | sh -s -- --yes
+    fi
+  fi
+
   # TPM
   if [[ ! -d "$HOME/.tmux/plugins/tpm" ]]; then
     if confirm "Install Tmux Plugin Manager?"; then

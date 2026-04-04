@@ -5,7 +5,13 @@ echo -ne " \033[1;33m●\033[0m Loading..."
 # Force redraw
 if [[ -o zle ]]; then zle -R; else echo -ne "\r"; fi
 
-source ~/zsh-defer/zsh-defer.plugin.zsh
+# Load zsh-defer (Fast startup)
+if [ -f "$HOME/zsh-defer/zsh-defer.plugin.zsh" ]; then
+  source "$HOME/zsh-defer/zsh-defer.plugin.zsh"
+else
+  # Polyfill if missing
+  zsh-defer() { "$@"; }
+fi
 
 
 # ==========================================
@@ -35,11 +41,16 @@ for config_file ($ZSH/lib/*.zsh); do
 done
 
 # Load Plugins explicitly
+ZSH_CUSTOM="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
+
 if [ -f "$ZSH/plugins/git/git.plugin.zsh" ]; then
   source "$ZSH/plugins/git/git.plugin.zsh"
 fi
-if [ -f "$ZSH/plugins/docker/docker.plugin.zsh" ] && command -v docker &> /dev/null; then
-  source "$ZSH/plugins/docker/docker.plugin.zsh"
+if [ -f "$ZSH_CUSTOM/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh" ]; then
+  source "$ZSH_CUSTOM/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh"
+fi
+if [ -f "$ZSH_CUSTOM/plugins/zsh-completions/zsh-completions.plugin.zsh" ]; then
+  source "$ZSH_CUSTOM/plugins/zsh-completions/zsh-completions.plugin.zsh"
 fi
 
 # 3. Exports & Options
@@ -62,9 +73,17 @@ fi
 
 # Defer syntax highlighting to end
 _load_syntax_highlighting() {
-  if [ -f /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
-    source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-  fi
+  local SH_PATHS=(
+    "/opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+    "/usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+    "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+  )
+  for sh_path in "${SH_PATHS[@]}"; do
+    if [ -f "$sh_path" ]; then
+      source "$sh_path"
+      break
+    fi
+  done
 }
 zsh-defer _load_syntax_highlighting
 
@@ -107,3 +126,5 @@ fi
 # Display startup time
 typeset -F _zsh_duration=$(( EPOCHREALTIME - _zsh_start_time ))
 printf "\n\033[1;90mStartup: %.3fs\033[0m\n" $_zsh_duration
+
+PATH="$PATH:/opt/nvim-linux-x86_64/bin"

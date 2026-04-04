@@ -6,11 +6,31 @@ local act = wezterm.action
 local config = wezterm.config_builder and wezterm.config_builder() or {}
 
 -- ==========================================
+-- OS Detection
+-- ==========================================
+
+local function is_windows()
+  return wezterm.target_triple:find('windows') ~= nil
+end
+
+-- ==========================================
 -- Helper Functions
 -- ==========================================
 
 local function apply_font_and_colors(config)
-  config.font = wezterm.font('JetBrainsMono Nerd Font', { weight = 'Regular' })
+  -- Windows might use different font name variants
+  local font_name = 'JetBrainsMono Nerd Font'
+  if is_windows() then
+    -- Try common Windows variants if the primary one isn't found
+    config.font = wezterm.font_with_fallback {
+      'JetBrainsMono NF',
+      'JetBrainsMono Nerd Font',
+      'Consolas',
+    }
+  else
+    config.font = wezterm.font(font_name, { weight = 'Regular' })
+  end
+
   config.font_size = 12.5
   config.line_height = 1.2
   config.color_scheme = 'Catppuccin Mocha'
@@ -18,10 +38,23 @@ end
 
 local function apply_window(config)
   config.window_background_opacity = 0.95
-  config.window_decorations = 'RESIZE'
+  
+  if is_windows() then
+    config.window_decorations = 'TITLE | RESIZE'
+  else
+    config.window_decorations = 'RESIZE'
+  end
+
   config.window_close_confirmation = 'NeverPrompt'
   config.initial_cols = 120
   config.initial_rows = 30
+  
+  config.window_padding = {
+    left = 10,
+    right = 10,
+    top = 10,
+    bottom = 10,
+  }
 end
 
 local function apply_tab_bar(config)
@@ -42,6 +75,22 @@ local function apply_performance(config)
   config.front_end = 'WebGpu'
   config.max_fps = 120
   config.animation_fps = 60
+end
+
+local function apply_os_settings(config)
+  if is_windows() then
+    -- WSL Domains allow easy access to WSL distributions
+    config.wsl_domains = {
+      {
+        name = 'WSL:Ubuntu',
+        distribution = 'Ubuntu',
+      },
+    }
+    
+    -- Windows-specific shell options
+    -- Use powershell.exe by default as it's guaranteed to be there
+    config.default_prog = { 'powershell.exe', '-NoLogo' }
+  end
 end
 
 local function apply_keybindings(config)
@@ -288,7 +337,28 @@ local function apply_mouse_bindings(config)
 end
 
 local function apply_launch_menu(config)
-  config.launch_menu = nil
+  if is_windows() then
+    config.launch_menu = {
+      {
+        label = 'WSL: Ubuntu',
+        args = { 'wsl.exe', '-d', 'Ubuntu' },
+      },
+      {
+        label = 'PowerShell Core',
+        args = { 'pwsh.exe', '-NoLogo' },
+      },
+      {
+        label = 'PowerShell Desktop',
+        args = { 'powershell.exe', '-NoLogo' },
+      },
+      {
+        label = 'Command Prompt',
+        args = { 'cmd.exe' },
+      },
+    }
+  else
+    config.launch_menu = nil
+  end
 end
 
 local function apply_hyperlink_rules(config)
@@ -310,6 +380,7 @@ apply_cursor_and_scrollback(config)
 apply_performance(config)
 apply_keybindings(config)
 apply_mouse_bindings(config)
+apply_os_settings(config) -- Apply OS specific overrides
 apply_launch_menu(config)
 apply_hyperlink_rules(config)
 apply_quick_select_patterns(config)
