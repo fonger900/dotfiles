@@ -72,7 +72,8 @@ local function apply_cursor_and_scrollback(config)
 end
 
 local function apply_performance(config)
-  config.front_end = 'WebGpu'
+  -- OpenGL is often more stable as a primary front-end on Windows
+  config.front_end = 'OpenGL'
   config.max_fps = 120
   config.animation_fps = 60
 end
@@ -340,8 +341,12 @@ local function apply_launch_menu(config)
   if is_windows() then
     config.launch_menu = {
       {
-        label = 'WSL: Ubuntu',
-        args = { 'wsl.exe', '-d', 'Ubuntu' },
+        label = 'WSL: Ubuntu (zsh)',
+        args = { 'wsl.exe', '-d', 'Ubuntu', 'zsh' },
+      },
+      {
+        label = 'WSL: Ubuntu (tmux)',
+        args = { 'wsl.exe', '-d', 'Ubuntu', 'tmux', 'new-session', '-A', '-s', 'main' },
       },
       {
         label = 'PowerShell Core',

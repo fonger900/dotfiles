@@ -1,9 +1,6 @@
-# Start timer & Loading indicator
+# Start timer
 zmodload zsh/datetime
 typeset -F _zsh_start_time=$EPOCHREALTIME
-echo -ne " \033[1;33m●\033[0m Loading..."
-# Force redraw
-if [[ -o zle ]]; then zle -R; else echo -ne "\r"; fi
 
 # Load zsh-defer (Fast startup)
 if [ -f "$HOME/zsh-defer/zsh-defer.plugin.zsh" ]; then
@@ -114,9 +111,6 @@ eval "$(~/.local/bin/mise activate zsh)"
 
 # 6. Local Customizations
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
-
-# Clear loading indicator
-echo -ne "\r\033[K"
 
 # Fastfetch
 if command -v fastfetch &> /dev/null; then

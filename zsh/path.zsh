@@ -8,6 +8,9 @@ typeset -U path
 path=(
   "$DOTFILES/scripts"
   "$HOME/.local/bin"
+  "/usr/local/bin"
+  "/usr/bin"
+  "/bin"
   $path
 )
 
