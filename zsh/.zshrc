@@ -121,4 +121,7 @@ fi
 typeset -F _zsh_duration=$(( EPOCHREALTIME - _zsh_start_time ))
 printf "\n\033[1;90mStartup: %.3fs\033[0m\n" $_zsh_duration
 
+# Drain any terminal responses (like Device Attributes) that leaked into the buffer
+while read -sk -t 0.01; do :; done
+
 PATH="$PATH:/opt/nvim-linux-x86_64/bin"
