@@ -77,18 +77,28 @@ get_os() {
 install_tool() {
   local tool=$1
   local os=$(get_os)
+  local pkg=$tool
+
+  # Handle package name differences
+  if [[ "$pkg" == "fd" ]] && command -v apt-get &>/dev/null; then
+    pkg="fd-find"
+  fi
 
   if [[ "$os" == "macos" ]]; then
-    brew install "$tool"
+    brew install "$pkg"
   elif [[ "$os" == "linux" ]]; then
     if command -v apt-get &>/dev/null; then
-      sudo apt-get update && sudo apt-get install -y "$tool"
+      sudo apt-get update && sudo apt-get install -y "$pkg"
+      # Symlink fd-find to fd on Ubuntu/Debian
+      if [[ "$tool" == "fd" ]] && [[ ! -f /usr/local/bin/fd ]] && command -v fdfind &>/dev/null; then
+        sudo ln -sf "$(command -v fdfind)" /usr/local/bin/fd
+      fi
     elif command -v pacman &>/dev/null; then
-      sudo pacman -Sy --noconfirm "$tool"
+      sudo pacman -Sy --noconfirm "$pkg"
     elif command -v dnf &>/dev/null; then
-      sudo dnf install -y "$tool"
+      sudo dnf install -y "$pkg"
     else
-      log_error "Unsupported package manager. Please install $tool manually."
+      log_error "Unsupported package manager. Please install $pkg manually."
       return 1
     fi
   fi
@@ -112,7 +122,7 @@ check_prerequisites() {
 
   # Core tools
   local missing=()
-  for tool in git stow zsh curl; do
+  for tool in git stow zsh curl fd; do
     if ! command -v "$tool" &>/dev/null; then
       missing+=("$tool")
     fi

@@ -25,7 +25,8 @@ lint_shell() {
   log_step "Linting shell scripts with ShellCheck..."
   if command -v shellcheck &>/dev/null; then
     # Find all .sh and .zsh files, excluding vendor directories
-    local files=$(find . -type f \( -name "*.sh" -o -name "*.zsh" \) -not -path "*/.oh-my-zsh/*" -not -path "*/.git/*")
+    local files=$(find -L . -type f \( -name "*.sh" -o -name "*.zsh" \) -not -path "*/.oh-my-zsh/*" -not -path "*/.git/*")
+
     if [[ -n "$files" ]]; then
       # SC1071: Ignore "unknown shell" for .zsh files (ShellCheck primarily supports bash/sh)
       shellcheck -s bash $files || log_warn "ShellCheck found some issues. Review them above."
