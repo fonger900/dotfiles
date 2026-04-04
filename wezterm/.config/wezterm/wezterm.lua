@@ -88,12 +88,15 @@ local function apply_os_settings(config)
       {
         name = 'WSL:Ubuntu',
         distribution = 'Ubuntu',
+        default_cwd = '~',
       },
     }
     
-    -- Windows-specific shell options
-    -- Use powershell.exe by default as it's guaranteed to be there
-    config.default_prog = { 'powershell.exe', '-NoLogo' }
+    -- Set default domain to WSL for seamless Windows integration
+    config.default_domain = 'WSL:Ubuntu'
+    
+    -- When opening WSL, start tmux automatically
+    config.default_prog = { 'wsl.exe', '-d', 'Ubuntu', 'tmux', 'new-session', '-A', '-s', 'main' }
   end
 end
 
