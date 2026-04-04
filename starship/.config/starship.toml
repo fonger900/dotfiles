@@ -20,8 +20,8 @@ $cmd_duration\
 $line_break\
 $character """
 
-scan_timeout = 30
-command_timeout = 2000
+scan_timeout = 1000
+command_timeout = 5000
 
 # ============================================================================
 # Directory Module

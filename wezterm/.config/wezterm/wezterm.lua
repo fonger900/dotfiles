@@ -27,11 +27,14 @@ local function apply_font_and_colors(config)
       'JetBrainsMono Nerd Font',
       'Consolas',
     }
+    config.font_size = 10
+
   else
     config.font = wezterm.font(font_name, { weight = 'Regular' })
+    config.font_size = 12.5
+
   end
 
-  config.font_size = 12.5
   config.line_height = 1.2
   config.color_scheme = 'Catppuccin Mocha'
 end
