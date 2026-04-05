@@ -116,7 +116,7 @@ _init_completion() {
 zsh-defer _init_completion
 
 # Mise (Version Manager)
-eval "$(~/.local/bin/mise activate zsh)"
+eval "$(~/.local/bin/mise activate zsh --shims)"
 
 # 6. Local Customizations
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local

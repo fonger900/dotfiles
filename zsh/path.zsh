@@ -39,4 +39,18 @@ path=(
 export PNPM_HOME="$HOME/.local/share/pnpm"
 export HERD_PHP_84_INI_SCAN_DIR="$HOME/Library/Application Support/Herd/config/php/84/"
 
+# ==========================================
+# WSL Path Optimization
+# ==========================================
+# Filtering Windows paths (excluding critical ones like code, wsl, clip) to fix severe prompt latency
+if [[ -n "$WSL_DISTRO_NAME" ]]; then
+  local new_path=()
+  for p in "${path[@]}"; do
+    if [[ "$p" != /mnt/c/* ]] || [[ "$p" == *System32* ]] || [[ "$p" == *"VS Code/bin"* ]] || [[ "$p" == *"VSCode"* ]] || [[ "$p" == *WezTerm* ]] || [[ "$p" == *chrome* ]]; then
+      new_path+=("$p")
+    fi
+  done
+  path=("${new_path[@]}")
+fi
+
 export PATH
