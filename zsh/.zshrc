@@ -43,15 +43,24 @@ ZSH_CUSTOM="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
 if [ -f "$ZSH/plugins/git/git.plugin.zsh" ]; then
   source "$ZSH/plugins/git/git.plugin.zsh"
 fi
+
+# Performance: Use async for autosuggestions to prevent typing lag
 if [ -f "$ZSH_CUSTOM/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh" ]; then
+  export ZSH_AUTOSUGGEST_USE_ASYNC=1
+  export ZSH_AUTOSUGGEST_MANUAL_REBIND=1 # Faster startup
   source "$ZSH_CUSTOM/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh"
 fi
+
 if [ -f "$ZSH_CUSTOM/plugins/zsh-completions/zsh-completions.plugin.zsh" ]; then
   source "$ZSH_CUSTOM/plugins/zsh-completions/zsh-completions.plugin.zsh"
 fi
 
 # 3. Exports & Options
 [ -f "$DOTFILES/zsh/exports.zsh" ] && source "$DOTFILES/zsh/exports.zsh"
+
+# Completion caching
+zstyle ':completion:*' use-cache yes
+zstyle ':completion:*' cache-path "$ZSH_CACHE_DIR"
 
 # 4. Aliases
 [ -f "$DOTFILES/zsh/aliases.zsh" ] && source "$DOTFILES/zsh/aliases.zsh"
@@ -112,10 +121,13 @@ eval "$(~/.local/bin/mise activate zsh)"
 # 6. Local Customizations
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
 
-# Fastfetch
-if command -v fastfetch &> /dev/null; then
-  fastfetch
-fi
+# Fastfetch (Deferred to avoid blocking the first prompt)
+_load_fastfetch() {
+  if command -v fastfetch &> /dev/null; then
+    fastfetch
+  fi
+}
+zsh-defer _load_fastfetch
 
 # Display startup time
 typeset -F _zsh_duration=$(( EPOCHREALTIME - _zsh_start_time ))
