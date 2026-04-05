@@ -50,7 +50,18 @@ return {
       if type(opts.ensure_installed) == "table" then
         opts.ensure_installed = require("config.utils").dedup(opts.ensure_installed)
       end
-      require("nvim-treesitter.configs").setup(opts)
+
+      -- Resilient setup for nvim-treesitter 1.0.0+ breaking changes
+      local ok, configs = pcall(require, "nvim-treesitter.configs")
+      if ok then
+        configs.setup(opts)
+      else
+        -- Fallback: just setup the parsers if main configs is missing
+        local ts_ok, ts = pcall(require, "nvim-treesitter")
+        if ts_ok and ts.setup then
+          ts.setup(opts)
+        end
+      end
     end,
   },
 

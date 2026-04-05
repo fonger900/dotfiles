@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 # ============================================================================
-# 🚀 Fullstack Dev Dotfiles - Enhanced Installation Script
+# 🚀 Fullstack Dev Dotfiles - Enhanced Installation Script (Mise & UV)
 # ============================================================================
 # This script automates the setup of the development environment using GNU Stow.
-# It handles backups, prerequisites, and optional component installation.
+# It uses Mise for runtime management and UV for Python.
 
 set -euo pipefail
 
@@ -83,8 +83,8 @@ install_tool() {
   if command -v apt-get &>/dev/null; then
     if [[ "$pkg" == "fd" ]]; then pkg="fd-find"; fi
   elif command -v pacman &>/dev/null; then
-    if [[ "$pkg" == "python3-pip" ]]; then pkg="python-pip"; fi
-    if [[ "$pkg" == "python3-venv" ]]; then pkg="python-virtualenv"; fi
+    # Standard tools usually match in pacman
+    :
   fi
 
   if [[ "$os" == "macos" ]]; then
@@ -92,7 +92,6 @@ install_tool() {
   elif [[ "$os" == "linux" ]]; then
     if command -v apt-get &>/dev/null; then
       sudo apt-get update && sudo apt-get install -y "$pkg"
-      # Symlink fd-find to fd on Ubuntu/Debian
       if [[ "$tool" == "fd" ]] && [[ ! -f /usr/local/bin/fd ]] && command -v fdfind &>/dev/null; then
         sudo ln -sf "$(command -v fdfind)" /usr/local/bin/fd
       fi
@@ -109,49 +108,62 @@ install_tool() {
 
 check_prerequisites() {
   local os=$(get_os)
-  log_step "Checking prerequisites for $os..."
+  log_step "Checking core prerequisites for $os..."
 
-  # Homebrew Check (Universal, but optional on Linux)
-  if ! command -v brew &>/dev/null; then
-    if [[ "$os" == "macos" ]]; then
-      log_warn "Homebrew not found."
-      if confirm "Install Homebrew?"; then
-        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-      fi
-    else
-      log_info "Homebrew not found. Using system package manager instead."
+  # Homebrew Check
+  if [[ "$os" == "macos" ]] && ! command -v brew &>/dev/null; then
+    log_warn "Homebrew not found."
+    if confirm "Install Homebrew?"; then
+      /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     fi
   fi
 
-  # Core tools
-  local missing=()
+  # Core tools (minimal set required to bootstrap)
   local core_tools=("git" "stow" "zsh" "curl" "fd")
-  
   if [[ "$os" == "linux" ]]; then
-    core_tools+=("python3-pip" "python3-venv" "build-essential")
+    core_tools+=("build-essential")
   fi
 
   for tool in "${core_tools[@]}"; do
     if ! command -v "$tool" &>/dev/null; then
-      # Special check for pip which can be python3-pip
-      if [[ "$tool" == "python3-pip" ]] && command -v pip3 &>/dev/null; then continue; fi
-      missing+=("$tool")
-    fi
-  done
-
-  if [[ ${#missing[@]} -gt 0 ]]; then
-    log_info "Installing missing core tools: ${missing[*]}"
-    for tool in "${missing[@]}"; do
+      log_info "Installing missing core tool: $tool"
       install_tool "$tool"
     done
+  done
+}
+
+install_runtimes() {
+  log_step "Installing Mise & Runtimes..."
+
+  # 1. Install Mise
+  if ! command -v mise &>/dev/null; then
+    log_info "Installing Mise..."
+    curl https://mise.jdx.dev/install.sh | sh
+    # Add to path for the rest of this script
+    export PATH="$HOME/.local/bin:$PATH"
   fi
+
+  # 2. Install UV (Python)
+  if ! command -v uv &>/dev/null; then
+    log_info "Installing UV..."
+    curl -LsSf https://astral.sh/uv/install.sh | sh
+    export PATH="$HOME/.cargo/bin:$PATH"
+  fi
+
+  # 3. Use Mise to install other runtimes
+  log_info "Installing runtimes via Mise (Node.js, Go)..."
+  mise use -g node@latest
+  mise use -g go@latest
+
+  # 4. Use UV to install Python
+  log_info "Installing Python via UV..."
+  uv python install latest
 }
 
 backup_conflicts() {
   local package=$1
   log_step "Backing up conflicts for $package..."
 
-  # Run stow in simulation mode to find conflicts
   local conflicts
   conflicts=$(stow -nv -t "$HOME" -d "$DOTFILES_DIR" "$package" 2>&1 | grep "existing target is not owned by stow" | awk '{print $NF}' || true)
 
@@ -213,7 +225,7 @@ install_optional() {
     fi
   done
 
-  # zsh-defer (standalone)
+  # zsh-defer
   if [[ ! -d "$HOME/zsh-defer" ]]; then
     log_info "Installing zsh-defer..."
     git clone https://github.com/romkatv/zsh-defer "$HOME/zsh-defer"
@@ -249,6 +261,7 @@ main() {
 
   print_header
   check_prerequisites
+  install_runtimes
   stow_packages
   install_optional
 
@@ -260,8 +273,8 @@ main() {
   echo ""
   echo -e "${YELLOW}Next Steps:${NC}"
   echo "  1. Restart your terminal (exec zsh)"
-  echo "  2. Open Tmux and press Prefix + I to install plugins"
-  echo "  3. Explore documentation in the docs/ folder"
+  echo "  2. Run 'mise install' if you have a .mise.toml"
+  echo "  3. Open Tmux and press Prefix + I to install plugins"
 }
 
 main "$@"
