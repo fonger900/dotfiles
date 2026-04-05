@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Suppress Perl locale warnings
-export LC_ALL=C
+# Set locale for Ansible and Stow
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
 
 DOTFILES_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 
