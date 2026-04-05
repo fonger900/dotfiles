@@ -1,0 +1,12 @@
+---
+- name: Dotfiles | Stow packages
+  command: stow -v -R -t "{{ ansible_env.HOME }}" -d "{{ dotfiles_dir }}" {{ item }}
+  args:
+    chdir: "{{ dotfiles_dir }}"
+  loop: "{{ stow_packages }}"
+  register: stow_res
+  changed_when: >
+    'LINK: ' in stow_res.stderr or
+    'UNLINK: ' in stow_res.stderr or
+    'MKDIR: ' in stow_res.stderr or
+    'RMDIR: ' in stow_res.stderr
