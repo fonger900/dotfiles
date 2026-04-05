@@ -122,7 +122,7 @@ check_prerequisites() {
   fi
 
   # Core tools (minimal set required to bootstrap)
-  local core_tools=("git" "stow" "zsh" "curl" "fd")
+  local core_tools=("git" "stow" "zsh" "curl" "fd" "ripgrep")
   if [[ "$os" == "linux" ]]; then
     core_tools+=("build-essential")
   fi
