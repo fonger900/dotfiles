@@ -143,20 +143,16 @@ install_runtimes() {
     export PATH="$HOME/.local/bin:$PATH"
   fi
 
-  # 2. Install UV (Python)
-  if ! command -v uv &>/dev/null; then
-    log_info "Installing UV..."
-    curl -LsSf https://astral.sh/uv/install.sh | sh
-    export PATH="$HOME/.cargo/bin:$PATH"
-  fi
-
-  # 3. Use Mise to install other runtimes
-  log_info "Installing runtimes via Mise (Node.js, Go)..."
+  # 2. Use Mise to install runtimes (including UV)
+  log_info "Installing runtimes via Mise (UV, Node.js, Go)..."
+  mise use -g uv@latest
   mise use -g node@latest
   mise use -g go@latest
 
-  # 4. Use UV to install Python
+  # 3. Use UV to install Python
   log_info "Installing Python via UV..."
+  # Ensure uv is in the path for the next command
+  eval "$(mise activate bash)"
   uv python install latest
 }
 
