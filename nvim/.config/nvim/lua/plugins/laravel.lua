@@ -12,27 +12,21 @@ return {
         vim.list_extend(opts.ensure_installed, { "php", "php_only", "blade" })
       end
 
-      -- Manual configuration for blade parser (often required for custom parsers)
-      local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
-      parser_config.blade = {
-        install_info = {
-          url = "https://github.com/EmranMR/tree-sitter-blade",
-          files = { "src/parser.c" },
-          branch = "main",
-        },
-        filetype = "blade",
-      }
-    end,
-    config = function(_, opts)
-      -- Standard setup
-      require("nvim-treesitter.configs").setup(opts)
-
-      -- Register .blade.php filetype manually to ensure correct detection
-      vim.filetype.add({
-        pattern = {
-          [".*%.blade%.php"] = "blade",
-        },
-      })
+      -- Manual configuration for blade parser
+      -- Using a pcall or checking if module is available
+      local ok, parsers = pcall(require, "nvim-treesitter.parsers")
+      if ok and parsers.get_parser_configs then
+        local parser_config = parsers.get_parser_configs()
+        parser_config.blade = {
+          install_info = {
+            url = "https://github.com/EmranMR/tree-sitter-blade",
+            files = { "src/parser.c" },
+            branch = "main",
+          },
+          filetype = "blade",
+        }
+      end
+      return opts
     end,
   },
 

@@ -31,7 +31,7 @@ return {
         -- Lua language server (for Neovim config development)
         lua_ls = {},
         -- Python language server
-        pyrefly = {},
+        pyright = {},
         ruff = {},               -- Python linter & code actions
         -- TypeScript/JavaScript language server
         ts_ls = {

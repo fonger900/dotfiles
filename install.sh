@@ -80,8 +80,11 @@ install_tool() {
   local pkg=$tool
 
   # Handle package name differences
-  if [[ "$pkg" == "fd" ]] && command -v apt-get &>/dev/null; then
-    pkg="fd-find"
+  if command -v apt-get &>/dev/null; then
+    if [[ "$pkg" == "fd" ]]; then pkg="fd-find"; fi
+  elif command -v pacman &>/dev/null; then
+    if [[ "$pkg" == "python3-pip" ]]; then pkg="python-pip"; fi
+    if [[ "$pkg" == "python3-venv" ]]; then pkg="python-virtualenv"; fi
   fi
 
   if [[ "$os" == "macos" ]]; then
@@ -122,8 +125,16 @@ check_prerequisites() {
 
   # Core tools
   local missing=()
-  for tool in git stow zsh curl fd; do
+  local core_tools=("git" "stow" "zsh" "curl" "fd")
+  
+  if [[ "$os" == "linux" ]]; then
+    core_tools+=("python3-pip" "python3-venv" "build-essential")
+  fi
+
+  for tool in "${core_tools[@]}"; do
     if ! command -v "$tool" &>/dev/null; then
+      # Special check for pip which can be python3-pip
+      if [[ "$tool" == "python3-pip" ]] && command -v pip3 &>/dev/null; then continue; fi
       missing+=("$tool")
     fi
   done

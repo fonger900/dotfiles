@@ -146,3 +146,13 @@ api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
         end
     end,
 })
+
+-- Detect Blade templates and set filetype accordingly
+api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+    group = augroup("blade_ft"),
+    pattern = { "*.blade.php" },
+    desc = "Set filetype to blade for Laravel templates",
+    callback = function()
+        vim.bo.filetype = "blade"
+    end,
+})
