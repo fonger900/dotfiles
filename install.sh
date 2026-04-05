@@ -128,7 +128,7 @@ check_prerequisites() {
     if ! command -v "$tool" &>/dev/null; then
       log_info "Installing missing core tool: $tool"
       install_tool "$tool"
-    done
+    fi
   done
 }
 
@@ -153,7 +153,7 @@ install_runtimes() {
   log_info "Installing Python via UV..."
   # Ensure uv is in the path for the next command
   eval "$(mise activate bash)"
-  uv python install latest
+  uv python install 3.13
 }
 
 backup_conflicts() {
@@ -172,7 +172,7 @@ backup_conflicts() {
         mkdir -p "$(dirname "$BACKUP_DIR/$file")"
         mv "$target" "$BACKUP_DIR/$file"
       fi
-    done <<< "$conflicts"
+    done
   fi
 }
 
