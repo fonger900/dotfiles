@@ -7,6 +7,9 @@
 
 set -euo pipefail
 
+# Suppress Perl locale warnings during stow operations
+export LC_ALL=C
+
 # ==========================================
 # Configuration & Globals
 # ==========================================
