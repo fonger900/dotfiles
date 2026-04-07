@@ -11,7 +11,9 @@ export MANPATH="$HOMEBREW_PREFIX/share/man:$MANPATH"
 export INFOPATH="$HOMEBREW_PREFIX/share/info:$INFOPATH"
 
 # 2. OrbStack (Keep as is, usually fast enough, or check if lazy loadable)
+# shellcheck disable=SC1090,SC2015
 [ -f ~/.orbstack/shell/init.zsh ] && source ~/.orbstack/shell/init.zsh 2>/dev/null || :
 
 # 3. Swiftly
+# shellcheck disable=SC1091
 [ -f "$HOME/.swiftly/env.sh" ] && . "$HOME/.swiftly/env.sh"

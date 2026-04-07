@@ -26,6 +26,7 @@ fi
 # History Configuration
 HISTFILE="$HOME/.zsh_history"
 HISTSIZE=10000
+# shellcheck disable=SC2034
 SAVEHIST=10000
 setopt EXTENDED_HISTORY
 setopt HIST_IGNORE_DUPS
