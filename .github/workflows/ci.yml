@@ -101,7 +101,7 @@ jobs:
 
       - name: Ansible Lint
         if: matrix.os == 'ubuntu-latest' && needs.changes.outputs.ansible == 'true'
-        uses: ansible/ansible-lint-action@v6
+        uses: ansible/ansible-lint@v6
         with:
           path: "ansible/"
 
