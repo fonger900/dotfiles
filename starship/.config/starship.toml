@@ -2,11 +2,8 @@
 # Starship Configuration - Minimal & Clean
 # ============================================================================
 # A fast, customizable, and distraction-free prompt for fullstack development.
-# This configuration is designed to be informative yet unobtrusive.
 # For detailed documentation, visit: https://starship.rs/config/
 
-# Main format: Defines the layout of the prompt. Each module is a variable.
-# The prompt is structured to show context first, followed by status indicators.
 format = """
 $directory\
 $git_branch\
@@ -24,115 +21,84 @@ scan_timeout = 1000
 command_timeout = 5000
 
 # ============================================================================
-# Directory Module
+# Core Modules
 # ============================================================================
-# Displays the current working directory.
 
 [directory]
-# truncation_length: The number of parent directories to show.
 truncation_length = 2
-# truncate_to_repo: If in a git repo, truncates to the repo root.
 truncate_to_repo = true
-# format: The visual representation of the directory path.
 format = "[$path]($style) "
-style = "bold 33" # A shade of blue
-# read_only: Symbol to show if the directory is read-only.
+style = "bold 33"
 read_only = " "
 read_only_style = "red"
 truncation_symbol = "…/"
 home_symbol = "~"
 
-# ============================================================================
-# Git Modules
-# ============================================================================
-
-# git_branch: Displays the current Git branch.
 [git_branch]
-symbol = "" # Nerd Font branch icon
+symbol = ""
 format = "[$symbol$branch]($style) "
 style = "bold magenta"
 disabled = false
 
-# git_status: Shows the status of the current Git repository (e.g., modified, staged).
 [git_status]
+# Optimized for WSL speed
 format = '([$all_status$ahead_behind]($style) )'
 style = "bold yellow"
 disabled = false
 conflicted = "="
-ahead = "⇡${count}"
-behind = "⇣${count}"
-diverged = "⇕⇡${ahead_count}⇣${behind_count}"
+ahead = "⇡"
+behind = "⇣"
+diverged = "⇕"
 untracked = "?"
 stashed = "≡"
 modified = "!"
 staged = "+"
 renamed = "»"
 deleted = "✘"
+up-to-date = ""
 
 # ============================================================================
 # Language & Tool Modules
 # ============================================================================
-# These modules are context-aware and only appear when relevant files are detected.
 
-# nodejs: Shows the Node.js version.
+[package]
+disabled = true # Slow in WSL
+
 [nodejs]
 symbol = "📦"
 format = "[$symbol($version)]($style) "
 style = "green"
-detect_extensions = ["js", "mjs", "cjs", "ts"]
-detect_files = ["package.json"]
-detect_folders = ["node_modules"]
 
-# python: Shows the Python version.
 [python]
 symbol = "🐍"
 format = "[$symbol($version)]($style) "
 style = "yellow"
-detect_extensions = ["py"]
-detect_files = ["pyproject.toml", "requirements.txt", "Pipfile"]
 
-# rust: Shows the Rust toolchain version.
 [rust]
 symbol = "🦀 "
 format = "[$symbol($version)]($style) "
 style = "bold red"
-detect_extensions = ["rs"]
-detect_files = ["Cargo.toml"]
 
-# golang: Shows the Go version.
 [golang]
 symbol = "🐹 "
 format = "[$symbol($version)]($style) "
 style = "bold cyan"
-detect_extensions = ["go"]
-detect_files = ["go.mod"]
 
-# docker_context: Shows the current Docker context or a Docker icon if a Dockerfile is present.
 [docker_context]
 symbol = "🐳"
 format = "[$symbol($context)]($style) "
 style = "blue"
 disabled = false
-detect_files = ["docker-compose.yml", "Dockerfile"]
 
 # ============================================================================
-# Execution Time Module
+# Utilities
 # ============================================================================
 
-# cmd_duration: Shows how long the previous command took to execute.
-# Only displays if the command takes longer than `min_time`.
 [cmd_duration]
-min_time = 1000 # in milliseconds
+min_time = 1000
 format = "[$duration]($style) "
 style = "bold yellow"
-show_milliseconds = false
-disabled = false
 
-# ============================================================================
-# Character / Exit Status Module
-# ============================================================================
-
-# character: The final symbol of the prompt, indicating success or failure of the last command.
 [character]
 success_symbol = "[❯](bold green)"
 error_symbol = "[❯](bold red)"
