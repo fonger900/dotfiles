@@ -83,6 +83,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Install System Dependencies
+        run: |
+          if [[ "${{ matrix.os }}" == "ubuntu-latest" ]]; then
+            sudo apt-get update
+            sudo apt-get install -y zsh luajit
+          elif [[ "${{ matrix.os }}" == "macos-latest" ]]; then
+            brew install luajit
+          fi
+
       - name: Zsh Syntax Check
         if: needs.changes.outputs.zsh == 'true'
         run: |
