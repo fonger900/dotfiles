@@ -55,7 +55,7 @@ modified = "!"
 staged = "+"
 renamed = "»"
 deleted = "✘"
-up-to-date = ""
+up_to_date = ""
 
 # ============================================================================
 # Language & Tool Modules
