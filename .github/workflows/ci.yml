@@ -1,28 +1,68 @@
-name: CI
+name: Dotfiles CI
 
 on:
   push:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+  workflow_dispatch:
 
 jobs:
-  test:
+  # 1. Linting Job
+  lint:
+    name: 🎨 Linting
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install dependencies
+      - name: ShellCheck
         run: |
-          sudo apt-get update
-          sudo apt-get install -y stow shellcheck curl
+          sudo apt-get install -y shellcheck
+          find . -type f -name "*.sh" -o -name "*.zsh" -not -path "*/.oh-my-zsh/*" | xargs shellcheck -s bash
 
-      - name: Install stylua
+      - name: Install StyLua
         run: |
-          cargo install stylua || (curl -fsSL https://github.com/JohnnyMorganz/StyLua/releases/latest/download/stylua-linux.zip -o stylua.zip && unzip stylua.zip && sudo mv stylua /usr/local/bin/)
+          curl -fsSL https://github.com/JohnnyMorganz/StyLua/releases/latest/download/stylua-linux.zip -o stylua.zip
+          unzip stylua.zip
+          sudo mv stylua /usr/local/bin/
 
-      - name: Run Tests
+      - name: StyLua Check
+        run: stylua --check .
+
+  # 2. Syntax Job
+  syntax:
+    name: 🔍 Syntax Validation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check Lua Syntax (WezTerm)
+        run: luajit -bl wezterm/.config/wezterm/wezterm.lua > /dev/null
+
+      - name: Check Lua Syntax (Neovim)
+        run: find nvim/.config/nvim/lua -name "*.lua" -exec luajit -bl {} + > /dev/null
+
+      - name: Ansible Syntax Check
         run: |
-          chmod +x scripts/test.sh
-          chmod +x install.sh
-          ./scripts/test.sh
+          sudo apt-get update && sudo apt-get install -y ansible
+          ansible-playbook ansible/playbook.yml --syntax-check
+
+  # 3. Installation Job (Bootstrap Check)
+  test-bootstrap:
+    name: 🚀 Bootstrap Check
+    needs: [lint, syntax]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Mise
+        uses: jdx/mise-action@v2
+        with:
+          install: true
+          cache: true
+
+      - name: Run Bootstrap (Ansible Dry-Run)
+        run: |
+          # We use ansible-playbook directly for a dry-run test
+          sudo apt-get update && sudo apt-get install -y ansible
+          ansible-playbook -i ansible/inventory ansible/playbook.yml --check

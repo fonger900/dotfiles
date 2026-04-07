@@ -14,7 +14,7 @@ This configuration is optimized for fullstack development with a focus on speed,
 ## 🚦 Getting Started
 
 ### Installation
-Neovim is automatically configured when you run the project's `install.sh`. It uses `stow` to link the configuration to `~/.config/nvim`.
+Neovim is automatically configured when you run the project's `bootstrap.sh`. It uses `stow` to link the configuration to `~/.config/nvim`.
 
 ### First Run
 1. Open Neovim: `nvim`

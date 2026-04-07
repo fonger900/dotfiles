@@ -29,7 +29,7 @@ This repository is structured as a collection of "packages" for each application
 - **`zsh/`**, **`tmux/`**, **`nvim/`**, **`ghostty/`**, etc.: Configuration packages for each tool.
 - **`docs/`**: Contains all the detailed guides and documentation.
 - **`scripts/`**: Custom automation scripts added to your `$PATH`.
-- **`install.sh`**: The installation script that orchestrates the setup.
+- **`bootstrap.sh`**: The main orchestration script (uses Ansible).
 - **`GEMINI.md`**: Instructional context for AI agents (like Gemini) to understand the project architecture.
 
 ---
@@ -51,8 +51,8 @@ git clone https://github.com/fonger900/dotfiles.git ~/dotfiles
 cd ~/dotfiles
 
 # Run the installation script
-chmod +x install.sh
-./install.sh
+chmod +x bootstrap.sh
+./bootstrap.sh
 
 # Restart your terminal
 exec zsh
@@ -182,8 +182,8 @@ To add a new configuration file:
 
 1.  Create a new directory for your package: `mkdir myapp`
 2.  Inside that directory, recreate the path where the config file should be in your home directory. For example, if you want to link `~/.config/myapp/config.json`, you would create `myapp/.config/myapp/config.json`.
-3.  Add the package name (`myapp` in this case) to the `STOW_PACKAGES` array in the `install.sh` script.
-4.  Run `./install.sh` to stow the new package.
+3.  Add the package name (`myapp` in this case) to the `STOW_PACKAGES` array in the `bootstrap.sh` script.
+4.  Run `./bootstrap.sh` to stow the new package.
 
 ### Add Personal Configurations
 
@@ -239,3 +239,4 @@ Built with inspiration from:
 - [Wezterm](https://wezfurlong.org/wezterm/)
 - [Ghostty](https://ghostty.org/)
 - [TPM](https://github.com/tmux-plugins/tpm)
+ins/tpm)

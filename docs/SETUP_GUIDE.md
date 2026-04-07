@@ -10,8 +10,8 @@ If you are on macOS and have [Homebrew](https://brew.sh/) installed, you can get
    ```bash
    git clone https://github.com/fonger900/dotfiles.git ~/dotfiles
    cd ~/dotfiles
-   chmod +x install.sh
-   ./install.sh
+   chmod +x bootstrap.sh
+   ./bootstrap.sh
    ```
 
 2. **Post-Installation**:
@@ -23,7 +23,7 @@ If you are on macOS and have [Homebrew](https://brew.sh/) installed, you can get
 
 ## 📦 What's Installed?
 
-The `install.sh` script automates the setup of several key components:
+The `bootstrap.sh` script (powered by Ansible) automates the setup of several key components:
 
 ### Core Tools (via Homebrew)
 - **Shell**: `zsh`, `starship`, `zoxide`, `fastfetch`
@@ -59,8 +59,8 @@ dotfiles/
 1. Create a directory for the tool: `mkdir mytool`
 2. Replicate the target home path: `mkdir -p mytool/.config/mytool`
 3. Add your config: `touch mytool/.config/mytool/config.toml`
-4. Add `mytool` to `STOW_PACKAGES` in `install.sh`.
-5. Run `./install.sh`.
+4. Add `mytool` to `STOW_PACKAGES` in `bootstrap.sh`.
+5. Run `./bootstrap.sh`.
 
 ---
 
@@ -103,3 +103,4 @@ tmux attach -t <name>
 **Next Steps**: 
 - Master your workspace in the **[Workspace Guide](./WORKSPACE_GUIDE.md)**.
 - Learn editor shortcuts in the **[Neovim Guide](./NEOVIM_GUIDE.md)**.
+EOVIM_GUIDE.md)**.

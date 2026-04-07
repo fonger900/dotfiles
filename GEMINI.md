@@ -19,16 +19,17 @@ The project uses a **modular architecture** where configurations for different t
 ## 🏗️ Building and Running
 
 ### Installation
-The environment is bootstrapped using the `install.sh` script:
+The environment is bootstrapped using the `bootstrap.sh` script (which uses Ansible):
 ```bash
 # Main installation and symlinking
-./install.sh
+./bootstrap.sh
 ```
 This script:
 1.  Verifies prerequisites (`zsh`, `git`, `stow`).
-2.  Stows all packages listed in `STOW_PACKAGES` to `$HOME`.
-3.  Prompts to install Oh-My-Zsh and essential Zsh/Tmux plugins.
-4.  Checks for recommended CLI tools.
+2.  Executes the Ansible playbook (`ansible/playbook.yml`) to manage system state and tool installation.
+3.  Stows all packages listed in `STOW_PACKAGES` to `$HOME`.
+4.  Prompts to install Oh-My-Zsh and essential Zsh/Tmux plugins.
+5.  Checks for recommended CLI tools.
 
 ### Verification
 A health check script is provided to verify the environment:

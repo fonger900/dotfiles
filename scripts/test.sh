@@ -53,12 +53,16 @@ lint_lua() {
 }
 
 # ==========================================
-# 3. Installation Dry-Run
+# 3. Installation Dry-Run (Ansible)
 # ==========================================
 test_installation() {
-  log_step "Testing installation script (Dry-Run)..."
-  ./install.sh --dry-run
-  log_success "Installation dry-run successful."
+  log_step "Testing installation playbook (Dry-Run)..."
+  if command -v ansible-playbook &>/dev/null; then
+    ansible-playbook -i ansible/inventory ansible/playbook.yml --check
+    log_success "Installation dry-run successful."
+  else
+    log_warn "Ansible not installed. Skipping installation dry-run."
+  fi
 }
 
 # ==========================================
