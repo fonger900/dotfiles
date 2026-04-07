@@ -10,14 +10,14 @@
       - ripgrep
     state: present
     update_homebrew: true
-  when: ansible_os_family == 'Darwin'
+  when: ansible_facts['os_family'] == 'Darwin'
 
 - name: Core | Ensure APT cache is updated
   ansible.builtin.apt:
     update_cache: yes
     cache_valid_time: 3600
   become: true
-  when: ansible_os_family == 'Debian'
+  when: ansible_facts['os_family'] == 'Debian'
 
 - name: Core | Install basic dependencies (Debian/Ubuntu)
   ansible.builtin.apt:
@@ -31,7 +31,13 @@
       - build-essential
     state: present
   become: true
-  when: ansible_os_family == 'Debian'
+  when: ansible_facts['os_family'] == 'Debian'
+
+- name: Core | Check for fdfind binary
+  ansible.builtin.stat:
+    path: /usr/bin/fdfind
+  register: fdfind_bin
+  when: ansible_facts['os_family'] == 'Debian'
 
 - name: Core | Ensure fd is symlinked on Debian/Ubuntu
   ansible.builtin.file:
@@ -39,7 +45,9 @@
     dest: /usr/local/bin/fd
     state: link
   become: true
-  when: ansible_os_family == 'Debian'
+  when: 
+    - ansible_facts['os_family'] == 'Debian'
+    - fdfind_bin.stat.exists
 
 - name: Core | Install basic dependencies (Arch Linux)
   community.general.pacman:
@@ -54,7 +62,7 @@
     state: present
     update_cache: true
   become: true
-  when: ansible_os_family == 'Archlinux'
+  when: ansible_facts['os_family'] == 'Archlinux'
 
 - name: Core | Install basic dependencies (RedHat/Fedora)
   ansible.builtin.dnf:
@@ -70,4 +78,4 @@
     state: present
     update_cache: true
   become: true
-  when: ansible_os_family == 'RedHat'
+  when: ansible_facts['os_family'] == 'RedHat'
