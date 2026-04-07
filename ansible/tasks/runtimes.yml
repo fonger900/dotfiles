@@ -1,19 +1,25 @@
 ---
 - name: Runtimes | Check if Mise is installed
-  stat:
+  ansible.builtin.stat:
     path: "{{ ansible_env.HOME }}/.local/bin/mise"
   register: mise_binary
 
 - name: Runtimes | Install Mise
-  shell: curl https://mise.jdx.dev/install.sh | sh
+  ansible.builtin.shell: |
+    set -o pipefail
+    curl https://mise.jdx.dev/install.sh | sh
+  args:
+    executable: /bin/bash
   when: not mise_binary.stat.exists
+  register: mise_install_res
+  changed_when: mise_install_res.rc == 0
 
 - name: Runtimes | Install global tools via Mise (UV, Node.js, Go)
-  command: "{{ ansible_env.HOME }}/.local/bin/mise use -g uv@latest node@latest go@latest"
+  ansible.builtin.command: "{{ ansible_env.HOME }}/.local/bin/mise use -g uv@latest node@latest go@latest"
   register: mise_install
   changed_when: "'installing' in mise_install.stdout or 'installing' in mise_install.stderr"
 
 - name: Runtimes | Install Python 3.13 via UV
-  command: "{{ ansible_env.HOME }}/.local/bin/mise exec uv -- uv python install 3.13"
+  ansible.builtin.command: "{{ ansible_env.HOME }}/.local/bin/mise exec uv -- uv python install 3.13"
   register: uv_install
   changed_when: "'Installed' in uv_install.stdout or 'Downloaded' in uv_install.stderr"

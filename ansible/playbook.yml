@@ -23,21 +23,21 @@
   
   tasks:
     - name: Ensure dotfiles_dir is absolute
-      set_fact:
+      ansible.builtin.set_fact:
         dotfiles_dir: "{{ dotfiles_dir | expanduser | realpath }}"
 
     - name: Include system packages tasks
-      include_tasks: tasks/system.yml
+      ansible.builtin.include_tasks: tasks/system.yml
       tags: ['system', 'packages']
 
     - name: Include runtimes tasks
-      include_tasks: tasks/runtimes.yml
+      ansible.builtin.include_tasks: tasks/runtimes.yml
       tags: ['runtimes']
 
     - name: Include dotfiles tasks (Stow)
-      include_tasks: tasks/dotfiles.yml
+      ansible.builtin.include_tasks: tasks/dotfiles.yml
       tags: ['dotfiles', 'stow']
 
     - name: Include terminal setup tasks
-      include_tasks: tasks/terminal_setup.yml
+      ansible.builtin.include_tasks: tasks/terminal_setup.yml
       tags: ['terminal', 'zsh', 'tmux']

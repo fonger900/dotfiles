@@ -1,6 +1,6 @@
 ---
 - name: Dotfiles | Stow packages
-  command: stow -v -R -t "{{ ansible_env.HOME }}" -d "{{ dotfiles_dir }}" {{ item }}
+  ansible.builtin.command: stow -v -R -t "{{ ansible_env.HOME }}" -d "{{ dotfiles_dir }}" {{ item }}
   args:
     chdir: "{{ dotfiles_dir }}"
   loop: "{{ stow_packages }}"

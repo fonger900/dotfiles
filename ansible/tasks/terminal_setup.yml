@@ -1,42 +1,52 @@
 ---
 - name: Terminal | Install Oh-My-Zsh
-  git:
+  ansible.builtin.git:
     repo: https://github.com/ohmyzsh/ohmyzsh.git
     dest: "{{ ansible_env.HOME }}/.oh-my-zsh"
     depth: 1
     update: no
+    version: master
 
 - name: Terminal | Install Zsh Plugins
-  git:
+  ansible.builtin.git:
     repo: "https://github.com/zsh-users/{{ item }}.git"
     dest: "{{ zsh_custom }}/plugins/{{ item }}"
     depth: 1
     update: no
+    version: master
   loop:
     - zsh-autosuggestions
     - zsh-syntax-highlighting
     - zsh-completions
 
 - name: Terminal | Install zsh-defer
-  git:
+  ansible.builtin.git:
     repo: https://github.com/romkatv/zsh-defer.git
     dest: "{{ ansible_env.HOME }}/zsh-defer"
     depth: 1
     update: no
+    version: master
 
 - name: Terminal | Check if Starship is installed
-  command: command -v starship
+  ansible.builtin.command: command -v starship
   register: starship_check
   failed_when: false
   changed_when: false
 
 - name: Terminal | Install Starship prompt
-  shell: curl -sS https://starship.rs/install.sh | sh -s -- --yes --bin-dir {{ ansible_env.HOME }}/.local/bin
+  ansible.builtin.shell: |
+    set -o pipefail
+    curl -sS https://starship.rs/install.sh | sh -s -- --yes --bin-dir {{ ansible_env.HOME }}/.local/bin
+  args:
+    executable: /bin/bash
   when: starship_check.rc != 0
+  register: starship_install_res
+  changed_when: starship_install_res.rc == 0
 
 - name: Terminal | Install Tmux Plugin Manager (TPM)
-  git:
+  ansible.builtin.git:
     repo: https://github.com/tmux-plugins/tpm.git
     dest: "{{ ansible_env.HOME }}/.tmux/plugins/tpm"
     depth: 1
     update: no
+    version: master
