@@ -29,6 +29,8 @@
       - fd-find
       - ripgrep
       - build-essential
+      - unzip
+      - gettext
     state: present
   become: true
   when: ansible_facts['os_family'] == 'Debian'
@@ -59,6 +61,8 @@
       - fd
       - ripgrep
       - base-devel
+      - unzip
+      - gettext
     state: present
     update_cache: true
   become: true
@@ -75,6 +79,8 @@
       - ripgrep
       - gcc
       - make
+      - unzip
+      - gettext
     state: present
     update_cache: true
   become: true

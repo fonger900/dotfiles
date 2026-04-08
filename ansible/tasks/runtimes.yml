@@ -14,8 +14,8 @@
   register: mise_install_res
   changed_when: mise_install_res.rc == 0
 
-- name: Runtimes | Install global tools via Mise (UV, Node.js, Go)
-  ansible.builtin.command: "{{ ansible_env.HOME }}/.local/bin/mise use -g uv@latest node@latest go@latest"
+- name: Runtimes | Install global tools via Mise (Neovim, UV, Node.js, Go)
+  ansible.builtin.command: "{{ ansible_env.HOME }}/.local/bin/mise use -g neovim@latest uv@latest node@latest go@latest"
   register: mise_install
   changed_when: "'installing' in mise_install.stdout or 'installing' in mise_install.stderr"
 
