@@ -17,6 +17,7 @@
       - newsboat
       - helix
       - fastfetch
+      - lynx
     
     # Custom plugin directories
     zsh_custom: "{{ ansible_env.HOME }}/.oh-my-zsh/custom"

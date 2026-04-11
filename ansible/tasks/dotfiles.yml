@@ -1,4 +1,12 @@
 ---
+- name: Dotfiles | Ensure data directories exist
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/.local/share/{{ item }}"
+    state: directory
+    mode: '0755'
+  loop:
+    - lynx
+
 - name: Dotfiles | Stow packages
   ansible.builtin.command: stow -v -R -t "{{ ansible_env.HOME }}" -d "{{ dotfiles_dir }}" {{ item }}
   args:

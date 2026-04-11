@@ -1,0 +1,42 @@
+# ==========================================
+# Lynx Style Sheet (LSS)
+# ==========================================
+
+# Syntax: tag:attr:fg:bg
+# Attributes: bold, blink, reverse, underline, dim, normal
+
+# Basic elements
+normal:normal:white:black
+default:normal:white:black
+em:bold:red:black
+strong:bold:green:black
+h1:bold:yellow:black
+h2:bold:cyan:black
+h3:bold:magenta:black
+
+# Links and Interaction
+a:bold:blue:black
+img:normal:cyan:black
+status:reverse:white:blue
+label:normal:magenta:black
+value:normal:white:black
+
+# Forms
+input:reverse:white:black
+select:reverse:white:black
+textarea:reverse:white:black
+
+# Specific tags
+blockquote:normal:cyan:black
+cite:normal:magenta:black
+code:normal:green:black
+dd:normal:white:black
+dt:bold:white:black
+li:normal:white:black
+ol:normal:white:black
+ul:normal:white:black
+pre:normal:green:black
+table:normal:white:black
+td:normal:white:black
+th:bold:white:black
+tr:normal:white:black

@@ -8,6 +8,8 @@
       - zsh
       - fd
       - ripgrep
+      - lynx
+      - ca-certificates
     state: present
     update_homebrew: true
   when: ansible_facts['os_family'] == 'Darwin'
@@ -28,6 +30,8 @@
       - zsh
       - fd-find
       - ripgrep
+      - lynx
+      - ca-certificates
       - build-essential
       - unzip
       - gettext
@@ -60,6 +64,8 @@
       - zsh
       - fd
       - ripgrep
+      - lynx
+      - ca-certificates
       - base-devel
       - unzip
       - gettext
@@ -77,6 +83,8 @@
       - zsh
       - fd-find
       - ripgrep
+      - lynx
+      - ca-certificates
       - gcc
       - make
       - unzip

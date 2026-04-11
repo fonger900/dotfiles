@@ -90,6 +90,7 @@ brew install \
   zoxide \        # Smart cd
   starship \      # Shell prompt
   fastfetch \     # System info
+  lynx \          # Terminal-based web browser
   tmux \          # Terminal multiplexer
   neovim \        # Text editor
   lazygit \       # Git TUI

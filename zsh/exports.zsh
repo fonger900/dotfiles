@@ -11,6 +11,9 @@ export LANG=en_US.UTF-8
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_CACHE_HOME="$HOME/.cache"
+export LYNX_CFG="$XDG_CONFIG_HOME/lynx/lynx.cfg"
+export LYNX_LSS="$XDG_CONFIG_HOME/lynx/lynx.lss"
+export LYNX_SAVE_SPACE="$XDG_DATA_HOME/lynx"
 
 # FZF Configuration
 if command -v fd &> /dev/null; then
