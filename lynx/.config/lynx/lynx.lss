@@ -1,42 +1,97 @@
 # ==========================================
 # Lynx Style Sheet (LSS)
 # ==========================================
+#
+# Syntax: element:attribute:foreground:background
+#
+# Foreground/Background colors:
+#   black red green yellow blue magenta cyan white
+#   bright* variants: brightred, brightgreen, brightyellow, etc.
+#   default  → terminal default (respects transparency)
+#
+# Attributes:
+#   normal bold blink reverse underline dim
 
-# Syntax: tag:attr:fg:bg
-# Attributes: bold, blink, reverse, underline, dim, normal
-
-# Basic elements
+# ── Base ──────────────────────────────────
 normal:normal:default:default
 default:normal:default:default
-em:bold:red:default
-strong:bold:green:default
-h1:bold:yellow:default
-h2:bold:cyan:default
-h3:bold:magenta:default
 
-# Links and Interaction
-a:bold:blue:default
-img:normal:cyan:default
-status:reverse:white:blue
-label:normal:magenta:default
-value:normal:white:default
+# ── Headings ──────────────────────────────
+h1:bold:brightyellow:default
+h2:bold:yellow:default
+h3:bold:cyan:default
+h4:bold:brightcyan:default
+h5:bold:magenta:default
+h6:normal:magenta:default
 
-# Forms
-input:reverse:white:default
-select:reverse:white:default
-textarea:reverse:white:default
-
-# Specific tags
-blockquote:normal:cyan:default
+# ── Inline Semantics ──────────────────────
+em:bold:brightred:default
+strong:bold:brightgreen:default
+b:bold:white:default
+i:underline:white:default
+u:underline:white:default
+s:dim:white:default
+abbr:underline:cyan:default
 cite:normal:magenta:default
-code:normal:green:default
-dd:normal:white:default
-dt:bold:white:default
+dfn:underline:cyan:default
+mark:reverse:brightyellow:default
+small:dim:white:default
+sub:dim:white:default
+sup:dim:white:default
+
+# ── Links ─────────────────────────────────
+a:bold:brightblue:default
+alink:bold:brightblue:default
+atitle:normal:cyan:default
+
+# ── Images & Media ────────────────────────
+img:normal:cyan:default
+
+# ── Status & Alerts ───────────────────────
+# status bar at bottom of screen - keep high contrast
+status:reverse:white:blue
+# search highlight (whereis)
+whereis:reverse:black:brightyellow
+# alert messages (errors, warnings)
+alert:bold:brightred:default
+
+# ── Labels & Values ───────────────────────
+label:bold:magenta:default
+value:normal:brightwhite:default
+option:normal:cyan:default
+
+# ── Form Elements ─────────────────────────
+input:reverse:white:black
+select:reverse:brightyellow:black
+textarea:reverse:white:black
+submit:bold:brightgreen:black
+reset:bold:brightred:black
+button:bold:white:black
+
+# ── Code & Preformatted ───────────────────
+code:normal:brightgreen:default
+pre:normal:green:default
+kbd:bold:green:default
+samp:normal:green:default
+tt:normal:green:default
+var:bold:cyan:default
+
+# ── Block Elements ────────────────────────
+blockquote:normal:cyan:default
+q:normal:cyan:default
+address:dim:white:default
+
+# ── Lists ─────────────────────────────────
 li:normal:white:default
 ol:normal:white:default
 ul:normal:white:default
-pre:normal:green:default
+dl:normal:white:default
+dt:bold:white:default
+dd:normal:white:default
+
+# ── Table ─────────────────────────────────
 table:normal:white:default
-td:normal:white:default
-th:bold:white:default
 tr:normal:white:default
+th:bold:brightyellow:default
+td:normal:white:default
+caption:bold:cyan:default
