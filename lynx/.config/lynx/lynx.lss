@@ -4,13 +4,11 @@
 #
 # Syntax: element:attribute:foreground:background
 #
-# Foreground/Background colors:
-#   black red green yellow blue magenta cyan white
-#   bright* variants: brightred, brightgreen, brightyellow, etc.
-#   default  → terminal default (respects transparency)
+# Colors: black red green yellow blue magenta cyan white
+#         bright variants: brightred brightgreen brightyellow brightblue brightmagenta brightcyan brightwhite
+#         default → terminal default (respects transparency)
 #
-# Attributes:
-#   normal bold blink reverse underline dim
+# Attributes: normal bold blink reverse underline dim
 
 # ── Base ──────────────────────────────────
 normal:normal:default:default
@@ -34,7 +32,7 @@ s:dim:white:default
 abbr:underline:cyan:default
 cite:normal:magenta:default
 dfn:underline:cyan:default
-mark:reverse:brightyellow:default
+mark:reverse:black:brightyellow
 small:dim:white:default
 sub:dim:white:default
 sup:dim:white:default
@@ -47,12 +45,12 @@ atitle:normal:cyan:default
 # ── Images & Media ────────────────────────
 img:normal:cyan:default
 
-# ── Status & Alerts ───────────────────────
-# status bar at bottom of screen - keep high contrast
-status:reverse:white:blue
-# search highlight (whereis)
-whereis:reverse:black:brightyellow
-# alert messages (errors, warnings)
+# ── Status Bar & Alerts ───────────────────
+# The status bar at the bottom — explicit bold white on blue, no reverse
+status:bold:black:blue
+# search highlight (whereis / find-in-page)
+whereis:bold:black:brightyellow
+# alert/error messages
 alert:bold:brightred:default
 
 # ── Labels & Values ───────────────────────
