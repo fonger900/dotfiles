@@ -6,37 +6,37 @@
 # Attributes: bold, blink, reverse, underline, dim, normal
 
 # Basic elements
-normal:normal:white:black
-default:normal:white:black
-em:bold:red:black
-strong:bold:green:black
-h1:bold:yellow:black
-h2:bold:cyan:black
-h3:bold:magenta:black
+normal:normal:default:default
+default:normal:default:default
+em:bold:red:default
+strong:bold:green:default
+h1:bold:yellow:default
+h2:bold:cyan:default
+h3:bold:magenta:default
 
 # Links and Interaction
-a:bold:blue:black
-img:normal:cyan:black
+a:bold:blue:default
+img:normal:cyan:default
 status:reverse:white:blue
-label:normal:magenta:black
-value:normal:white:black
+label:normal:magenta:default
+value:normal:white:default
 
 # Forms
-input:reverse:white:black
-select:reverse:white:black
-textarea:reverse:white:black
+input:reverse:white:default
+select:reverse:white:default
+textarea:reverse:white:default
 
 # Specific tags
-blockquote:normal:cyan:black
-cite:normal:magenta:black
-code:normal:green:black
-dd:normal:white:black
-dt:bold:white:black
-li:normal:white:black
-ol:normal:white:black
-ul:normal:white:black
-pre:normal:green:black
-table:normal:white:black
-td:normal:white:black
-th:bold:white:black
-tr:normal:white:black
+blockquote:normal:cyan:default
+cite:normal:magenta:default
+code:normal:green:default
+dd:normal:white:default
+dt:bold:white:default
+li:normal:white:default
+ol:normal:white:default
+ul:normal:white:default
+pre:normal:green:default
+table:normal:white:default
+td:normal:white:default
+th:bold:white:default
+tr:normal:white:default
