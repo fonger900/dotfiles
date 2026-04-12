@@ -63,11 +63,21 @@ exec swayidle -w \
          before-sleep 'swaylock -f -c 1a1b26'
 
 ### Input configuration
+# Touchpad Settings (ThinkPad T14 optimized)
 input "type:touchpad" {
     dwt enabled
     tap enabled
     natural_scroll enabled
     middle_emulation enabled
+    click_method clickfinger
+    pointer_accel 0.4
+    accel_profile adaptive
+}
+
+# TrackPoint Settings (Red Nub)
+input "type:pointer" {
+    pointer_accel 0.5
+    accel_profile flat
 }
 
 ### Key bindings
