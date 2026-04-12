@@ -54,8 +54,9 @@ include /etc/sway/config-vars.d/*
 # Session Management — ensure /usr/share is in XDG_DATA_DIRS so launchers find all .desktop files
 exec sh -c 'export XDG_DATA_DIRS="/usr/local/share:/usr/share:${HOME}/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share" && dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP XDG_DATA_DIRS'
 
-# Initialize GNOME Keyring and export variables to the session
-exec --no-startup-id gnome-keyring-daemon --start --components=secrets,pkcs11,ssh
+# Start KeePassXC (as Secret Service provider)
+exec keepassxc --minimized &
+
 exec hash dbus-update-activation-environment 2>/dev/null && \
      dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP
 

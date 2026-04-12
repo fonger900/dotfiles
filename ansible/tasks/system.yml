@@ -67,8 +67,7 @@
       - xdotool
       - bluez
       - bluez-tools
-      - gnome-keyring
-      - libpam-gnome-keyring
+      - keepassxc
       - dbus-x11
       - tlp
       - tlp-rdw
@@ -76,6 +75,12 @@
       - acpi-call-dkms
       - upower
       - thermald
+      - flatpak
+      - papirus-icon-theme
+      - adwaita-icon-theme-full
+      - nwg-look
+      - qt5ct
+      - qt6ct
       - libgdk-pixbuf2.0-bin
       - librsvg2-common
       - shared-mime-info

@@ -57,6 +57,10 @@
       ansible.builtin.include_tasks: tasks/power.yml
       tags: ['power']
 
+    - name: Include flatpak tasks
+      ansible.builtin.include_tasks: tasks/flatpak.yml
+      tags: ['flatpak']
+
   handlers:
     - name: Restart TLP
       ansible.builtin.systemd:
