@@ -50,6 +50,7 @@
       - build-essential
       - unzip
       - gettext
+      - pulseaudio-utils
       - sway
       - wezterm
       - foot
