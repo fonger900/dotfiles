@@ -52,3 +52,14 @@
     - name: Include gestures tasks
       ansible.builtin.include_tasks: tasks/gestures.yml
       tags: ['gestures']
+
+    - name: Include power management tasks
+      ansible.builtin.include_tasks: tasks/power.yml
+      tags: ['power']
+
+  handlers:
+    - name: Restart TLP
+      ansible.builtin.systemd:
+        name: tlp
+        state: restarted
+      become: true

@@ -68,7 +68,14 @@
       - bluez
       - bluez-tools
       - gnome-keyring
+      - libpam-gnome-keyring
       - dbus-x11
+      - tlp
+      - tlp-rdw
+      - tp-smapi-dkms
+      - acpi-call-dkms
+      - upower
+      - thermald
       - libgdk-pixbuf2.0-bin
       - librsvg2-common
       - shared-mime-info
@@ -82,10 +89,10 @@
   when: ansible_facts['os_family'] == 'Debian'
 
 
-- name: Core | Ensure user is in input group for brightnessctl LED control (Debian)
+- name: Core | Ensure user is in necessary groups (Debian)
   ansible.builtin.user:
     name: "{{ lookup('env', 'USER') }}"
-    groups: input
+    groups: input,video,render
     append: yes
   become: true
   when: ansible_facts['os_family'] == 'Debian'

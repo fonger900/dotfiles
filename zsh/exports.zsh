@@ -41,5 +41,17 @@ setopt CORRECT
 setopt GLOB_DOTS
 setopt INTERACTIVE_COMMENTS
 
+# GNOME Keyring & Chrome Persistence Fix
+# Forces Chrome to use the GNOME Keyring for password storage
+if command -v gnome-keyring-daemon &> /dev/null; then
+  export $(gnome-keyring-daemon --start --components=pkcs11,secrets,ssh)
+  export SSH_AUTH_SOCK
+fi
+
+# Fix Chrome/Brave/Vivaldi losing login on restart in Wayland
+# gnome: Use GNOME Keyring (recommended)
+# basic: Use plain text (not recommended for security, but very stable)
+export CHROME_CONFIG_FLAGS="--password-store=gnome"
+
 # XDG Data Directories — include system defaults first, then Flatpak
 export XDG_DATA_DIRS="${XDG_DATA_DIRS:-/usr/local/share:/usr/share}:/usr/local/share:/usr/share:$HOME/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share"

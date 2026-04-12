@@ -25,8 +25,16 @@ if [[ -z $DISPLAY ]] && [[ -z $WAYLAND_DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; t
     export XDG_CURRENT_DESKTOP=sway
     export XDG_SESSION_TYPE=wayland
     
-    # Optional: Start sway with dbus-run-session if needed
-    # exec dbus-run-session sway
-    exec sway
+    # Fix for some AMD GPUs and stability
+    export WLR_DRM_NO_MODIFIERS=1
+    # Disable hardware cursors to prevent common GPU hangs on AMD/Intel
+    export WLR_NO_HARDWARE_CURSORS=1
+    # Force GLES2 renderer as it is often more stable on ThinkPad AMD than the default
+    export WLR_RENDERER=gles2
+    
+    # Start sway with dbus-run-session and log to a timestamped file for debugging crashes
+    # Logs are stored in /tmp/sway-<timestamp>.log
+    LOG_FILE="/tmp/sway-$(date +%Y%m%d-%H%M%S).log"
+    exec dbus-run-session sway -V > "$LOG_FILE" 2>&1
 fi
 
