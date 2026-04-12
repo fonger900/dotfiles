@@ -2,28 +2,34 @@
     "layer": "top",
     "position": "top",
     "height": 34,
+    "margin-top": 6,
+    "margin-left": 8,
+    "margin-right": 8,
     "spacing": 4,
     "modules-left": [
         "sway/workspaces",
         "sway/mode",
-        "sway/window"
+        "custom/media"
     ],
     "modules-center": [
         "clock"
     ],
     "modules-right": [
         "pulseaudio",
+        "backlight",
         "network",
         "cpu",
         "memory",
+        "temperature",
+        "disk",
         "battery",
         "tray",
-        "bluetooth"
+        "custom/power"
     ],
     "sway/workspaces": {
         "disable-scroll": true,
         "all-outputs": true,
-        "format": "{name}: {icon}",
+        "format": "{icon}",
         "format-icons": {
             "1": "",
             "2": "",
@@ -38,12 +44,25 @@
     "sway/mode": {
         "format": "<span style=\"italic\">{}</span>"
     },
-    "tray": {
-        "spacing": 10
+    "custom/media": {
+        "format": "{icon} {}",
+        "return-type": "json",
+        "max-length": 40,
+        "format-icons": {
+            "spotify": "",
+            "default": "🎜"
+        },
+        "escape": true,
+        "exec": "$HOME/code/dotfiles/scripts/mediaplayer.sh 2> /dev/null"
     },
     "clock": {
         "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
         "format": " {:%H:%M   %d/%m}"
+    },
+    "backlight": {
+        "device": "amdgpu_bl0",
+        "format": "{icon} {percent}%",
+        "format-icons": ["", "", "", "", "", "", "", "", ""]
     },
     "cpu": {
         "format": " {usage}%",
@@ -51,6 +70,16 @@
     },
     "memory": {
         "format": " {}%"
+    },
+    "temperature": {
+        "critical-threshold": 80,
+        "format": "{icon} {temperatureC}°C",
+        "format-icons": ["", "", " thermometers"]
+    },
+    "disk": {
+        "interval": 30,
+        "format": "󰋊 {percentage_used}%",
+        "path": "/"
     },
     "battery": {
         "states": {
@@ -61,26 +90,20 @@
         "format-charging": " {capacity}%",
         "format-plugged": " {capacity}%",
         "format-alt": "{icon} {time}",
-        "format-icons": [
-            "",
-            "",
-            "",
-            "",
-            ""
-        ]
+        "format-icons": ["", "", "", "", ""]
     },
     "network": {
-        "format-wifi": " {essid} ({signalStrength}%)",
+        "format-wifi": " {essid}",
         "format-ethernet": " {ifname}",
-        "tooltip-format": " {ifname} via {gwaddr}",
+        "tooltip-format": " {ifname} via {gwaddr}\nIP: {ipaddr}",
         "format-linked": " {ifname} (No IP)",
         "format-disconnected": "⚠ Disconnected",
-        "format-alt": "{ifname}: {ipaddr}/{cidr}"
+        "on-click": "nm-connection-editor"
     },
     "pulseaudio": {
-        "format": "{icon} {volume}% {format_source}",
-        "format-bluetooth": " {icon} {volume}% {format_source}",
-        "format-bluetooth-muted": "  {icon} {format_source}",
+        "format": "{icon} {volume}%",
+        "format-bluetooth": " {icon} {volume}%",
+        "format-bluetooth-muted": "  {icon}",
         "format-muted": " {format_source}",
         "format-source": " {volume}%",
         "format-source-muted": "",
@@ -91,21 +114,16 @@
             "phone": "",
             "portable": "",
             "car": "",
-            "default": [
-                "",
-                "",
-                ""
-            ]
+            "default": ["", "", ""]
         },
         "on-click": "pavucontrol"
     },
-    "bluetooth": {
-        "format": " {status}",
-        "format-connected": " {device_alias}",
-        "format-connected-battery": " {device_alias} {device_battery_percentage}%",
-        "tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
-        "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
-        "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
-        "on-click": "blueman-manager"
+    "custom/power": {
+        "format": "",
+        "on-click": "swaynag -t warning -m 'Power Menu' -B 'Shutdown' 'shutdown now' -B 'Reboot' 'reboot' -B 'Logout' 'swaymsg exit'",
+        "tooltip": false
+    },
+    "tray": {
+        "spacing": 10
     }
 }
