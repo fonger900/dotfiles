@@ -14,7 +14,7 @@ config.font = wezterm.font_with_fallback({
 })
 config.font_size = 10.0
 config.window_background_opacity = 0.95
-config.window_padding = { left = 10, right = 10, top = 10, bottom = 0 }
+config.window_padding = { left = 10, right = 0, top = 5, bottom = 0 }
 config.enable_tab_bar = false
 
 -- ==========================================

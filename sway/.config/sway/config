@@ -56,8 +56,8 @@ exec sh -c 'export XDG_DATA_DIRS="/usr/local/share:/usr/share:${HOME}/.local/sha
 exec gnome-keyring-daemon --start --components=secrets
 
 ### Output configuration
-output * scale 1.25
-# output * bg /home/phong/.config/sway/wallpaper.png fill
+output * scale 1.2
+output * bg /home/phong/.config/sway/wallpaper.jpg fill
 
 ### Idle configuration
 # Lock the screen after 5 minutes of inactivity
