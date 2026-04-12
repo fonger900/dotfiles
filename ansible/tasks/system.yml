@@ -54,7 +54,7 @@
       - sway
       - wezterm
       - foot
-      - wofi
+      - fuzzel
       - waybar
       - swayidle
       - swaylock
@@ -65,6 +65,9 @@
       - pavucontrol
       - gnome-keyring
       - dbus-x11
+      - libgdk-pixbuf2.0-bin
+      - librsvg2-common
+      - shared-mime-info
     state: present
   become: true
   when: ansible_facts['os_family'] == 'Debian'

@@ -72,6 +72,12 @@ check_tool "Go" "go" "brew install go"
 check_tool "Rust" "cargo" "curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh"
 check_tool "Container" "container" "brew install container"
 
+# GTK & UI (Linux Only)
+if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+  echo -e "\n${BLUE}--- GTK & UI ---${NC}"
+  check_tool "GDK Pixbuf bin" "gdk-pixbuf-query-loaders" "sudo apt install libgdk-pixbuf-2.0-bin"
+fi
+
 echo ""
 if [[ "${MISSING_TOOLS}" -eq 1 ]]; then
     echo -e "${YELLOW}⚠  Some tools are missing. Run the installation commands above to fix.${NC}"
