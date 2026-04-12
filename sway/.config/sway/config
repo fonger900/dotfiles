@@ -16,7 +16,7 @@ set $right l
 
 # Preferred applications
 set $term wezterm
-set $menu fuzzel
+set $menu wofi --show drun --no-icons
 set $browser firefox
 set $files thunar
 

@@ -54,7 +54,7 @@
       - sway
       - wezterm
       - foot
-      - fuzzel
+      - wofi
       - waybar
       - swayidle
       - swaylock
