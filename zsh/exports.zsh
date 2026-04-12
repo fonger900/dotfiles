@@ -40,3 +40,6 @@ setopt AUTO_CD
 setopt CORRECT
 setopt GLOB_DOTS
 setopt INTERACTIVE_COMMENTS
+
+# Flatpak
+export XDG_DATA_DIRS=$XDG_DATA_DIRS:$HOME/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share
