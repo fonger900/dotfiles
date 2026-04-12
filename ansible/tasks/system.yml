@@ -63,6 +63,8 @@
       - playerctl
       - brightnessctl
       - pavucontrol
+      - gnome-keyring
+      - dbus-x11
     state: present
   become: true
   when: ansible_facts['os_family'] == 'Debian'

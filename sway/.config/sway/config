@@ -51,6 +51,10 @@ client.placeholder      $black  $bg     $fg     $black    $black
 
 include /etc/sway/config-vars.d/*
 
+# Session Management
+exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
+exec gnome-keyring-daemon --start --components=secrets
+
 ### Output configuration
 output * scale 1.25
 # output * bg /home/phong/.config/sway/wallpaper.png fill
@@ -199,3 +203,5 @@ exec waybar
 
 # Sync microphone mute LED state on startup
 exec ~/code/dotfiles/scripts/mic-mute-sync.sh
+
+exec easyeffects --daemon
