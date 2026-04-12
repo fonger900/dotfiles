@@ -19,6 +19,7 @@
       - fastfetch
       - sway
       - fontconfig
+      - gestures
     
     # Custom plugin directories
     zsh_custom: "{{ ansible_env.HOME }}/.oh-my-zsh/custom"
@@ -47,3 +48,7 @@
     - name: Include fonts tasks
       ansible.builtin.include_tasks: tasks/fonts.yml
       tags: ['fonts']
+
+    - name: Include gestures tasks
+      ansible.builtin.include_tasks: tasks/gestures.yml
+      tags: ['gestures']

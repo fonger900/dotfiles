@@ -63,12 +63,20 @@
       - playerctl
       - brightnessctl
       - pavucontrol
+      - libinput-tools
+      - xdotool
+      - bluez
+      - bluez-tools
       - gnome-keyring
       - dbus-x11
       - libgdk-pixbuf2.0-bin
       - librsvg2-common
       - shared-mime-info
       - fontconfig
+      - xwayland
+      - xdg-desktop-portal-wlr
+      - xdg-desktop-portal-gtk
+      - wayland-protocols
     state: present
   become: true
   when: ansible_facts['os_family'] == 'Debian'

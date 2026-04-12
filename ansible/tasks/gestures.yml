@@ -1,0 +1,37 @@
+---
+- name: Gestures | Check if libinput-gestures is installed
+  ansible.builtin.command: command -v libinput-gestures
+  register: gestures_check
+  failed_when: false
+  changed_when: false
+
+- name: Gestures | Install from source
+  block:
+    - name: Gestures | Clone repository
+      ansible.builtin.git:
+        repo: https://github.com/bulletmark/libinput-gestures.git
+        dest: /tmp/libinput-gestures
+        depth: 1
+
+    - name: Gestures | Run installer
+      ansible.builtin.command: ./libinput-gestures-setup install
+      args:
+        chdir: /tmp/libinput-gestures
+      become: true
+
+    - name: Gestures | Add user to input group
+      ansible.builtin.user:
+        name: "{{ lookup('env', 'USER') }}"
+        groups: input
+        append: yes
+      become: true
+
+    - name: Gestures | Cleanup
+      ansible.builtin.file:
+        path: /tmp/libinput-gestures
+        state: absent
+  when: gestures_check.rc != 0
+
+- name: Gestures | Autostart setup
+  ansible.builtin.command: libinput-gestures-setup autostart
+  when: gestures_check.rc != 0

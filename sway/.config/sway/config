@@ -55,8 +55,13 @@ include /etc/sway/config-vars.d/*
 exec sh -c 'export XDG_DATA_DIRS="/usr/local/share:/usr/share:${HOME}/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share" && dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP XDG_DATA_DIRS'
 exec gnome-keyring-daemon --start --components=secrets
 
+# Desktop Portals (For Icons and Proper Wayland Protocols)
+exec systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
+exec /usr/libexec/xdg-desktop-portal-wlr &
+exec /usr/libexec/xdg-desktop-portal-gtk &
+
 ### Output configuration
-output * scale 1.2
+output * scale 1.3
 output * bg /home/phong/.config/sway/wallpaper.jpg fill
 
 ### Idle configuration
@@ -69,23 +74,40 @@ exec swayidle -w \
 ### Input configuration
 # Touchpad Settings (ThinkPad T14 optimized)
 input "type:touchpad" {
-    dwt enabled
+    # Bật chạm để click (Tap to click)
     tap enabled
+    
+    # Cuộn tự nhiên (Natural Scrolling - giống Mac)
     natural_scroll enabled
-    middle_emulation enabled
-    click_method clickfinger
-    pointer_accel 0.4
+    
+    # Tốc độ con trỏ (0.2 là khá vừa tay trên T14)
+    pointer_accel 0.2
+    
+    # Chống chạm nhầm khi đang gõ code (Palm rejection)
+    dwt enabled
+    
+    # Cuộn bằng 2 ngón tay
+    scroll_method two_finger
+    
+    # Tốc độ gia tốc (Adaptive giúp di chuyển chính xác hơn)
     accel_profile adaptive
+
+    # Giả lập chuột giữa khi nhấn cả 2 nút
+    middle_emulation enabled
 }
 
 # TrackPoint Settings (Red Nub)
 input "type:pointer" {
+    # Tối ưu cho Trackpoint (Núm đỏ)
     pointer_accel 0.5
-    accel_profile flat
+    accel_profile adaptive
 }
 
+# Start Gestures Daemon
+exec libinput-gestures-setup start
+
 ### Key bindings
-# Basics:
+# ... (rest of config)
     bindsym $mod+Return exec $term
     bindsym $mod+Shift+q kill
     bindsym $mod+d exec $menu
@@ -200,6 +222,7 @@ for_window [app_id="thunar" title="File Operation Progress"] floating enable
 include /etc/sway/config.d/*
 
 exec waybar
+exec bt_auto_off.sh &
 
 # Sync microphone mute LED state on startup
 exec ~/code/dotfiles/scripts/mic-mute-sync.sh
