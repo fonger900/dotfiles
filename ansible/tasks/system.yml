@@ -67,6 +67,14 @@
   become: true
   when: ansible_facts['os_family'] == 'Debian'
 
+- name: Core | Ensure user is in input group for brightnessctl LED control (Debian)
+  ansible.builtin.user:
+    name: "{{ lookup('env', 'USER') }}"
+    groups: input
+    append: yes
+  become: true
+  when: ansible_facts['os_family'] == 'Debian'
+
 - name: Core | Check for fdfind binary
   ansible.builtin.stat:
     path: /usr/bin/fdfind
