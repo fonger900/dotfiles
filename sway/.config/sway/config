@@ -16,7 +16,7 @@ set $right l
 
 # Preferred applications
 set $term wezterm
-set $menu wofi --show drun --no-icons
+set $menu wofi --show drun --allow-images --allow-markup --width 500 --height 400 --prompt 'Search Apps...'
 set $browser firefox
 set $files thunar
 
@@ -236,3 +236,6 @@ exec bt_auto_off.sh &
 exec ~/code/dotfiles/scripts/mic-mute-sync.sh
 
 exec easyeffects --daemon
+
+# Import GTK settings
+exec_always ~/code/dotfiles/scripts/import-gtk-settings.sh

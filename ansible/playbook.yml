@@ -20,6 +20,7 @@
       - sway
       - fontconfig
       - gestures
+      - gtk
     
     # Custom plugin directories
     zsh_custom: "{{ ansible_env.HOME }}/.oh-my-zsh/custom"
