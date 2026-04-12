@@ -31,14 +31,14 @@
         "all-outputs": true,
         "format": "{icon}",
         "format-icons": {
-            "1": "",
-            "2": "",
-            "3": "",
-            "4": "",
-            "5": "",
-            "urgent": "",
-            "focused": "",
-            "default": ""
+            "1": "󰆍",
+            "2": "󰈹",
+            "3": "󰅩",
+            "4": "󰓇",
+            "5": "󰙯",
+            "urgent": "󰀦",
+            "focused": "󰄲",
+            "default": "󰄯"
         }
     },
     "sway/mode": {
@@ -49,32 +49,32 @@
         "return-type": "json",
         "max-length": 40,
         "format-icons": {
-            "spotify": "",
-            "default": "🎜"
+            "spotify": "󰓇",
+            "default": "󰎆"
         },
         "escape": true,
         "exec": "$HOME/code/dotfiles/scripts/mediaplayer.sh 2> /dev/null"
     },
     "clock": {
         "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
-        "format": " {:%H:%M   %d/%m}"
+        "format": "󱑒 {:%H:%M  󰃭 %d/%m}"
     },
     "backlight": {
         "device": "amdgpu_bl0",
         "format": "{icon} {percent}%",
-        "format-icons": ["", "", "", "", "", "", "", "", ""]
+        "format-icons": ["󰃞", "󰃟", "󰃠"]
     },
     "cpu": {
-        "format": " {usage}%",
+        "format": "󰍛 {usage}%",
         "tooltip": false
     },
     "memory": {
-        "format": " {}%"
+        "format": "󰘚 {}%"
     },
     "temperature": {
         "critical-threshold": 80,
         "format": "{icon} {temperatureC}°C",
-        "format-icons": ["", "", " thermometers"]
+        "format-icons": ["󰔄", "󰔏", "󱗗"]
     },
     "disk": {
         "interval": 30,
@@ -93,33 +93,33 @@
         "format-icons": ["󰂎", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"]
     },
     "network": {
-        "format-wifi": " {essid}",
-        "format-ethernet": " {ifname}",
-        "tooltip-format": " {ifname} via {gwaddr}\nIP: {ipaddr}",
-        "format-linked": " {ifname} (No IP)",
-        "format-disconnected": "⚠ Disconnected",
+        "format-wifi": "󰖩 {essid}",
+        "format-ethernet": "󰈀 {ifname}",
+        "tooltip-format": "󰈀 {ifname} via {gwaddr}\nIP: {ipaddr}",
+        "format-linked": "󰈀 {ifname} (No IP)",
+        "format-disconnected": "󰖪 Disconnected",
         "on-click": "nm-connection-editor"
     },
     "pulseaudio": {
         "format": "{icon} {volume}%",
-        "format-bluetooth": " {icon} {volume}%",
-        "format-bluetooth-muted": "  {icon}",
-        "format-muted": " {format_source}",
-        "format-source": " {volume}%",
-        "format-source-muted": "",
+        "format-bluetooth": "󰂯 {icon} {volume}%",
+        "format-bluetooth-muted": "󰂯 󰝟 {icon}",
+        "format-muted": "󰝟 {format_source}",
+        "format-source": "󰍬 {volume}%",
+        "format-source-muted": "󰍭",
         "format-icons": {
-            "headphone": "",
-            "hands-free": "",
-            "headset": "",
-            "phone": "",
-            "portable": "",
-            "car": "",
-            "default": ["", "", ""]
+            "headphone": "󰋋",
+            "hands-free": "󰥰",
+            "headset": "󰋋",
+            "phone": "󰏲",
+            "portable": "󰏲",
+            "car": "󰄋",
+            "default": ["󰕿", "󰖀", "󰕾"]
         },
         "on-click": "pavucontrol"
     },
     "custom/power": {
-        "format": "",
+        "format": "󰐥",
         "on-click": "swaynag -t warning -m 'Power Menu' -B 'Shutdown' 'shutdown now' -B 'Reboot' 'reboot' -B 'Logout' 'swaymsg exit'",
         "tooltip": false
     },
