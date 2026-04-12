@@ -17,3 +17,9 @@ export INFOPATH="$HOMEBREW_PREFIX/share/info:$INFOPATH"
 # 3. Swiftly
 # shellcheck disable=SC1091
 [ -f "$HOME/.swiftly/env.sh" ] && . "$HOME/.swiftly/env.sh"
+
+# 4. Auto-launch Sway on TTY1
+if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; then
+    exec sway
+fi
+
