@@ -19,7 +19,14 @@ export INFOPATH="$HOMEBREW_PREFIX/share/info:$INFOPATH"
 [ -f "$HOME/.swiftly/env.sh" ] && . "$HOME/.swiftly/env.sh"
 
 # 4. Auto-launch Sway on TTY1
-if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; then
+# Start Sway automatically after login on TTY1 if not already in a session
+if [[ -z $DISPLAY ]] && [[ -z $WAYLAND_DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; then
+    # Ensure environment is clean for Wayland
+    export XDG_CURRENT_DESKTOP=sway
+    export XDG_SESSION_TYPE=wayland
+    
+    # Optional: Start sway with dbus-run-session if needed
+    # exec dbus-run-session sway
     exec sway
 fi
 
