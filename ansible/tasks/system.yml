@@ -65,7 +65,17 @@
       - pavucontrol
       - gnome-keyring
       - dbus-x11
+      - greetd
+      - tuigreet
     state: present
+  become: true
+  when: ansible_facts['os_family'] == 'Debian'
+
+- name: Core | Ensure greetd service is enabled (Debian)
+  ansible.builtin.systemd:
+    name: greetd
+    enabled: yes
+    state: started
   become: true
   when: ansible_facts['os_family'] == 'Debian'
 

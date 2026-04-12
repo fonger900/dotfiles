@@ -20,9 +20,33 @@
     path: "{{ ansible_env.HOME }}/.config/sway/config"
   register: sway_stat
 
-- name: Dotfiles | Backup existing sway config if it is not a symlink
+- name: Dotfiles | Check if sway directory is stowed
+  ansible.builtin.stat:
+    path: "{{ ansible_env.HOME }}/.config/sway"
+  register: sway_dir_stat
+
+- name: Dotfiles | Backup existing sway config if it is not stowed
   ansible.builtin.command: mv "{{ ansible_env.HOME }}/.config/sway/config" "{{ ansible_env.HOME }}/.config/sway/config.bak"
-  when: sway_stat.stat.exists and not sway_stat.stat.islnk
+  when: 
+    - sway_stat.stat.exists 
+    - not sway_stat.stat.islnk
+    - not (sway_dir_stat.stat.exists and sway_dir_stat.stat.islnk)
+
+- name: Dotfiles | Ensure greetd directory exists
+  ansible.builtin.file:
+    path: /etc/greetd
+    state: directory
+    mode: '0755'
+  become: true
+  when: ansible_facts['os_family'] == 'Debian'
+
+- name: Dotfiles | Deploy greetd configuration
+  ansible.builtin.copy:
+    src: "{{ dotfiles_dir }}/greetd/config.toml"
+    dest: /etc/greetd/config.toml
+    mode: '0644'
+  become: true
+  when: ansible_facts['os_family'] == 'Debian'
 
 - name: Dotfiles | Stow packages
   ansible.builtin.command: stow -v -R -t "{{ ansible_env.HOME }}" -d "{{ dotfiles_dir }}" {{ item }}
