@@ -13,7 +13,7 @@ window#waybar {
     transition-duration: .5s;
 }
 
-#waybar > box {
+#waybar>box {
     background-color: rgba(26, 27, 38, 0.85);
     border-radius: 12px;
     margin: 4px 0;
@@ -75,6 +75,19 @@ window#waybar {
     font-weight: bold;
 }
 
+tooltip {
+    background: #1a1b26;
+    border-radius: 6px;
+    border: 1px solid #7aa2f7;
+    color: #c0caf5;
+}
+
+tooltip label {
+    font-family: "JetBrainsMono Nerd Font";
+    font-size: 13px;
+    padding: 12px;
+}
+
 #custom-media {
     background-color: #9ece6a;
     color: #1a1b26;
@@ -118,7 +131,8 @@ window#waybar {
     color: #9ece6a;
 }
 
-#battery.charging, #battery.plugged {
+#battery.charging,
+#battery.plugged {
     color: #9ece6a;
     background-color: rgba(158, 206, 106, 0.1);
 }
