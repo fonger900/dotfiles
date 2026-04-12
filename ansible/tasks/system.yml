@@ -68,6 +68,7 @@
       - libgdk-pixbuf2.0-bin
       - librsvg2-common
       - shared-mime-info
+      - fontconfig
     state: present
   become: true
   when: ansible_facts['os_family'] == 'Debian'

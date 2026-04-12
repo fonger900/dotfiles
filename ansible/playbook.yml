@@ -18,6 +18,7 @@
       - helix
       - fastfetch
       - sway
+      - fontconfig
     
     # Custom plugin directories
     zsh_custom: "{{ ansible_env.HOME }}/.oh-my-zsh/custom"
@@ -42,3 +43,7 @@
     - name: Include terminal setup tasks
       ansible.builtin.include_tasks: tasks/terminal_setup.yml
       tags: ['terminal', 'zsh', 'tmux']
+
+    - name: Include fonts tasks
+      ansible.builtin.include_tasks: tasks/fonts.yml
+      tags: ['fonts']
