@@ -18,13 +18,14 @@ config.window_padding = { left = 10, right = 10, top = 10, bottom = 0 }
 config.enable_tab_bar = false
 
 -- ==========================================
--- Performance
+-- Performance & Backend
 -- ==========================================
-config.front_end = "OpenGL" -- Most stable on Windows
+config.front_end = "OpenGL" 
 config.max_fps = 120
+config.enable_wayland = true -- Better for Sway/Wayland
 
 -- ==========================================
--- OS Specific (Windows)
+-- OS Specific
 -- ==========================================
 if wezterm.target_triple:find('windows') then
     config.default_prog = { 'powershell.exe', '-NoLogo' }
@@ -44,6 +45,9 @@ if wezterm.target_triple:find('windows') then
             args = { 'pwsh.exe', '-NoLogo' },
         },
     }
+elseif wezterm.target_triple:find('linux') then
+    -- Use login shell to ensure /etc/profile and ~/.zprofile are sourced
+    config.default_prog = { 'zsh', '--login' }
 end
 
 -- ==========================================

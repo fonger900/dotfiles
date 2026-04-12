@@ -20,7 +20,8 @@ fi
 # ==========================================
 # Performance-Optimized ZSH Configuration
 # ==========================================
-export DOTFILES="$HOME/dotfiles"
+# Determine Dotfiles location (default to current if not set)
+export DOTFILES="${DOTFILES:-$HOME/code/dotfiles}"
 
 # 1. Path Configuration
 [ -f "$DOTFILES/zsh/path.zsh" ] && source "$DOTFILES/zsh/path.zsh"

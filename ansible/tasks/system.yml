@@ -20,8 +20,25 @@
   become: true
   when: ansible_facts['os_family'] == 'Debian'
 
+- name: Core | Add WezTerm GPG key (Debian)
+  ansible.builtin.get_url:
+    url: https://apt.fury.io/wez/gpg.key
+    dest: /usr/share/keyrings/wezterm-fury.gpg
+    mode: '0644'
+  become: true
+  when: ansible_facts['os_family'] == 'Debian'
+
+- name: Core | Add WezTerm Repository (Debian)
+  ansible.builtin.copy:
+    content: "deb [signed-by=/usr/share/keyrings/wezterm-fury.gpg] https://apt.fury.io/wez/ * *"
+    dest: /etc/apt/sources.list.d/wezterm.list
+    mode: '0644'
+  become: true
+  when: ansible_facts['os_family'] == 'Debian'
+
 - name: Core | Install basic dependencies (Debian/Ubuntu)
   ansible.builtin.apt:
+    update_cache: yes
     name:
       - curl
       - git
@@ -34,6 +51,7 @@
       - unzip
       - gettext
       - sway
+      - wezterm
       - foot
       - wofi
       - waybar

@@ -1,7 +1,8 @@
 # ==========================================
 # Environment Variables
 # ==========================================
-export TERM="xterm-256color"
+# Only set TERM if it's not set by the terminal emulator
+export TERM="${TERM:-xterm-256color}"
 export EDITOR='nvim'
 export VISUAL='nvim'
 export PAGER='less'

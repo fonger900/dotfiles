@@ -62,6 +62,7 @@ echo -e "\n${BLUE}--- Editors & Terminals ---${NC}"
 check_tool "Neovim" "nvim" "brew install neovim"
 check_tool "Tmux" "tmux" "brew install tmux"
 check_tool "Helix" "hx" "brew install helix"
+check_tool "WezTerm" "wezterm" "brew install wezterm"
 
 # Languages (Basic)
 echo -e "\n${BLUE}--- Runtimes ---${NC}"
