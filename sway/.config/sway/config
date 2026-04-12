@@ -51,8 +51,8 @@ client.placeholder      $black  $bg     $fg     $black    $black
 
 include /etc/sway/config-vars.d/*
 
-# Session Management
-exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
+# Session Management — ensure /usr/share is in XDG_DATA_DIRS so launchers find all .desktop files
+exec sh -c 'export XDG_DATA_DIRS="/usr/local/share:/usr/share:${HOME}/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share" && dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP XDG_DATA_DIRS'
 exec gnome-keyring-daemon --start --components=secrets
 
 ### Output configuration
