@@ -18,13 +18,36 @@ else
   alias l='ls -CF'
 fi
 
-alias reload='source ~/.zshrc && echo "✅ Zsh config reloaded"'
+alias reload='source ~/.zshrc'
+alias dots='cd $DOTFILES && ./bootstrap.sh'
 alias zshconfig='nvim ~/.zshrc'
 alias ..='cd ..'
 alias ...='cd ../..'
 
+# Platform Specific Aliases
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  # macOS specific
+  alias ls='eza --icons'
+elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
+  # Linux specific
+  if command -v wl-copy &>/dev/null; then
+    alias pbcopy='wl-copy'
+    alias pbpaste='wl-paste'
+  elif command -v xclip &>/dev/null; then
+    alias pbcopy='xclip -selection clipboard'
+    alias pbpaste='xclip -selection clipboard -o'
+  fi
+
+  # Debian/Ubuntu specific
+  if command -v apt &>/dev/null; then
+    alias update='sudo apt update && sudo apt upgrade -y'
+    alias install='sudo apt install'
+  fi
+fi
+
 # System
 alias sudo='sudo '
+
 alias cp='cp -iv'
 alias mv='mv -iv'
 alias rm='rm -i'

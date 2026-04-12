@@ -40,6 +40,7 @@ adjust-cell-width = 0
 window-padding-x = 6
 window-padding-y = 6
 window-padding-balance = true
+window-step-resize = true
 window-decoration = false
 window-theme = auto
 

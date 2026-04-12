@@ -14,7 +14,17 @@ check_tool() {
     local cmd=$2
     local install_hint=$3
 
+    # Detect OS to adjust install hint
+    if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+        if command -v apt-get &> /dev/null; then
+            install_hint="sudo apt install ${cmd}"
+        elif command -v pacman &> /dev/null; then
+            install_hint="sudo pacman -S ${cmd}"
+        fi
+    fi
+
     printf "% -20s " "$name"
+
     if command -v "$cmd" &> /dev/null; then
         echo -e "${GREEN}✅ Installed${NC} ($(command -v "$cmd"))"
     else
@@ -62,7 +72,7 @@ check_tool "Rust" "cargo" "curl --proto '=https' --tlsv1.2 -sSf https://sh.rustu
 check_tool "Container" "container" "brew install container"
 
 echo ""
-if [ $MISSING_TOOLS -eq 1 ]; then
+if [[ "${MISSING_TOOLS}" -eq 1 ]]; then
     echo -e "${YELLOW}⚠  Some tools are missing. Run the installation commands above to fix.${NC}"
 else
     echo -e "${GREEN}✨ All systems operational! Happy coding.${NC}"

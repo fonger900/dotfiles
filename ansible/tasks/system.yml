@@ -8,7 +8,6 @@
       - zsh
       - fd
       - ripgrep
-      - lynx
       - ca-certificates
     state: present
     update_homebrew: true
@@ -30,11 +29,21 @@
       - zsh
       - fd-find
       - ripgrep
-      - lynx
       - ca-certificates
       - build-essential
       - unzip
       - gettext
+      - sway
+      - foot
+      - wofi
+      - waybar
+      - swayidle
+      - swaylock
+      - grim
+      - slurp
+      - playerctl
+      - brightnessctl
+      - pavucontrol
     state: present
   become: true
   when: ansible_facts['os_family'] == 'Debian'
@@ -64,7 +73,6 @@
       - zsh
       - fd
       - ripgrep
-      - lynx
       - ca-certificates
       - base-devel
       - unzip
@@ -83,7 +91,6 @@
       - zsh
       - fd-find
       - ripgrep
-      - lynx
       - ca-certificates
       - gcc
       - make

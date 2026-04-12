@@ -30,14 +30,31 @@ path=(
   "${path[@]}"
   "$HOME/.antigravity/antigravity/bin"
   "$HOME/.lmstudio/bin"
-  "$HOME/Library/Android/sdk/platform-tools"
-  "$HOME/Library/Android/sdk/tools"
   "$HOME/.local/share/pnpm"
-  "$HOME/Library/Application Support/Herd/bin/"
 )
 
+# Platform-specific paths
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  # macOS
+  path=(
+    "${path[@]}"
+    "$HOME/Library/Android/sdk/platform-tools"
+    "$HOME/Library/Android/sdk/tools"
+    "$HOME/Library/Application Support/Herd/bin/"
+  )
+  export HERD_PHP_84_INI_SCAN_DIR="$HOME/Library/Application Support/Herd/config/php/84/"
+elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
+  # Linux
+  path=(
+    "${path[@]}"
+    "$HOME/Android/Sdk/platform-tools"
+    "$HOME/Android/Sdk/tools"
+    "$HOME/.local/bin"
+  )
+fi
+
 export PNPM_HOME="$HOME/.local/share/pnpm"
-export HERD_PHP_84_INI_SCAN_DIR="$HOME/Library/Application Support/Herd/config/php/84/"
+
 
 # ==========================================
 # WSL Path Optimization

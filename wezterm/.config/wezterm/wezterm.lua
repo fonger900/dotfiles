@@ -9,6 +9,7 @@ config.color_scheme = 'Catppuccin Mocha'
 config.font = wezterm.font_with_fallback({ 
   'JetBrainsMono NF', 
   'JetBrainsMono Nerd Font', 
+  'JetBrains Mono',
   'Consolas' 
 })
 config.font_size = 11.0

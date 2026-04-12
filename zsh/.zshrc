@@ -30,6 +30,17 @@ export ZSH="$HOME/.oh-my-zsh"
 zstyle ':omz:update' mode disabled
 : ${ZSH_CACHE_DIR:=$ZSH/cache}
 
+# Completion Initialization (Required before plugins)
+_init_completion() {
+  autoload -Uz compinit
+  if [[ -n ${ZDOTDIR:-$HOME}/.zcompdump(#qN.mh+24) ]]; then
+    compinit
+  else
+    compinit -C
+  fi
+}
+_init_completion
+
 # Load OMZ Libs
 for config_file ($ZSH/lib/*.zsh); do
   source "$config_file"
@@ -81,17 +92,6 @@ _load_plugins_deferred() {
   done
 }
 zsh-defer _load_plugins_deferred
-
-# 5. Optimized completion
-_init_completion() {
-  autoload -Uz compinit
-  if [[ -n ${ZDOTDIR}/.zcompdump(#qN.mh+24) ]]; then
-    compinit
-  else
-    compinit -C
-  fi
-}
-zsh-defer _init_completion
 
 # 6. Local Customizations
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
