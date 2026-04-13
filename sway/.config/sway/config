@@ -16,7 +16,7 @@ set $right l
 font pango:Inter 11
 
 # Preferred applications
-set $term wezterm
+set $term ghostty
 set $menu wofi --show drun --allow-images --allow-markup --width 500 --height 400 --prompt 'Search Apps...'
 set $browser firefox
 set $files thunar

@@ -10,7 +10,6 @@
       - zsh
       - tmux
       - nvim
-      - wezterm
       - ghostty
       - starship
       - ripgrep

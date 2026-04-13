@@ -12,7 +12,7 @@ The project uses a **modular architecture** where configurations for different t
 - **Shell**: Zsh (with Oh-My-Zsh, powerlevel10k-style Starship prompt)
 - **Multiplexer**: Tmux (Prefix: `Ctrl+A`, integrated with Catppuccin theme)
 - **Editors**: Neovim (Modular Lua config), Helix (Modern alternative)
-- **Terminals**: Ghostty (Primary), Wezterm (Secondary)
+- **Terminals**: Ghostty (Primary)
 - **Package Managers**: Homebrew (System), Mise (Runtimes), PNPM (Node.js)
 - **Utilities**: `fzf`, `ripgrep`, `fd`, `eza`, `bat`, `zoxide`
 
