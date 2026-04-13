@@ -12,6 +12,9 @@ set $down j
 set $up k
 set $right l
 
+# Font configuration
+font pango:Inter 11
+
 # Preferred applications
 set $term wezterm
 set $menu wofi --show drun --allow-images --allow-markup --width 500 --height 400 --prompt 'Search Apps...'

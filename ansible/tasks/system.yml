@@ -13,6 +13,7 @@
       - bat
       - wezterm
       - ca-certificates
+      - font-inter
     state: present
     update_homebrew: true
   when: ansible_facts['os_family'] == 'Darwin'
@@ -71,6 +72,7 @@
       - bat
       - ca-certificates
       - build-essential
+      - fonts-inter
       - unzip
       - gettext
       - pulseaudio-utils
