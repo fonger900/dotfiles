@@ -204,7 +204,7 @@ bindsym --locked XF86MonBrightnessUp exec brightnessctl set 5%+
 
 # Screenshots
 set $screenshots_dir ~/Pictures/Screenshots
-exec mkdir -p $screenshots_dir
+exec mkdir -p ~/Pictures/Screenshots
 
 bindsym Print exec grim - | tee "$screenshots_dir/$(date +%Y-%m-%d_%H-%M-%S).png" | wl-copy && notify-send "Screenshot" "Full screen saved and copied to clipboard"
 bindsym $mod+Shift+s exec grim -g "$(slurp)" - | tee "$screenshots_dir/$(date +%Y-%m-%d_%H-%M-%S).png" | wl-copy && notify-send "Screenshot" "Region saved and copied to clipboard"
@@ -224,6 +224,3 @@ exec waybar
 exec bt_auto_off.sh
 exec_always mic-mute-sync.sh
 exec_always import-gtk-settings.sh
-
-# Reload waybar on sway reload
-bindsym $mod+Shift+c reload
