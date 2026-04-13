@@ -30,6 +30,7 @@
   ansible.builtin.apt:
     update_cache: yes
     name:
+      # Base tools
       - curl
       - git
       - stow
@@ -41,38 +42,50 @@
       - bat
       - ca-certificates
       - build-essential
-      - fonts-inter
       - unzip
       - gettext
-      - pulseaudio-utils
+      # Fonts
+      - fonts-inter
+      - fontconfig
+      # Sway & Wayland core
       - sway
-      - tmux
-      - ncurses-term
-      - wl-clipboard
-      - foot
-      - wofi
       - waybar
       - swayidle
       - swaylock
-      - grim
-      - slurp
+      - wofi
+      - wl-clipboard
+      - xwayland
+      - wayland-protocols
+      - xdg-desktop-portal-wlr
+      - xdg-desktop-portal-gtk
+      - dbus-user-session
+      # Terminal & shell
+      - tmux
+      - ncurses-term
+      # Media & audio
+      - pipewire
+      - pipewire-pulse
+      - wireplumber
       - playerctl
-      - brightnessctl
-      - thunar
       - pavucontrol
+      - pulseaudio-utils
+      # Hardware
+      - brightnessctl
       - libinput-tools
-      - xdotool
       - bluez
       - bluez-tools
-      - keepassxc
-      - dbus-x11
+      - upower
+      # Screenshots & notifications
+      - grim
+      - slurp
+      - libnotify-bin
+      # Files & apps
+      - thunar
+      # Power management
       - tlp
       - tlp-rdw
-      - tp-smapi-dkms
-      - acpi-call-dkms
-      - upower
       - thermald
-      - flatpak
+      # Theming
       - papirus-icon-theme
       - adwaita-icon-theme-full
       - nwg-look
@@ -81,11 +94,8 @@
       - libgdk-pixbuf2.0-bin
       - librsvg2-common
       - shared-mime-info
-      - fontconfig
-      - xwayland
-      - xdg-desktop-portal-wlr
-      - xdg-desktop-portal-gtk
-      - wayland-protocols
+      # Flatpak
+      - flatpak
     state: present
   become: true
   when: ansible_facts['os_family'] == 'Debian'
