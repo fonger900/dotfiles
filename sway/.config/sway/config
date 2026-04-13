@@ -45,7 +45,6 @@ client.placeholder      $black   $bg   $fg   $black     $black
 include /etc/sway/config-vars.d/*
 
 ### Session / D-Bus
-# Let systemd manage portal activation; just export the env vars
 exec systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP DISPLAY SWAYSOCK
 exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP XDG_DATA_DIRS DISPLAY SWAYSOCK
 
