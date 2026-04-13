@@ -76,3 +76,9 @@
     - name: Update GRUB
       ansible.builtin.command: update-grub
       become: true
+
+    - name: Restart logind
+      ansible.builtin.systemd:
+        name: systemd-logind
+        state: restarted
+      become: true

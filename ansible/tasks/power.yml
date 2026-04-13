@@ -1,4 +1,7 @@
 ---
+- name: Power | Gather service facts
+  ansible.builtin.service_facts:
+
 - name: Power | Ensure TLP service is enabled
   ansible.builtin.systemd:
     name: tlp
@@ -14,20 +17,16 @@
       # TLP config — ThinkPad T14 Gen 1 AMD (Ryzen 4650U / Renoir)
 
       # ── Battery health ───────────────────────────────────────────
-      # Conservative thresholds for daily plugged-in use
       START_CHARGE_THRESH_BAT0=75
       STOP_CHARGE_THRESH_BAT0=80
 
       # ── CPU ──────────────────────────────────────────────────────
       CPU_SCALING_GOVERNOR_ON_AC=schedutil
       CPU_SCALING_GOVERNOR_ON_BAT=schedutil
-
       CPU_ENERGY_PERF_POLICY_ON_AC=balance_performance
       CPU_ENERGY_PERF_POLICY_ON_BAT=power
-
       CPU_BOOST_ON_AC=1
       CPU_BOOST_ON_BAT=0
-
       CPU_HWP_DYN_BOOST_ON_AC=1
       CPU_HWP_DYN_BOOST_ON_BAT=0
 
@@ -54,7 +53,6 @@
 
       # ── USB autosuspend ──────────────────────────────────────────
       USB_AUTOSUSPEND=1
-      # Exclude USB input devices from autosuspend (keyboard/mouse)
       USB_EXCLUDE_BTUSB=1
 
       # ── Runtime PM ───────────────────────────────────────────────
@@ -63,30 +61,46 @@
   become: true
   notify: Restart TLP
 
-- name: Power | Disable thermald (conflicts with AMD P-state driver on Ryzen)
+- name: Power | Disable thermald (conflicts with AMD P-state on Ryzen)
   ansible.builtin.systemd:
     name: thermald
     enabled: false
     state: stopped
   become: true
   ignore_errors: true
+  when: ansible_facts.services['thermald.service'] is defined
 
-- name: Power | Enable AMD P-state driver via kernel cmdline
+- name: Power | Kernel params — AMD P-state + S3 deep sleep + NVMe fix
   ansible.builtin.lineinfile:
     path: /etc/default/grub
     regexp: '^GRUB_CMDLINE_LINUX_DEFAULT='
-    line: 'GRUB_CMDLINE_LINUX_DEFAULT="quiet splash amd_pstate=active nvme.noacpi=1"'
+    line: 'GRUB_CMDLINE_LINUX_DEFAULT="quiet splash amd_pstate=active nvme.noacpi=1 mem_sleep_default=deep"'
     backup: yes
   become: true
-  register: grub_changed
   notify: Update GRUB
 
-- name: Power | Set AMD GPU power profile on AC (udev rule)
+- name: Power | Configure logind — let swayidle handle lid, not logind
+  ansible.builtin.copy:
+    dest: /etc/systemd/logind.conf.d/99-sway.conf
+    mode: '0644'
+    content: |
+      [Login]
+      # Sway + swayidle handle lock/suspend on lid close
+      # logind only triggers suspend signal; swayidle's 'lock' event handles the rest
+      HandleLidSwitch=suspend
+      HandleLidSwitchExternalPower=lock
+      HandleLidSwitchDocked=ignore
+      # Prevent logind from managing idle — swayidle does this
+      IdleAction=ignore
+      LidSwitchIgnoreInhibited=no
+  become: true
+  notify: Restart logind
+
+- name: Power | AMD GPU power profile udev rule
   ansible.builtin.copy:
     dest: /etc/udev/rules.d/91-amdgpu-power.rules
     mode: '0644'
     content: |
-      # Set amdgpu power profile based on AC/battery
       ACTION=="change", SUBSYSTEM=="power_supply", ATTR{online}=="1", \
         RUN+="/bin/sh -c 'echo auto > /sys/class/drm/card0/device/power_dpm_force_performance_level'"
       ACTION=="change", SUBSYSTEM=="power_supply", ATTR{online}=="0", \
