@@ -16,6 +16,7 @@
         "clock"
     ],
     "modules-right": [
+        "custom/easyeffects",
         "wireplumber",
         "backlight",
         "network",
@@ -152,6 +153,15 @@
     "tray": {
         "icon-size": 16,
         "spacing": 8
+    },
+
+    "custom/easyeffects": {
+        "exec": "$HOME/.dotfiles/scripts/easyeffects-status.sh",
+        "return-type": "json",
+        "interval": 5,
+        "on-click": "easyeffects",
+        "on-click-right": "easyeffects --quit",
+        "tooltip": true
     },
 
     "custom/power": {
