@@ -41,10 +41,10 @@ setopt CORRECT
 setopt GLOB_DOTS
 setopt INTERACTIVE_COMMENTS
 
-# Secret Service & Chrome Persistence Fix
-# Forces Chrome to use the Secret Service (provided by KeePassXC) for password storage
+# Forces Chrome and Electron apps to use the Secret Service (provided by KeePassXC) for password storage
 # Note: Ensure KeePassXC -> Settings -> Browser Integration -> Enable Secret Service is checked.
 export CHROME_CONFIG_FLAGS="--password-store=gnome"
+export ELECTRON_PASSWORD_STORE="gnome"
 
 # XDG Data Directories — include system defaults first, then Flatpak
 export XDG_DATA_DIRS="${XDG_DATA_DIRS:-/usr/local/share:/usr/share}:/usr/local/share:/usr/share:$HOME/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share"
