@@ -50,3 +50,11 @@
     depth: 1
     update: no
     version: master
+
+- name: Terminal | Install/Update Tmux plugins
+  ansible.builtin.shell: |
+    set -o pipefail
+    {{ ansible_env.HOME }}/.tmux/plugins/tpm/bin/install_plugins
+  args:
+    executable: /bin/bash
+  changed_when: true

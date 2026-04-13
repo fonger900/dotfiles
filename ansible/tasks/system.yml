@@ -53,6 +53,9 @@
       - pulseaudio-utils
       - sway
       - wezterm
+      - tmux
+      - ncurses-term
+      - wl-clipboard
       - foot
       - wofi
       - waybar
