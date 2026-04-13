@@ -60,19 +60,19 @@
         "tooltip": true,
         "tooltip-format": "<tt><small>{calendar}</small></tt>",
         "calendar": {
-            "mode"          : "month",
-            "mode-mon-col"  : 3,
-            "weeks-pos"     : "right",
-            "on-scroll"     : 1,
+            "mode": "month",
+            "mode-mon-col": 3,
+            "weeks-pos": "right",
+            "on-scroll": 1,
             "format": {
-                "months":     "<span color='#ff9e64'><b>{}</b></span>",
-                "days":       "<span color='#c0caf5'><b>{}</b></span>",
-                "weeks":      "<span color='#7dcfff'><b>W{}</b></span>",
-                "weekdays":   "<span color='#bb9af7'><b>{}</b></span>",
-                "today":      "<span color='#1a1b26' background='#7aa2f7'><b> {} </b></span>"
+                "months": "<span color='#ff9e64'><b>{}</b></span>",
+                "days": "<span color='#c0caf5'><b>{}</b></span>",
+                "weeks": "<span color='#7dcfff'><b>W{}</b></span>",
+                "weekdays": "<span color='#bb9af7'><b>{}</b></span>",
+                "today": "<span color='#1a1b26' background='#7aa2f7'><b> {} </b></span>"
             }
         },
-        "actions":  {
+        "actions": {
             "on-click-right": "mode",
             "on-click-forward": "tz_up",
             "on-click-backward": "tz_down",
@@ -83,7 +83,11 @@
     "backlight": {
         "device": "amdgpu_bl0",
         "format": "{icon} {percent}%",
-        "format-icons": ["󰃞", "󰃟", "󰃠"]
+        "format-icons": [
+            "󰃞",
+            "󰃟",
+            "󰃠"
+        ]
     },
     "cpu": {
         "format": "󰍛 {usage}%",
@@ -95,7 +99,11 @@
     "temperature": {
         "critical-threshold": 80,
         "format": "{icon} {temperatureC}°C",
-        "format-icons": ["󰔄", "󰔏", "󱗗"]
+        "format-icons": [
+            "󰔄",
+            "󰔏",
+            "󱗗"
+        ]
     },
     "disk": {
         "interval": 30,
@@ -111,7 +119,19 @@
         "format-charging": "{icon} 󱐋 {capacity}%",
         "format-plugged": "󰚥 {capacity}%",
         "format-alt": "{icon} {time}",
-        "format-icons": ["󰂎", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"]
+        "format-icons": [
+            "󰂎",
+            "󰁺",
+            "󰁻",
+            "󰁼",
+            "󰁽",
+            "󰁾",
+            "󰁿",
+            "󰂀",
+            "󰂁",
+            "󰂂",
+            "󰁹"
+        ]
     },
     "network": {
         "format-wifi": "󰖩 {essid}",
@@ -135,7 +155,11 @@
             "phone": "󰏲",
             "portable": "󰏲",
             "car": "󰄋",
-            "default": ["󰕿", "󰖀", "󰕾"]
+            "default": [
+                "󰕿",
+                "󰖀",
+                "󰕾"
+            ]
         },
         "on-click": "pavucontrol"
     },
