@@ -2,7 +2,7 @@
     border: none;
     border-radius: 0;
     font-family: Inter, "JetBrainsMono Nerd Font", sans-serif;
-    font-size: 16px;
+    font-size: 15px;
     min-height: 0;
     transition: background-color 0.2s ease, color 0.2s ease;
 }
@@ -33,7 +33,7 @@ window#waybar > box {
     color: #565f89;
     background: transparent;
     border-radius: 8px;
-    font-size: 14px;
+    font-size: 17px;
 }
 
 #workspaces button.focused {
@@ -78,21 +78,21 @@ window#waybar > box {
     padding: 2px 14px;
 }
 
-#wireplumber        { color: #ff9e64; }
+#wireplumber        { color: #ff9e64; font-size: 17px; }
 #wireplumber.muted  { color: #565f89; background: #1e2030; }
 
-#backlight          { color: #e0af68; }
+#backlight          { color: #e0af68; font-size: 17px; }
 
-#network            { color: #7dcfff; }
+#network            { color: #7dcfff; font-size: 17px; }
 #network.disconnected { color: #565f89; }
 
-#cpu                { color: #7aa2f7; }
-#memory             { color: #bb9af7; }
+#cpu                { color: #7aa2f7; font-size: 17px; }
+#memory             { color: #bb9af7; font-size: 17px; }
 
-#temperature        { color: #9ece6a; }
+#temperature        { color: #9ece6a; font-size: 17px; }
 #temperature.critical { color: #f7768e; background: rgba(247, 118, 142, 0.15); }
 
-#battery            { color: #9ece6a; }
+#battery            { color: #9ece6a; font-size: 17px; }
 #battery.charging   { color: #9ece6a; background: rgba(158, 206, 106, 0.12); }
 #battery.plugged    { color: #9ece6a; }
 #battery.warning:not(.charging) {
@@ -113,7 +113,7 @@ window#waybar > box {
 
 #custom-easyeffects {
     color: #9ece6a;
-    font-size: 15px;
+    font-size: 19px;
     min-width: 28px;
 }
 
@@ -126,7 +126,7 @@ window#waybar > box {
     background: rgba(247, 118, 142, 0.12);
     padding: 2px 12px;
     margin-right: 4px;
-    font-size: 15px;
+    font-size: 19px;
 }
 
 #tray {
