@@ -1,0 +1,48 @@
+# swaylock config — Tokyo Night
+
+# Use wallpaper as background
+image=~/.config/sway/wallpaper.jpg
+scaling=fill
+
+# Blur effect (requires swaylock-effects, falls back gracefully)
+# effect-blur=7x5
+# effect-vignette=0.5:0.5
+
+# Colors — Tokyo Night
+color=1a1b26
+
+inside-color=1a1b26cc
+inside-clear-color=1a1b26cc
+inside-caps-lock-color=1a1b26cc
+inside-ver-color=7aa2f7cc
+inside-wrong-color=f7768ecc
+
+ring-color=414868
+ring-clear-color=7dcfff
+ring-caps-lock-color=e0af68
+ring-ver-color=7aa2f7
+ring-wrong-color=f7768e
+
+line-uses-ring
+
+key-hl-color=7aa2f7
+bs-hl-color=f7768e
+caps-lock-key-hl-color=e0af68
+caps-lock-bs-hl-color=f7768e
+
+text-color=c0caf5
+text-clear-color=7dcfff
+text-caps-lock-color=e0af68
+text-ver-color=7aa2f7
+text-wrong-color=f7768e
+
+# Layout
+indicator-radius=80
+indicator-thickness=8
+indicator-idle-visible=false
+indicator-caps-lock
+
+# Behavior
+show-failed-attempts
+daemonize
+ignore-empty-password
