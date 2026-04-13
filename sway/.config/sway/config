@@ -15,7 +15,7 @@ set $files thunar
 set $lock_cmd swaylock
 
 # Font
-font pango:Inter 11
+font pango:Inter 13
 
 # Tokyo Night Color Palette
 set $bg      #1a1b26
@@ -50,6 +50,7 @@ exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DE
 
 ### Output
 output * scale 1.0
+seat seat0 xcursor_theme Adwaita 28
 output * bg ~/.config/sway/wallpaper.jpg fill
 
 ### Idle / Lock

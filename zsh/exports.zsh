@@ -55,5 +55,12 @@ export CHROME_CONFIG_FLAGS="--password-store=gnome"
 export ELECTRON_PASSWORD_STORE="gnome"
 export MOZ_ENABLE_WAYLAND=1
 
+# Scaling — increase if UI elements appear too small
+export GDK_SCALE=1
+export GDK_DPI_SCALE=1.25
+export QT_SCALE_FACTOR=1.25
+export QT_AUTO_SCREEN_SCALE_FACTOR=0
+export XCURSOR_SIZE=28
+
 # XDG Data Directories — include system defaults first, then Flatpak
 export XDG_DATA_DIRS="${XDG_DATA_DIRS:-/usr/local/share:/usr/share}:/usr/local/share:/usr/share:$HOME/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share"
