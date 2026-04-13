@@ -1,29 +1,48 @@
 #!/bin/bash
+set -e
 
-echo "--- 🛠️ Bắt đầu bảo trì hệ thống Debian/Sway ---"
+echo "==> System maintenance starting..."
 
-# 1. Cập nhật và nâng cấp hệ thống
-echo "👉 Đang kiểm tra cập nhật (APT)..."
+# APT update & upgrade
+echo "==> APT: updating packages..."
 sudo apt update && sudo apt full-upgrade -y
 
-# 2. Dọn dẹp rác APT
-echo "👉 Đang dọn dẹp gói thừa và cache..."
+# Remove orphans and clean cache
+echo "==> APT: removing unused packages..."
 sudo apt autoremove --purge -y
 sudo apt clean
 
-# 3. Cập nhật và dọn dẹp Flatpak (nếu có dùng)
-if command -v flatpak &> /dev/null; then
-    echo "👉 Đang cập nhật Flatpak..."
+# Remove residual configs
+RESIDUAL=$(dpkg -l | awk '/^rc/ {print $2}')
+if [ -n "$RESIDUAL" ]; then
+    echo "==> APT: purging residual configs..."
+    sudo apt purge $RESIDUAL -y
+fi
+
+# Flatpak
+if command -v flatpak &>/dev/null; then
+    echo "==> Flatpak: updating..."
     flatpak update -y
     flatpak uninstall --unused -y
 fi
 
-# 4. Dọn dẹp Nhật ký hệ thống (Chỉ giữ lại 3 ngày)
-echo "👉 Đang hút bụi Log hệ thống..."
-sudo journalctl --vacuum-time=3d
+# Journal
+echo "==> Journal: vacuuming (keeping 2 weeks)..."
+sudo journalctl --vacuum-time=2weeks
 
-# 5. Cập nhật Font cache (Giúp Firefox/Chrome luôn nét)
-echo "👉 Đang làm mới Font cache..."
-fc-cache -fv > /dev/null
+# Font cache
+echo "==> Fonts: rebuilding cache..."
+fc-cache -f
 
-echo "--- ✅ Xong! Hệ thống đã sạch sẽ, nghỉ tay uống cafe thôi Phong! ---"
+# Broken symlinks in home
+echo "==> Checking for broken symlinks in ~..."
+BROKEN=$(find ~ -maxdepth 4 -xtype l 2>/dev/null)
+if [ -n "$BROKEN" ]; then
+    echo "   Broken symlinks found:"
+    echo "$BROKEN"
+else
+    echo "   None found."
+fi
+
+echo ""
+echo "==> Done. See docs/MAINTENANCE.md for manual steps."
