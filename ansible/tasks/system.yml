@@ -46,6 +46,8 @@
       - gettext
       # Fonts
       - fonts-inter
+      - fonts-noto-cjk
+      - fonts-noto-cjk-extra
       - fontconfig
       # Sway & Wayland core
       - sway
