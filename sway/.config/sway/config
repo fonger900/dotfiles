@@ -1,7 +1,5 @@
 # Default config for sway
 #
-# Copy this to ~/.config/sway/config and edit it to your liking.
-#
 # Read `man 5 sway` for a complete reference.
 
 ### Variables
@@ -15,7 +13,7 @@ set $up k
 set $right l
 
 # Preferred applications
-set $term wezterm
+set $term ghostty
 set $menu wofi --show drun --allow-images --allow-markup --width 500 --height 400 --prompt 'Search Apps...'
 set $browser firefox
 set $files thunar
@@ -51,26 +49,27 @@ client.placeholder      $black  $bg     $fg     $black    $black
 
 include /etc/sway/config-vars.d/*
 
-# Session Management — ensure /usr/share is in XDG_DATA_DIRS so launchers find all .desktop files
-exec sh -c 'export XDG_DATA_DIRS="/usr/local/share:/usr/share:${HOME}/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share" && dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP XDG_DATA_DIRS'
+### Session Management
 
-# Start KeePassXC (as Secret Service provider)
-exec keepassxc --minimized &
+# Environment Setup & D-Bus Activation
+exec sh -c 'export XDG_DATA_DIRS="/usr/local/share:/usr/share:${HOME}/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share" && \
+     dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP XDG_DATA_DIRS DISPLAY SWAYSOCK'
 
-exec hash dbus-update-activation-environment 2>/dev/null && \
-     dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP
-
-# Desktop Portals (For Icons and Proper Wayland Protocols)
+# Desktop Portals (Essential for Wayland functionality)
 exec systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
 exec /usr/libexec/xdg-desktop-portal-wlr &
 exec /usr/libexec/xdg-desktop-portal-gtk &
 
+# Background Services
+exec keepassxc --minimized &
+exec easyeffects --daemon
+exec_always ~/code/dotfiles/scripts/import-gtk-settings.sh
+
 ### Output configuration
 output * scale 1.2
-output * bg /home/phong/.config/sway/wallpaper.jpg fill
+output * bg ~/.config/sway/wallpaper.jpg fill
 
 ### Idle configuration
-# Configuration for locking and power management
 set $lock_cmd swaylock -f -c 1a1b26
 
 exec swayidle -w \
@@ -82,109 +81,97 @@ exec swayidle -w \
 ### Input configuration
 # Touchpad Settings (ThinkPad T14 optimized)
 input "type:touchpad" {
-    # Bật chạm để click (Tap to click)
     tap enabled
-    
-    # Cuộn tự nhiên (Natural Scrolling - giống Mac)
     natural_scroll enabled
-    
-    # Tốc độ con trỏ (0.2 là khá vừa tay trên T14)
     pointer_accel 0.2
-    
-    # Chống chạm nhầm khi đang gõ code (Palm rejection)
     dwt enabled
-    
-    # Cuộn bằng 2 ngón tay
     scroll_method two_finger
-    
-    # Tốc độ gia tốc (Adaptive giúp di chuyển chính xác hơn)
     accel_profile adaptive
-
-    # Giả lập chuột giữa khi nhấn cả 2 nút
     middle_emulation enabled
 }
 
 # TrackPoint Settings (Red Nub)
 input "type:pointer" {
-    # Tối ưu cho Trackpoint (Núm đỏ)
     pointer_accel 0.5
     accel_profile adaptive
 }
 
-# Start Gestures Daemon
+# Gesture Support
 exec libinput-gestures-setup start
 
 ### Key bindings
-# ... (rest of config)
-    bindsym $mod+Return exec $term
-    bindsym $mod+Shift+q kill
-    bindsym $mod+d exec $menu
-    bindsym $mod+b exec $browser
-    bindsym $mod+e exec $files
 
-    floating_modifier $mod normal
+# Applications
+bindsym $mod+Return exec $term
+bindsym $mod+Shift+q kill
+bindsym $mod+d exec $menu
+bindsym $mod+b exec $browser
+bindsym $mod+e exec $files
 
-    bindsym $mod+Shift+c reload
-    bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
-    bindsym $mod+Escape exec swaylock -f -c 1a1b26
+# Session
+bindsym $mod+Shift+c reload
+bindsym $mod+Shift+e exec swaynag -t warning -m 'Exit sway?' -B 'Yes' 'swaymsg exit'
+bindsym $mod+Escape exec $lock_cmd
 
-# Moving around:
-    bindsym $mod+$left focus left
-    bindsym $mod+$down focus down
-    bindsym $mod+$up focus up
-    bindsym $mod+$right focus right
-    bindsym $mod+Left focus left
-    bindsym $mod+Down focus down
-    bindsym $mod+Up focus up
-    bindsym $mod+Right focus right
+# Navigation (Vim-style & Arrows)
+bindsym $mod+$left focus left
+bindsym $mod+$down focus down
+bindsym $mod+$up focus up
+bindsym $mod+$right focus right
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
 
-    bindsym $mod+Shift+$left move left
-    bindsym $mod+Shift+$down move down
-    bindsym $mod+Shift+$up move up
-    bindsym $mod+Shift+$right move right
-    bindsym $mod+Shift+Left move left
-    bindsym $mod+Shift+Down move down
-    bindsym $mod+Shift+Up move up
-    bindsym $mod+Shift+Right move right
+# Moving Containers
+bindsym $mod+Shift+$left move left
+bindsym $mod+Shift+$down move down
+bindsym $mod+Shift+$up move up
+bindsym $mod+Shift+$right move right
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
 
-# Workspaces:
-    bindsym $mod+1 workspace number 1
-    bindsym $mod+2 workspace number 2
-    bindsym $mod+3 workspace number 3
-    bindsym $mod+4 workspace number 4
-    bindsym $mod+5 workspace number 5
-    bindsym $mod+6 workspace number 6
-    bindsym $mod+7 workspace number 7
-    bindsym $mod+8 workspace number 8
-    bindsym $mod+9 workspace number 9
-    bindsym $mod+0 workspace number 10
+# Workspaces
+bindsym $mod+1 workspace number 1
+bindsym $mod+2 workspace number 2
+bindsym $mod+3 workspace number 3
+bindsym $mod+4 workspace number 4
+bindsym $mod+5 workspace number 5
+bindsym $mod+6 workspace number 6
+bindsym $mod+7 workspace number 7
+bindsym $mod+8 workspace number 8
+bindsym $mod+9 workspace number 9
+bindsym $mod+0 workspace number 10
 
-    bindsym $mod+Shift+1 move container to workspace number 1
-    bindsym $mod+Shift+2 move container to workspace number 2
-    bindsym $mod+Shift+3 move container to workspace number 3
-    bindsym $mod+Shift+4 move container to workspace number 4
-    bindsym $mod+Shift+5 move container to workspace number 5
-    bindsym $mod+Shift+6 move container to workspace number 6
-    bindsym $mod+Shift+7 move container to workspace number 7
-    bindsym $mod+Shift+8 move container to workspace number 8
-    bindsym $mod+Shift+9 move container to workspace number 9
-    bindsym $mod+Shift+0 move container to workspace number 10
+bindsym $mod+Tab workspace back_and_forth
 
-# Layout stuff:
-    bindsym $mod+s layout stacking
-    bindsym $mod+w layout tabbed
-    bindsym $mod+v layout toggle split
+bindsym $mod+Shift+1 move container to workspace number 1
+bindsym $mod+Shift+2 move container to workspace number 2
+bindsym $mod+Shift+3 move container to workspace number 3
+bindsym $mod+Shift+4 move container to workspace number 4
+bindsym $mod+Shift+5 move container to workspace number 5
+bindsym $mod+Shift+6 move container to workspace number 6
+bindsym $mod+Shift+7 move container to workspace number 7
+bindsym $mod+Shift+8 move container to workspace number 8
+bindsym $mod+Shift+9 move container to workspace number 9
+bindsym $mod+Shift+0 move container to workspace number 10
 
-    bindsym $mod+f fullscreen
-    bindsym $mod+Shift+space floating toggle
-    bindsym $mod+space focus mode_toggle
-    bindsym $mod+a focus parent
+# Layout Management
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+v layout toggle split
+bindsym $mod+f fullscreen
+bindsym $mod+Shift+space floating toggle
+bindsym $mod+space focus mode_toggle
+bindsym $mod+a focus parent
 
-# Scratchpad:
-    bindsym $mod+Shift+minus move scratchpad
-    bindsym $mod+minus scratchpad show
+# Scratchpad
+bindsym $mod+Shift+minus move scratchpad
+bindsym $mod+minus scratchpad show
 
-# Resizing containers:
+# Resizing containers
 mode "resize" {
     bindsym $left resize shrink width 10px
     bindsym $down resize grow height 10px
@@ -199,27 +186,26 @@ mode "resize" {
 }
 bindsym $mod+r mode "resize"
 
-# Utilities:
-    # Audio keys
-    bindsym --locked XF86AudioMute exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
-    bindsym --locked XF86AudioLowerVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
-    bindsym --locked XF86AudioRaiseVolume exec wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 5%+
-    bindsym --locked XF86AudioMicMute exec ~/code/dotfiles/scripts/mic-mute-toggle.sh
+# Hardware Controls
+bindsym --locked XF86AudioMute exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+bindsym --locked XF86AudioLowerVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
+bindsym --locked XF86AudioRaiseVolume exec wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 5%+
+bindsym --locked XF86AudioMicMute exec ~/code/dotfiles/scripts/mic-mute-toggle.sh
 
-    # Media control
-    bindsym XF86AudioPlay exec playerctl play-pause
-    bindsym XF86AudioNext exec playerctl next
-    bindsym XF86AudioPrev exec playerctl previous
+# Media control
+bindsym XF86AudioPlay exec playerctl play-pause
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPrev exec playerctl previous
 
-    # Brightness keys
-    bindsym --locked XF86MonBrightnessDown exec brightnessctl set 5%-
-    bindsym --locked XF86MonBrightnessUp exec brightnessctl set 5%+
+# Brightness keys
+bindsym --locked XF86MonBrightnessDown exec brightnessctl set 5%-
+bindsym --locked XF86MonBrightnessUp exec brightnessctl set 5%+
 
-    # Screenshot
-    bindsym Print exec grim -g "$(slurp)" - | wl-copy && notify-send "Screenshot" "Copied to clipboard"
-    bindsym $mod+Print exec grim - | wl-copy && notify-send "Screenshot" "Full screen copied to clipboard"
+# Screenshots
+bindsym Print exec grim -g "$(slurp)" - | wl-copy && notify-send "Screenshot" "Area copied to clipboard"
+bindsym $mod+Print exec grim - | wl-copy && notify-send "Screenshot" "Screen copied to clipboard"
 
-# Float dialogs
+### Window Rules
 for_window [window_role="pop-up"] floating enable
 for_window [window_role="task_dialog"] floating enable
 for_window [window_type="dialog"] floating enable
@@ -229,13 +215,9 @@ for_window [app_id="thunar" title="File Operation Progress"] floating enable
 
 include /etc/sway/config.d/*
 
+### Startup
 exec waybar
 exec bt_auto_off.sh &
-
-# Sync microphone mute LED state on startup
 exec ~/code/dotfiles/scripts/mic-mute-sync.sh
-
-exec easyeffects --daemon
-
 # Import GTK settings
 exec_always ~/code/dotfiles/scripts/import-gtk-settings.sh
