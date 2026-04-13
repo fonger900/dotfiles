@@ -31,7 +31,6 @@ font-style-bold-italic = bold-italic
 
 # Additional font options
 font-thicken = false
-freetype-load-flags = hinting
 adjust-cell-height = 0
 adjust-cell-width = 0
 
