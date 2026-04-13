@@ -12,6 +12,7 @@ export LANG=en_US.UTF-8
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_CACHE_HOME="$HOME/.cache"
+export DOTFILES="$HOME/code/dotfiles"
 
 # FZF Configuration
 if command -v fd &> /dev/null; then
