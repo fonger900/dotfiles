@@ -65,7 +65,6 @@ exec /usr/libexec/xdg-desktop-portal-gtk &
 # Background Services
 exec keepassxc --minimized &
 exec easyeffects --daemon
-exec_always ~/code/dotfiles/scripts/import-gtk-settings.sh
 
 ### Output configuration
 output * scale 1.0
