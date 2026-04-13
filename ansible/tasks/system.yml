@@ -96,8 +96,6 @@
       - shared-mime-info
       # Flatpak
       - flatpak
-      # Login manager
-      - greetd
     state: present
   become: true
   when: ansible_facts['os_family'] == 'Debian'

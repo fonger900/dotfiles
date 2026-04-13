@@ -65,20 +65,9 @@
       ansible.builtin.include_tasks: tasks/flatpak.yml
       tags: ['flatpak']
 
-    - name: Include greetd tasks
-      ansible.builtin.include_tasks: tasks/greetd.yml
-      tags: ['greetd']
-      when: ansible_facts['os_family'] == 'Debian'
-
   handlers:
     - name: Restart TLP
       ansible.builtin.systemd:
         name: tlp
-        state: restarted
-      become: true
-
-    - name: Restart greetd
-      ansible.builtin.systemd:
-        name: greetd
         state: restarted
       become: true
