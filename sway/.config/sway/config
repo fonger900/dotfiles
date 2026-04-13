@@ -87,6 +87,7 @@ bindsym $mod+e            exec $files
 bindsym $mod+Shift+c      reload
 bindsym $mod+Shift+e      exec $HOME/.dotfiles/scripts/powermenu.sh
 bindsym $mod+Escape       exec $lock_cmd
+bindsym $mod+Shift+slash  exec $HOME/.dotfiles/scripts/keyhints.sh
 
 ### Key bindings — Navigation
 bindsym $mod+$left        focus left

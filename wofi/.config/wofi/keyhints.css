@@ -1,0 +1,51 @@
+* {
+    font-family: "JetBrainsMono Nerd Font", Inter, monospace;
+    font-size: 16px;
+}
+
+window {
+    background-color: #1a1b26;
+    border: 2px solid #7aa2f7;
+    border-radius: 14px;
+}
+
+#outer-box {
+    margin: 8px;
+}
+
+#inner-box {
+    background: transparent;
+}
+
+#input {
+    margin: 0 4px 6px 4px;
+    padding: 4px 10px;
+    border: 1px solid #414868;
+    border-radius: 8px;
+    background: #24283b;
+    color: #7aa2f7;
+    font-size: 12px;
+}
+
+#scroll {
+    margin: 0;
+}
+
+#entry {
+    padding: 3px 10px;
+    border-radius: 6px;
+    margin: 1px 2px;
+}
+
+#entry:selected {
+    background: rgba(122, 162, 247, 0.15);
+}
+
+#text {
+    color: #c0caf5;
+}
+
+/* Section headers (lines starting with space + icon) */
+#text:selected {
+    color: #7aa2f7;
+}
