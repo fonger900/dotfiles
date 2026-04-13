@@ -222,8 +222,8 @@ for_window [app_id="thunar" title="File Operation Progress"] floating enable
 include /etc/sway/config.d/*
 
 ### Startup
-exec waybar
+exec_always pkill waybar || true; waybar
 exec bt_auto_off.sh &
-exec ~/code/dotfiles/scripts/mic-mute-sync.sh
+exec_always ~/code/dotfiles/scripts/mic-mute-sync.sh
 # Import GTK settings
 exec_always ~/code/dotfiles/scripts/import-gtk-settings.sh
