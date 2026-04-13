@@ -103,7 +103,7 @@
       # Hardware acceleration (AMD Renoir / Radeon Vega)
       - mesa-va-drivers
       - mesa-vdpau-drivers
-      - libva-utils
+      - vainfo
       # Flatpak
       - flatpak
     state: present
