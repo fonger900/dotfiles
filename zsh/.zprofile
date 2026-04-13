@@ -32,6 +32,9 @@ if [[ -z $DISPLAY ]] && [[ -z $WAYLAND_DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; t
     # Force GLES2 renderer as it is often more stable on ThinkPad AMD than the default
     export WLR_RENDERER=gles2
     
+    # Include flatpak app paths so wofi/launchers can discover flatpak apps
+    export XDG_DATA_DIRS="/usr/local/share:/usr/share:$HOME/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share"
+
     # Start sway with dbus-run-session and log to a timestamped file for debugging crashes
     # Logs are stored in /tmp/sway-<timestamp>.log
     LOG_FILE="/tmp/sway-$(date +%Y%m%d-%H%M%S).log"
