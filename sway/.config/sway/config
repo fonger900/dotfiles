@@ -184,7 +184,7 @@ for_window [app_id=".*.dialog.*"]                          floating enable
 include /etc/sway/config.d/*
 
 ### Autostart
-exec waybar
+exec_always pkill -x waybar; waybar &
 exec blueman-applet
 exec fcitx5 -d
 exec flatpak run com.github.wwmm.easyeffects --gapplication-service
