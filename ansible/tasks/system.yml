@@ -75,7 +75,6 @@
       - playerctl
       - pavucontrol
       - pulseaudio-utils
-      - easyeffects
       # Hardware
       - brightnessctl
       - libinput-tools

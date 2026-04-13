@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 # Waybar custom module for EasyEffects daemon status
 
-if pgrep -x easyeffects > /dev/null; then
-    # Check if any preset is loaded via dbus
+if pgrep -f "com.github.wwmm.easyeffects" > /dev/null; then
     preset=$(gdbus call --session \
         --dest com.github.wwmm.easyeffects \
         --object-path /com/github/wwmm/easyeffects \
