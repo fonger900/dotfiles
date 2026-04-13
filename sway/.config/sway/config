@@ -226,4 +226,4 @@ exec_always mic-mute-sync.sh
 exec_always import-gtk-settings.sh
 
 # Reload waybar on sway reload
-bindsym $mod+Shift+c reload; exec pkill -SIGUSR2 waybar
+bindsym $mod+Shift+c reload
