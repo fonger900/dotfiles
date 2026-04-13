@@ -8,6 +8,9 @@
       - zsh
       - fd
       - ripgrep
+      - eza
+      - fzf
+      - bat
       - ca-certificates
     state: present
     update_homebrew: true
@@ -46,6 +49,9 @@
       - zsh
       - fd-find
       - ripgrep
+      - eza
+      - fzf
+      - bat
       - ca-certificates
       - build-essential
       - unzip
@@ -131,6 +137,9 @@
       - zsh
       - fd
       - ripgrep
+      - eza
+      - fzf
+      - bat
       - ca-certificates
       - base-devel
       - unzip
@@ -139,6 +148,22 @@
     update_cache: true
   become: true
   when: ansible_facts['os_family'] == 'Archlinux'
+
+- name: Core | Check for batcat binary on Debian
+  ansible.builtin.stat:
+    path: /usr/bin/batcat
+  register: batcat_bin
+  when: ansible_facts['os_family'] == 'Debian'
+
+- name: Core | Ensure bat is symlinked on Debian/Ubuntu
+  ansible.builtin.file:
+    src: /usr/bin/batcat
+    dest: /usr/local/bin/bat
+    state: link
+  become: true
+  when: 
+    - ansible_facts['os_family'] == 'Debian'
+    - batcat_bin.stat.exists
 
 - name: Core | Install basic dependencies (RedHat/Fedora)
   ansible.builtin.dnf:
@@ -149,6 +174,9 @@
       - zsh
       - fd-find
       - ripgrep
+      - eza
+      - fzf
+      - bat
       - ca-certificates
       - gcc
       - make

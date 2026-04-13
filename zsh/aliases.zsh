@@ -64,8 +64,9 @@ alias gco='git checkout'
 alias gcb='git checkout -b'
 alias gl='git pull'
 alias gp='git push'
-alias gs='git status'
-alias gd='git diff'
+alias gs='git status && echo "" && eza --long --git --all --icons --header --group-directories-first'
+alias paths='echo $PATH | tr ":" "\n"'
+alias kp='dbus-send --session --dest=org.freedesktop.DBus --type=method_call --print-reply /org/freedesktop/DBus org.freedesktop.DBus.ListNames | grep -q org.freedesktop.secrets && echo "✅ Secret Service (Keyring) is ACTIVE" || echo "❌ Secret Service (Keyring) is DISCONNECTED (Unlock KeePassXC)"'
 alias glg='git log --graph --oneline --decorate --all'
 
 # Container & Docker

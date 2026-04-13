@@ -21,8 +21,15 @@ if command -v fd &> /dev/null; then
 fi
 
 if command -v bat &> /dev/null; then
+  export BAT_THEME="Catppuccin Mocha"
   export FZF_CTRL_T_OPTS="--preview 'bat --style=numbers --color=always --line-range :500 {}'"
 fi
+
+# FZF Catppuccin Mocha Colors
+export FZF_DEFAULT_OPTS=" \
+--color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \
+--color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
+--color=marker:#f5e0dc,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8"
 
 # History Configuration
 HISTFILE="$HOME/.zsh_history"

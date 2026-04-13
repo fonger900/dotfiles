@@ -202,8 +202,11 @@ bindsym --locked XF86MonBrightnessDown exec brightnessctl set 5%-
 bindsym --locked XF86MonBrightnessUp exec brightnessctl set 5%+
 
 # Screenshots
-bindsym Print exec grim -g "$(slurp)" - | wl-copy && notify-send "Screenshot" "Area copied to clipboard"
-bindsym $mod+Print exec grim - | wl-copy && notify-send "Screenshot" "Screen copied to clipboard"
+set $screenshots_dir ~/Pictures/Screenshots
+exec mkdir -p $screenshots_dir
+
+bindsym Print exec grim - | tee "$screenshots_dir/$(date +%Y-%m-%d_%H-%M-%S).png" | wl-copy && notify-send "Screenshot" "Full screen saved and copied to clipboard"
+bindsym $mod+Shift+s exec grim -g "$(slurp)" - | tee "$screenshots_dir/$(date +%Y-%m-%d_%H-%M-%S).png" | wl-copy && notify-send "Screenshot" "Region saved and copied to clipboard"
 
 ### Window Rules
 for_window [window_role="pop-up"] floating enable
