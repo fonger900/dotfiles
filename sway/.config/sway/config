@@ -66,17 +66,26 @@ exec swayidle -w \
 ### Input
 input "type:touchpad" {
     tap enabled
+    tap_button_map lrm
     natural_scroll enabled
     pointer_accel 0.2
     dwt enabled
     scroll_method two_finger
     accel_profile adaptive
     middle_emulation enabled
+    drag enabled
+    drag_lock disabled
 }
 
+# TrackPoint — T14 red nub
 input "type:pointer" {
-    pointer_accel 0.5
-    accel_profile adaptive
+    pointer_accel -0.3
+    accel_profile flat
+}
+
+# Keyboard — disable Fn lock annoyances
+input "type:keyboard" {
+    xkb_options caps:escape
 }
 
 ### Key bindings — Applications

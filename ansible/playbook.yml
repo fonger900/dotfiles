@@ -72,3 +72,7 @@
         name: tlp
         state: restarted
       become: true
+
+    - name: Update GRUB
+      ansible.builtin.command: update-grub
+      become: true
