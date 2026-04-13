@@ -94,6 +94,7 @@
     },
 
     "backlight": {
+        "device": "amdgpu_bl0",
         "format": "{icon} {percent}%",
         "format-icons": ["󰃞", "󰃟", "󰃠"],
         "on-scroll-up": "brightnessctl set 5%+",
