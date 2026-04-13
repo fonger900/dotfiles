@@ -79,8 +79,8 @@ input "type:touchpad" {
 
 # TrackPoint — T14 red nub
 input "type:pointer" {
-    pointer_accel -0.3
-    accel_profile flat
+    pointer_accel 0.2
+    accel_profile adaptive
 }
 
 # Keyboard — disable Fn lock annoyances
