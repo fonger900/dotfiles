@@ -86,7 +86,7 @@ bindsym $mod+e            exec $files
 
 ### Key bindings — Session
 bindsym $mod+Shift+c      reload
-bindsym $mod+Shift+e      exec swaynag -t warning -m 'Exit sway?' -B 'Yes' 'swaymsg exit'
+bindsym $mod+Shift+e      exec $HOME/.dotfiles/scripts/powermenu.sh
 bindsym $mod+Escape       exec $lock_cmd
 
 ### Key bindings — Navigation
