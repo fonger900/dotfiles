@@ -19,6 +19,11 @@ If you are on macOS and have [Homebrew](https://brew.sh/) installed, you can get
    - Open `tmux` and press `Prefix + I` (default prefix is `Ctrl+A`) to install plugins.
    - Open `nvim` and wait for plugins to install automatically.
 
+3. **AI Agent Persistence**:
+   - If using **Antigravity**, ensure you have **KeePassXC** installed and set up as your Secret Service provider.
+   - In KeePassXC: Settings -> Browser Integration -> Check "Enable Secret Service".
+   - Unlock your database to allow the IDE to save chat history and login sessions.
+
 ---
 
 ## 📦 What's Installed?

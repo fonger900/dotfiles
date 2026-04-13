@@ -18,7 +18,7 @@
 - 🔍 **Fuzzy finding** with FZF integration
 - 📊 **Persistent session management** with automatic save/restore
 - 🛠️ **Quick project initialization** for popular frameworks
-- 🤖 **AI-Ready** with `GEMINI.md` context for AI-driven development
+- 🤖 **AI-First Environment**: Pre-configured for **Antigravity** and agentic workflows with persistent context and Secret Service integration via `GEMINI.md`.
 
 ---
 

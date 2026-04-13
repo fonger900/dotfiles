@@ -69,3 +69,24 @@ To keep the main repository generic and shareable, machine-specific or sensitive
 - `scripts/`: Custom automation scripts added to the user's `$PATH`.
 - `zsh/`: Modular Zsh configuration (`aliases.zsh`, `exports.zsh`, `path.zsh`).
 - `nvim/`: Modular Neovim configuration following modern Lua practices.
+
+## 🤖 AI Agent Environment & Persistence
+
+This repository is optimized for AI-driven development using **Antigravity**. To ensure session and chat history persistence, the environment relies on the **Secret Service (libsecret)** provided by **KeePassXC**.
+
+### Required Persistence Configuration
+If chat history is lost on restart, verify the following:
+
+1.  **Secret Service Provider**: **KeePassXC** must be running and the database must be **unlocked**.
+    - Settings -> Browser Integration -> Enable Secret Service (must be checked).
+2.  **IDE Configuration**: `~/.antigravity/argv.json` must include:
+    ```json
+    "password-store": "gnome"
+    ```
+    This forces the Electron engine to use the Secret Service for session encryption.
+3.  **Environment Variables**:
+    - `ELECTRON_PASSWORD_STORE="gnome"` (set in `zsh/exports.zsh`).
+    - `CHROME_CONFIG_FLAGS="--password-store=gnome"` (for Chromium-based tools).
+
+### Session Context
+On Linux (Debian 13), the environment uses `dbus-run-session` in `.zprofile` to ensure a consistent D-Bus session across Sway and its subprocesses, which is critical for keyring accessibility.
