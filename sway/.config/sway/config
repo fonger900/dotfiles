@@ -185,6 +185,8 @@ include /etc/sway/config.d/*
 
 ### Autostart
 exec waybar
+exec blueman-applet
+exec fcitx5 -d
 exec bt_auto_off.sh
 exec_always mic-mute-sync.sh
 exec_always import-gtk-settings.sh

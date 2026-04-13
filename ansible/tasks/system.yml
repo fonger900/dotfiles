@@ -49,6 +49,10 @@
       - fonts-noto-cjk
       - fonts-noto-cjk-extra
       - fontconfig
+      # Input method
+      - fcitx5
+      - fcitx5-unikey
+      - fcitx5-config-qt
       # Sway & Wayland core
       - sway
       - waybar
