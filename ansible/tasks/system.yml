@@ -11,10 +11,27 @@
       - eza
       - fzf
       - bat
+      - ghostty
       - ca-certificates
     state: present
     update_homebrew: true
   when: ansible_facts['os_family'] == 'Darwin'
+
+- name: Core | Add Ghostty GPG key (Debian)
+  ansible.builtin.get_url:
+    url: https://debian.griffo.io/EA0F721D231FDD3A0A17B9AC7808B4DD62C41256.asc
+    dest: /usr/share/keyrings/debian.griffo.io.gpg
+    mode: '0644'
+  become: true
+  when: ansible_facts['os_family'] == 'Debian'
+
+- name: Core | Add Ghostty Repository (Debian)
+  ansible.builtin.copy:
+    content: "deb [signed-by=/usr/share/keyrings/debian.griffo.io.gpg] https://debian.griffo.io/apt {{ ansible_facts['distribution_release'] }} main"
+    dest: /etc/apt/sources.list.d/debian.griffo.io.list
+    mode: '0644'
+  become: true
+  when: ansible_facts['os_family'] == 'Debian'
 
 - name: Core | Ensure APT cache is updated
   ansible.builtin.apt:
@@ -52,6 +69,7 @@
       - eza
       - fzf
       - bat
+      - ghostty
       - ca-certificates
       - build-essential
       - unzip
