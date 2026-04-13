@@ -74,12 +74,10 @@
       - wireplumber
       - playerctl
       - pavucontrol
-      - pulseaudio-utils
       # Hardware
       - brightnessctl
       - libinput-tools
       - bluez
-      - bluez-tools
       - upower
       # Screenshots & notifications
       - grim
@@ -90,13 +88,8 @@
       # Power management
       - tlp
       - tlp-rdw
-      - thermald
       # Theming
       - papirus-icon-theme
-      - adwaita-icon-theme-full
-      - nwg-look
-      - qt5ct
-      - qt6ct
       - libgdk-pixbuf2.0-bin
       - librsvg2-common
       - shared-mime-info
