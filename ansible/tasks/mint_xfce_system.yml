@@ -1,0 +1,120 @@
+---
+# Linux Mint 22 ships on an Ubuntu 24.04 (Noble) base.
+# XFCE is the desktop — no Wayland/Sway packages needed.
+
+- name: System | Ensure APT cache is updated
+  ansible.builtin.apt:
+    update_cache: yes
+    cache_valid_time: 3600
+  become: true
+
+- name: System | Install core CLI tools
+  ansible.builtin.apt:
+    name:
+      # Base tools
+      - curl
+      - git
+      - stow
+      - zsh
+      - fd-find
+      - ripgrep
+      - eza
+      - fzf
+      - bat
+      - ca-certificates
+      - build-essential
+      - unzip
+      - gettext
+      # Fonts
+      - fonts-inter
+      - fonts-noto-cjk
+      - fonts-noto-cjk-extra
+      - fontconfig
+      # Input method
+      - fcitx5
+      - fcitx5-unikey
+      - fcitx5-config-qt
+      # Terminal & shell
+      - tmux
+      - ncurses-term
+      # Media & audio
+      - pipewire
+      - pipewire-pulse
+      - wireplumber
+      - playerctl
+      - pavucontrol
+      # Hardware
+      - brightnessctl
+      - libinput-tools
+      - bluez
+      - upower
+      # Notifications
+      - libnotify-bin
+      # Power management
+      - tlp
+      - tlp-rdw
+      # Theming
+      - papirus-icon-theme
+      - libgdk-pixbuf2.0-bin
+      - librsvg2-common
+      - shared-mime-info
+      # Hardware acceleration (AMD Renoir / Radeon Vega)
+      - mesa-va-drivers
+      - mesa-vdpau-drivers
+      - vainfo
+      # Flatpak
+      - flatpak
+      - gnome-software-plugin-flatpak
+      # XFCE extras
+      - xfce4-terminal
+      - xfce4-notifyd
+      - xfce4-power-manager
+      - xfce4-screenshooter
+      - xfce4-clipman-plugin
+      - xfce4-whiskermenu-plugin
+      - thunar
+      - thunar-archive-plugin
+      - thunar-volman
+      - gvfs
+      - gvfs-backends
+    state: present
+  become: true
+
+- name: System | Ensure user is in necessary groups
+  ansible.builtin.user:
+    name: "{{ lookup('env', 'USER') }}"
+    groups: input,video,render,audio
+    append: yes
+  become: true
+
+- name: System | Check for fdfind binary
+  ansible.builtin.stat:
+    path: /usr/bin/fdfind
+  register: fdfind_bin
+
+- name: System | Symlink fdfind → fd
+  ansible.builtin.file:
+    src: /usr/bin/fdfind
+    dest: /usr/local/bin/fd
+    state: link
+  become: true
+  when: fdfind_bin.stat.exists
+
+- name: System | Check for batcat binary
+  ansible.builtin.stat:
+    path: /usr/bin/batcat
+  register: batcat_bin
+
+- name: System | Symlink batcat → bat
+  ansible.builtin.file:
+    src: /usr/bin/batcat
+    dest: /usr/local/bin/bat
+    state: link
+  become: true
+  when: batcat_bin.stat.exists
+
+- name: System | Set Zsh as default shell for current user
+  ansible.builtin.user:
+    name: "{{ lookup('env', 'USER') }}"
+    shell: /usr/bin/zsh
+  become: true

@@ -1,0 +1,96 @@
+---
+# XFCE-specific tweaks for Linux Mint 22.
+# Applies sensible defaults via xfconf-query (runs as the current user, no sudo).
+
+- name: XFCE | Set Papirus as icon theme
+  ansible.builtin.command: xfconf-query -c xsettings -p /Net/IconThemeName -s "Papirus-Dark"
+  changed_when: true
+  ignore_errors: true
+
+- name: XFCE | Enable compositing (Xfwm4)
+  ansible.builtin.command: xfconf-query -c xfwm4 -p /general/use_compositing -s true
+  changed_when: true
+  ignore_errors: true
+
+- name: XFCE | Set window button layout (close on right)
+  ansible.builtin.command: xfconf-query -c xfwm4 -p /general/button_layout -s "O|HMC"
+  changed_when: true
+  ignore_errors: true
+
+- name: XFCE | Disable mouse middle-click paste
+  ansible.builtin.command: xfconf-query -c xfce4-session -p /general/DisableGnomeCompatibility -s true
+  changed_when: true
+  ignore_errors: true
+
+- name: XFCE | Set touchpad natural scrolling
+  ansible.builtin.command: xfconf-query -c pointers -p /SynPS2_Synaptics_TouchPad/Properties/libinput_Natural_Scrolling_Enabled -s 1
+  changed_when: true
+  ignore_errors: true
+
+- name: XFCE | Set touchpad tap-to-click
+  ansible.builtin.command: xfconf-query -c pointers -p /SynPS2_Synaptics_TouchPad/Properties/libinput_Tapping_Enabled -s 1
+  changed_when: true
+  ignore_errors: true
+
+- name: XFCE | Set font rendering — slight hinting, RGB subpixel
+  ansible.builtin.command: "{{ item }}"
+  loop:
+    - xfconf-query -c xsettings -p /Xft/HintStyle -s "hintslight"
+    - xfconf-query -c xsettings -p /Xft/RGBA -s "rgb"
+    - xfconf-query -c xsettings -p /Xft/Antialias -s 1
+    - xfconf-query -c xsettings -p /Xft/Hinting -s 1
+  changed_when: true
+  ignore_errors: true
+
+- name: XFCE | Set default monospace font to JetBrainsMono Nerd Font
+  ansible.builtin.command: xfconf-query -c xsettings -p /Gtk/MonospaceFontName -s "JetBrainsMono Nerd Font 11"
+  changed_when: true
+  ignore_errors: true
+
+- name: XFCE | Ensure Ghostty is available as default terminal (update-alternatives)
+  ansible.builtin.command: >
+    update-alternatives --install /usr/bin/x-terminal-emulator x-terminal-emulator
+    {{ ansible_env.HOME }}/.local/bin/ghostty 50
+  become: true
+  ignore_errors: true
+
+- name: XFCE | Set Ghostty as XFCE preferred terminal
+  ansible.builtin.command: xfconf-query -c xfce4-session -p /general/TerminalEmulator -s "ghostty"
+  changed_when: true
+  ignore_errors: true
+
+- name: XFCE | Autostart fcitx5 input method
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/.config/autostart"
+    state: directory
+    mode: '0755'
+
+- name: XFCE | Create fcitx5 autostart entry
+  ansible.builtin.copy:
+    dest: "{{ ansible_env.HOME }}/.config/autostart/fcitx5.desktop"
+    mode: '0644'
+    content: |
+      [Desktop Entry]
+      Name=Fcitx 5
+      GenericName=Input Method
+      Comment=Start Input Method
+      Exec=fcitx5
+      Icon=fcitx
+      Terminal=false
+      Type=Application
+      Categories=System;Utility;
+      X-GNOME-Autostart-Phase=Applications
+      X-GNOME-AutoRestart=false
+      X-KDE-autostart-after=panel
+      X-XFCE-Autostart-Override=true
+
+- name: XFCE | Set environment variables for fcitx5 (GTK/Qt IM modules)
+  ansible.builtin.blockinfile:
+    path: "{{ ansible_env.HOME }}/.xprofile"
+    create: yes
+    mode: '0644'
+    marker: "# {mark} ANSIBLE MANAGED — fcitx5"
+    block: |
+      export GTK_IM_MODULE=fcitx
+      export QT_IM_MODULE=fcitx
+      export XMODIFIERS=@im=fcitx

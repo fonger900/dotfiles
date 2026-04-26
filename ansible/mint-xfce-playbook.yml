@@ -1,0 +1,85 @@
+---
+- name: Linux Mint 22.3 XFCE — Fullstack Dev Dotfiles Setup
+  hosts: localhost
+  connection: local
+  gather_facts: true
+
+  vars:
+    dotfiles_dir: "{{ playbook_dir }}/.."
+    stow_packages:
+      - zsh
+      - tmux
+      - nvim
+      - starship
+      - ripgrep
+      - newsboat
+      - helix
+      - fastfetch
+      - fontconfig
+      - bat
+      - ghostty
+
+    zsh_custom: "{{ ansible_env.HOME }}/.oh-my-zsh/custom"
+
+  tasks:
+    - name: Ensure dotfiles_dir is absolute
+      ansible.builtin.set_fact:
+        dotfiles_dir: "{{ dotfiles_dir | expanduser | realpath }}"
+
+    - name: Verify OS is Linux Mint 22.3 (Ubuntu 24.04 Noble base)
+      ansible.builtin.assert:
+        that:
+          - ansible_facts['os_family'] == 'Debian'
+          - ansible_facts['distribution'] == 'Linux Mint'
+          - ansible_facts['distribution_version'] == '22.3'
+        fail_msg: "This playbook is intended for Linux Mint 22.3 only. Detected: {{ ansible_facts['distribution'] }} {{ ansible_facts['distribution_version'] }}"
+        success_msg: "Linux Mint 22.3 detected — proceeding."
+
+    - name: Include system packages tasks
+      ansible.builtin.include_tasks: tasks/mint_xfce_system.yml
+      tags: ['system', 'packages']
+
+    - name: Include runtimes tasks
+      ansible.builtin.include_tasks: tasks/runtimes.yml
+      tags: ['runtimes']
+
+    - name: Include dotfiles tasks (Stow)
+      ansible.builtin.include_tasks: tasks/mint_xfce_dotfiles.yml
+      tags: ['dotfiles', 'stow']
+
+    - name: Include terminal setup tasks
+      ansible.builtin.include_tasks: tasks/terminal_setup.yml
+      tags: ['terminal', 'zsh', 'tmux']
+
+    - name: Include fonts tasks
+      ansible.builtin.include_tasks: tasks/fonts.yml
+      tags: ['fonts']
+
+    - name: Include power management tasks
+      ansible.builtin.include_tasks: tasks/mint_xfce_power.yml
+      tags: ['power']
+
+    - name: Include flatpak tasks
+      ansible.builtin.include_tasks: tasks/flatpak.yml
+      tags: ['flatpak']
+
+    - name: Include XFCE tweaks tasks
+      ansible.builtin.include_tasks: tasks/mint_xfce_tweaks.yml
+      tags: ['xfce', 'tweaks']
+
+  handlers:
+    - name: Restart TLP
+      ansible.builtin.systemd:
+        name: tlp
+        state: restarted
+      become: true
+
+    - name: Update GRUB
+      ansible.builtin.command: update-grub
+      become: true
+
+    - name: Restart logind
+      ansible.builtin.systemd:
+        name: systemd-logind
+        state: restarted
+      become: true
