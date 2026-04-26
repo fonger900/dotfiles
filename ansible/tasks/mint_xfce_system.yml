@@ -51,6 +51,7 @@
       - blueman
       - libspa-0.2-bluetooth
       - upower
+      - redshift
       # Notifications
       - libnotify-bin
       # Power management

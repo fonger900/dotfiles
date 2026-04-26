@@ -90,6 +90,7 @@
       - blueman
       - libspa-0.2-bluetooth
       - upower
+      - gammastep
       # Screenshots & notifications
       - grim
       - slurp
@@ -160,6 +161,7 @@
       - fastfetch
       - zathura
       - zathura-pdf-mupdf
+      - gammastep
     state: present
     update_cache: true
   become: true
@@ -201,6 +203,7 @@
       - fastfetch
       - zathura
       - zathura-plugins-all
+      - gammastep
     state: present
     update_cache: true
   become: true

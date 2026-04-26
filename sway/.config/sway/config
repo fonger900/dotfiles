@@ -203,3 +203,4 @@ exec $HOME/.dotfiles/scripts/bt_auto_off.sh
 exec_always $HOME/.dotfiles/scripts/mic-mute-sync.sh
 exec_always $HOME/.dotfiles/scripts/import-gtk-settings.sh
 exec libinput-gestures-setup start
+exec gammastep -c $HOME/.config/redshift.conf
