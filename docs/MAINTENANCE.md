@@ -156,17 +156,32 @@ sudo systemctl restart bluetooth
 
 ## Audio (PipeWire)
 
+Custom configurations are managed via the `pipewire` package in dotfiles and symlinked to `~/.config/pipewire/`. These settings optimize for:
+- **Sampling:** Support for 44.1k, 48k, 88.2k, and 96k rates.
+- **Quality:** Higher quality resampling (`resample.quality = 6`).
+- **Latency:** Tuned quantum limits (32-2048) for stability and responsiveness.
+
 ```bash
 # Check status
 systemctl --user status pipewire wireplumber
 
-# Restart audio stack
+# Restart audio stack (to apply config changes)
 systemctl --user restart pipewire pipewire-pulse wireplumber
 
-# List audio devices
-wpctl status
-pactl list sinks short
+# EasyEffects Management
+# Start service (background)
+flatpak run com.github.wwmm.easyeffects --gapplication-service &
+
+# Open UI to manage presets
+flatpak run com.github.wwmm.easyeffects
 ```
+
+### Recommended Presets
+For ThinkPad T14 internal speakers, it is recommended to install community presets:
+1. Open EasyEffects.
+2. Go to **Output** -> **Presets**.
+3. Import or search for **"Advanced Auto Gain"** or **"Perfect EQ"**.
+
 
 ---
 

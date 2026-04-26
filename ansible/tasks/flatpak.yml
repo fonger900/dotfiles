@@ -13,3 +13,14 @@
     create: yes
     mode: '0644'
   become: true
+
+- name: Flatpak | Install applications
+  community.general.flatpak:
+    name:
+      - com.github.wwmm.easyeffects
+    state: present
+  register: flatpak_install
+  until: flatpak_install is success
+  retries: 3
+  delay: 5
+
