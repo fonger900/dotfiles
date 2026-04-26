@@ -48,6 +48,8 @@
       - brightnessctl
       - libinput-tools
       - bluez
+      - blueman
+      - libspa-0.2-bluetooth
       - upower
       # Notifications
       - libnotify-bin
