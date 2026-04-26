@@ -21,6 +21,7 @@
       - eza
       - fzf
       - bat
+      - zoxide
       - ca-certificates
       - build-essential
       - unzip
