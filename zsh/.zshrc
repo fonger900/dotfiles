@@ -7,6 +7,8 @@ typeset -F _zsh_start_time=$EPOCHREALTIME
 
 # 1. Fastfetch (Only on interactive shell startup)
 if [[ -o interactive ]] && command -v fastfetch &> /dev/null; then
+  echo ""
+  echo "  \033[1;34mWelcome back, \033[1;35m$USER\033[1;34m!\033[0m"
   fastfetch
 fi
 
