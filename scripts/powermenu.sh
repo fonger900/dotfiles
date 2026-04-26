@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 # Power menu using wofi
 
+# Toggle: if wofi is already running, kill it and exit
+if pgrep -x "wofi" > /dev/null; then
+    pkill -x "wofi"
+    exit 0
+fi
+
 entries="󰌾 Lock\n󰒲 Suspend\n󰑓 Reboot\n󰐥 Shutdown\n󰍃 Logout"
 
 chosen=$(printf "$entries" | wofi \
