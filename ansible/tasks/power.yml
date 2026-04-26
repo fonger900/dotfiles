@@ -104,6 +104,7 @@
       HandleLidSwitch=suspend
       HandleLidSwitchExternalPower=lock
       HandleLidSwitchDocked=ignore
+      HandlePowerKey=ignore
       # Prevent logind from managing idle — swayidle does this
       IdleAction=ignore
       LidSwitchIgnoreInhibited=no
