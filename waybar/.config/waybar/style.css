@@ -57,6 +57,7 @@ window#waybar > box {
 #pulseaudio,
 #backlight,
 #network,
+#bluetooth,
 #cpu,
 #memory,
 #temperature,
@@ -85,6 +86,9 @@ window#waybar > box {
 
 #network            { color: #7dcfff; font-size: 17px; }
 #network.disconnected { color: #565f89; }
+
+#bluetooth          { color: #7aa2f7; font-size: 17px; }
+#bluetooth.connected { color: #bb9af7; }
 
 #cpu                { color: #7aa2f7; font-size: 17px; }
 #memory             { color: #bb9af7; font-size: 17px; }
