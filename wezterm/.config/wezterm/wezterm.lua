@@ -12,7 +12,7 @@ config.font = wezterm.font_with_fallback({
   'JetBrains Mono',
   'Consolas' 
 })
-config.font_size = 12.0
+config.font_size = 13.0
 config.window_background_opacity = 0.95
 config.window_padding = { left = 5, right = 5, top = 5, bottom = 0 }
 config.enable_tab_bar = false

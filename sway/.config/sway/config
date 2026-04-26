@@ -8,7 +8,7 @@ set $down j
 set $up k
 set $right l
 
-set $term ghostty
+set $term wezterm
 set $menu wofi --show drun --allow-images --allow-markup --width 500 --height 400 --prompt 'Search Apps...'
 set $browser firefox
 set $files thunar
@@ -200,6 +200,6 @@ exec blueman-applet
 exec fcitx5 -d
 exec flatpak run com.github.wwmm.easyeffects --gapplication-service
 exec bt_auto_off.sh
-exec_always mic-mute-sync.sh
+exec mic-mute-sync.sh
 exec_always import-gtk-settings.sh
 exec libinput-gestures-setup start
