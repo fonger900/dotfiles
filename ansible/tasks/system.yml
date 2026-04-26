@@ -25,6 +25,12 @@
   become: true
   when: ansible_facts['os_family'] == 'Debian'
 
+- name: Core | Set system timezone
+  community.general.timezone:
+    name: Asia/Ho_Chi_Minh
+  become: true
+  when: ansible_facts['os_family'] in ['Debian', 'Archlinux', 'RedHat']
+
 
 - name: Core | Install basic dependencies (Debian/Ubuntu)
   ansible.builtin.apt:
