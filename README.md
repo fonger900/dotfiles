@@ -65,6 +65,7 @@ That's it! Your development environment is ready. 🎉
 ## 📖 Documentation
 
 - **[Setup Guide](docs/SETUP_GUIDE.md)** - Complete installation and configuration guide.
+- **[Font Management](docs/FONTS_GUIDE.md)** - Installing and configuring typography.
 - **[Workspace Guide](docs/WORKSPACE_GUIDE.md)** - **START HERE** - Tmux and Terminal workflows.
 - **[Fullstack Workflow](docs/FULLSTACK_WORKFLOW.md)** - A "day in the life" guide for building apps.
 - **[Neovim Guide](docs/NEOVIM_GUIDE.md)** - Editor configuration and keymaps.
