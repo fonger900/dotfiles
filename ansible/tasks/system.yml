@@ -71,6 +71,7 @@
       - xdg-desktop-portal-wlr
       - xdg-desktop-portal-gtk
       - dbus-user-session
+      - fastfetch
       # Terminal & shell
       - tmux
       - ncurses-term
@@ -150,6 +151,7 @@
       - base-devel
       - unzip
       - gettext
+      - fastfetch
     state: present
     update_cache: true
   become: true
@@ -188,6 +190,7 @@
       - make
       - unzip
       - gettext
+      - fastfetch
     state: present
     update_cache: true
   become: true
