@@ -12,7 +12,7 @@ window#waybar {
     color: #c0caf5;
 }
 
-window#waybar > box {
+window#waybar>box {
     background: rgba(26, 27, 38, 0.90);
     border-radius: 12px;
     border: 1px solid rgba(122, 162, 247, 0.12);
@@ -79,30 +79,78 @@ window#waybar > box {
     padding: 2px 14px;
 }
 
-#pulseaudio        { color: #ff9e64; font-size: 17px; }
-#pulseaudio.muted  { color: #565f89; background: #1e2030; }
+#pulseaudio {
+    color: #ff9e64;
+    font-size: 17px;
+}
 
-#backlight          { color: #e0af68; font-size: 17px; }
+#pulseaudio.muted {
+    color: #565f89;
+    background: #1e2030;
+}
 
-#network            { color: #7dcfff; font-size: 17px; }
-#network.disconnected { color: #565f89; }
+#backlight {
+    color: #e0af68;
+    font-size: 17px;
+}
 
-#bluetooth          { color: #7aa2f7; font-size: 17px; }
-#bluetooth.connected { color: #bb9af7; }
+#network {
+    color: #7dcfff;
+    font-size: 17px;
+}
 
-#cpu                { color: #7aa2f7; font-size: 17px; }
-#memory             { color: #bb9af7; font-size: 17px; }
+#network.disconnected {
+    color: #565f89;
+}
 
-#temperature        { color: #9ece6a; font-size: 17px; }
-#temperature.critical { color: #f7768e; background: rgba(247, 118, 142, 0.15); }
+#bluetooth {
+    color: #7aa2f7;
+    font-size: 17px;
+}
 
-#battery            { color: #9ece6a; font-size: 17px; }
-#battery.charging   { color: #9ece6a; background: rgba(158, 206, 106, 0.12); }
-#battery.plugged    { color: #9ece6a; }
+#bluetooth.connected {
+    color: #bb9af7;
+}
+
+#cpu {
+    color: #7aa2f7;
+    font-size: 17px;
+}
+
+#memory {
+    color: #bb9af7;
+    font-size: 17px;
+}
+
+#temperature {
+    color: #9ece6a;
+    font-size: 17px;
+}
+
+#temperature.critical {
+    color: #f7768e;
+    background: rgba(247, 118, 142, 0.15);
+}
+
+#battery {
+    color: #9ece6a;
+    font-size: 17px;
+}
+
+#battery.charging {
+    color: #9ece6a;
+    background: rgba(158, 206, 106, 0.12);
+}
+
+#battery.plugged {
+    color: #9ece6a;
+}
+
 #battery.warning:not(.charging) {
     color: #e0af68;
     background: rgba(224, 175, 104, 0.12);
 }
+
 #battery.critical:not(.charging) {
     color: #1a1b26;
     background: #f7768e;
@@ -137,8 +185,11 @@ window#waybar > box {
     padding: 2px 8px;
 }
 
-#tray > .passive { -gtk-icon-effect: dim; }
-#tray > .needs-attention {
+#tray>.passive {
+    -gtk-icon-effect: dim;
+}
+
+#tray>.needs-attention {
     -gtk-icon-effect: highlight;
     background: rgba(247, 118, 142, 0.15);
     border-radius: 8px;
@@ -166,6 +217,13 @@ tooltip label {
 
 /* ── Animations ─────────────────────────────────────── */
 @keyframes blink {
-    from { background: #f7768e; color: #1a1b26; }
-    to   { background: #ff9e64; color: #1a1b26; }
+    from {
+        background: #f7768e;
+        color: #1a1b26;
+    }
+
+    to {
+        background: #ff9e64;
+        color: #1a1b26;
+    }
 }
