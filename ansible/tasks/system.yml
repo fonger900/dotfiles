@@ -13,6 +13,8 @@
       - bat
       - ca-certificates
       - font-inter
+      - zathura
+      - zathura-pdf-mupdf
     state: present
     update_homebrew: true
   when: ansible_facts['os_family'] == 'Darwin'
@@ -94,6 +96,8 @@
       - libnotify-bin
       # Files & apps
       - thunar
+      - zathura
+      - zathura-pdf-mupdf
       # Power management
       - tlp
       - tlp-rdw
@@ -154,6 +158,8 @@
       - unzip
       - gettext
       - fastfetch
+      - zathura
+      - zathura-pdf-mupdf
     state: present
     update_cache: true
   become: true
@@ -193,6 +199,8 @@
       - unzip
       - gettext
       - fastfetch
+      - zathura
+      - zathura-plugins-all
     state: present
     update_cache: true
   become: true

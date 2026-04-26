@@ -80,6 +80,8 @@
       - thunar-volman
       - gvfs
       - gvfs-backends
+      - zathura
+      - zathura-pdf-mupdf
     state: present
   become: true
 

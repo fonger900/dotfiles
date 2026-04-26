@@ -26,6 +26,7 @@
       - swaylock
       - wezterm
       - pipewire
+      - zathura
     
     # Custom plugin directories
     zsh_custom: "{{ ansible_env.HOME }}/.oh-my-zsh/custom"

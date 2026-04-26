@@ -17,6 +17,7 @@
       - fontconfig
       - bat
       - ghostty
+      - zathura
 
     zsh_custom: "{{ ansible_env.HOME }}/.oh-my-zsh/custom"
 
