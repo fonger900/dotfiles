@@ -64,7 +64,7 @@ dotfiles/
 1. Create a directory for the tool: `mkdir mytool`
 2. Replicate the target home path: `mkdir -p mytool/.config/mytool`
 3. Add your config: `touch mytool/.config/mytool/config.toml`
-4. Add `mytool` to `STOW_PACKAGES` in `bootstrap.sh`.
+4. Add `mytool` to `stow_packages` in `ansible/playbook.yml`.
 5. Run `./bootstrap.sh`.
 
 ---

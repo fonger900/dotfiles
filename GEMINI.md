@@ -27,7 +27,7 @@ The environment is bootstrapped using the `bootstrap.sh` script (which uses Ansi
 This script:
 1.  Verifies prerequisites (`zsh`, `git`, `stow`).
 2.  Executes the Ansible playbook (`ansible/playbook.yml`) to manage system state and tool installation.
-3.  Stows all packages listed in `STOW_PACKAGES` to `$HOME`.
+3.  Stows all packages listed in `stow_packages` in `ansible/playbook.yml` to `$HOME`.
 4.  Prompts to install Oh-My-Zsh and essential Zsh/Tmux plugins.
 5.  Checks for recommended CLI tools.
 

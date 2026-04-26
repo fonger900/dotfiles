@@ -17,14 +17,14 @@
       - helix
       - fastfetch
       - sway
+      - waybar
       - fontconfig
       - gestures
       - gtk
-      - eza
-      - fzf
       - bat
       - wofi
       - swaylock
+      - wezterm
     
     # Custom plugin directories
     zsh_custom: "{{ ansible_env.HOME }}/.oh-my-zsh/custom"

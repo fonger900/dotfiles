@@ -33,7 +33,7 @@
 
     - name: Fonts | Copy font files to local fonts directory
       ansible.builtin.shell: |
-        find {{ font_tmp.path }} -name "*Nerd Font*.ttf" -exec cp {} {{ ansible_env.HOME }}/.local/share/fonts/ \;
+        find {{ font_tmp.path }} -name "*NerdFont*.ttf" -exec cp {} {{ ansible_env.HOME }}/.local/share/fonts/ \;
       args:
         executable: /bin/bash
 

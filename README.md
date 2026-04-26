@@ -182,7 +182,7 @@ To add a new configuration file:
 
 1.  Create a new directory for your package: `mkdir myapp`
 2.  Inside that directory, recreate the path where the config file should be in your home directory. For example, if you want to link `~/.config/myapp/config.json`, you would create `myapp/.config/myapp/config.json`.
-3.  Add the package name (`myapp` in this case) to the `STOW_PACKAGES` array in the `bootstrap.sh` script.
+3.  Add the package name (`myapp` in this case) to the `stow_packages` array in the `ansible/playbook.yml` file.
 4.  Run `./bootstrap.sh` to stow the new package.
 
 ### Add Personal Configurations

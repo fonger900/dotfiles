@@ -26,6 +26,9 @@ if command -v bat &> /dev/null; then
   export FZF_CTRL_T_OPTS="--preview 'bat --style=numbers --color=always --line-range :500 {}'"
 fi
 
+# Ripgrep Configuration
+export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
+
 # FZF Catppuccin Mocha Colors
 export FZF_DEFAULT_OPTS=" \
 --color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \

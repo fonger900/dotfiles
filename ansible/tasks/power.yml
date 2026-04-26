@@ -9,6 +9,13 @@
     state: started
   become: true
 
+- name: Power | Ensure TLP configuration directory exists
+  ansible.builtin.file:
+    path: /etc/tlp.d
+    state: directory
+    mode: '0755'
+  become: true
+
 - name: Power | Configure TLP for ThinkPad T14 Gen 1 AMD
   ansible.builtin.copy:
     dest: /etc/tlp.d/99-thinkpad-t14.conf
@@ -78,6 +85,13 @@
     backup: yes
   become: true
   notify: Update GRUB
+
+- name: Power | Ensure logind configuration directory exists
+  ansible.builtin.file:
+    path: /etc/systemd/logind.conf.d
+    state: directory
+    mode: '0755'
+  become: true
 
 - name: Power | Configure logind — let swayidle handle lid, not logind
   ansible.builtin.copy:
