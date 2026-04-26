@@ -12,7 +12,7 @@ set $term wezterm
 set $menu wofi --show drun --allow-images --allow-markup --width 500 --height 400 --prompt 'Search Apps...'
 set $browser firefox
 set $files thunar
-set $lock_cmd swaylock
+set $lock_cmd $HOME/.dotfiles/scripts/lock.sh
 
 # Font
 font pango:Inter 13
@@ -28,10 +28,10 @@ set $magenta #bb9af7
 set $pink    #f7768e
 
 ### Appearance
-gaps inner 8
+gaps inner 12
 gaps outer 0
 smart_gaps on
-default_border pixel 2
+default_border pixel 3
 default_floating_border normal
 smart_borders on
 

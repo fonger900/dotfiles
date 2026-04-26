@@ -37,10 +37,11 @@ text-ver-color=7aa2f7
 text-wrong-color=f7768e
 
 # Layout
-indicator-radius=80
-indicator-thickness=8
+indicator-radius=120
+indicator-thickness=12
 indicator-idle-visible=false
 indicator-caps-lock
+show-keyboard-layout
 
 # Behavior
 show-failed-attempts

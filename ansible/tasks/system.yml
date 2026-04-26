@@ -109,10 +109,11 @@
       - libgdk-pixbuf2.0-bin
       - librsvg2-common
       - shared-mime-info
-      # Hardware acceleration (AMD Renoir / Radeon Vega)
       - mesa-va-drivers
       - mesa-vdpau-drivers
       - vainfo
+      # Image processing
+      - imagemagick
       # Flatpak
       - flatpak
     state: present

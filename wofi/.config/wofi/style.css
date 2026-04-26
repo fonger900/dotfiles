@@ -5,10 +5,11 @@
 
 window {
     margin: 0px;
-    background-color: #1a1b26;
+    background-color: rgba(26, 27, 38, 0.9);
     color: #c0caf5;
     border: 2px solid #7aa2f7;
-    border-radius: 12px;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
 #outer-box {
