@@ -11,11 +11,11 @@ scaling=fill
 # Colors — Tokyo Night
 color=1a1b26
 
-inside-color=1a1b26cc
-inside-clear-color=1a1b26cc
-inside-caps-lock-color=1a1b26cc
-inside-ver-color=7aa2f7cc
-inside-wrong-color=f7768ecc
+inside-color=1a1b26ee
+inside-clear-color=1a1b26ee
+inside-caps-lock-color=1a1b26ee
+inside-ver-color=1a1b26ee
+inside-wrong-color=1a1b26ee
 
 ring-color=414868
 ring-clear-color=7dcfff
@@ -30,11 +30,15 @@ bs-hl-color=f7768e
 caps-lock-key-hl-color=e0af68
 caps-lock-bs-hl-color=f7768e
 
-text-color=c0caf5
-text-clear-color=7dcfff
-text-caps-lock-color=e0af68
-text-ver-color=7aa2f7
-text-wrong-color=f7768e
+text-color=ffffff
+text-clear-color=b4f9f8
+text-caps-lock-color=ff9e64
+text-ver-color=b4f9f8
+text-wrong-color=ff757f
+
+# Font
+font=Inter Bold
+font-size=32
 
 # Layout
 indicator-radius=120
