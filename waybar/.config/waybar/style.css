@@ -2,7 +2,7 @@
     border: none;
     border-radius: 0;
     font-family: Inter, "JetBrainsMono Nerd Font", sans-serif;
-    font-size: 15px;
+    font-size: 17px;
     min-height: 0;
     transition: background-color 0.2s ease, color 0.2s ease;
 }
@@ -33,7 +33,7 @@ window#waybar>box {
     color: #565f89;
     background: transparent;
     border-radius: 8px;
-    font-size: 17px;
+    font-size: 19px;
 }
 
 #workspaces button.focused {
@@ -81,7 +81,7 @@ window#waybar>box {
 
 #pulseaudio {
     color: #ff9e64;
-    font-size: 17px;
+    font-size: 19px;
 }
 
 #pulseaudio.muted {
@@ -91,12 +91,12 @@ window#waybar>box {
 
 #backlight {
     color: #e0af68;
-    font-size: 17px;
+    font-size: 19px;
 }
 
 #network {
     color: #7dcfff;
-    font-size: 17px;
+    font-size: 19px;
 }
 
 #network.disconnected {
@@ -105,7 +105,7 @@ window#waybar>box {
 
 #bluetooth {
     color: #7aa2f7;
-    font-size: 17px;
+    font-size: 19px;
 }
 
 #bluetooth.connected {
@@ -114,17 +114,17 @@ window#waybar>box {
 
 #cpu {
     color: #7aa2f7;
-    font-size: 17px;
+    font-size: 19px;
 }
 
 #memory {
     color: #bb9af7;
-    font-size: 17px;
+    font-size: 19px;
 }
 
 #temperature {
     color: #9ece6a;
-    font-size: 17px;
+    font-size: 19px;
 }
 
 #temperature.critical {
@@ -134,7 +134,7 @@ window#waybar>box {
 
 #battery {
     color: #9ece6a;
-    font-size: 17px;
+    font-size: 19px;
 }
 
 #battery.charging {
@@ -165,7 +165,7 @@ window#waybar>box {
 
 #custom-easyeffects {
     color: #9ece6a;
-    font-size: 19px;
+    font-size: 21px;
     min-width: 28px;
 }
 
@@ -178,7 +178,7 @@ window#waybar>box {
     background: rgba(247, 118, 142, 0.12);
     padding: 2px 12px;
     margin-right: 4px;
-    font-size: 19px;
+    font-size: 21px;
 }
 
 #tray {
@@ -211,7 +211,7 @@ tooltip {
 }
 
 tooltip label {
-    font-size: 16px;
+    font-size: 18px;
     padding: 6px 10px;
 }
 
