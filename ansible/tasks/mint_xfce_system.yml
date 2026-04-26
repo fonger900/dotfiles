@@ -84,7 +84,7 @@
       - gvfs
       - gvfs-backends
       - zathura
-      - zathura-pdf-mupdf
+      - zathura-pdf-poppler
     state: present
   become: true
 

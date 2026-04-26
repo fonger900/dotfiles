@@ -1,0 +1,13 @@
+[terminal]
+# The initial terminal command. Can be used to run a greeter.
+vt = 7
+
+[default_session]
+# The command that is run when no session is selected.
+# --time: show current time
+# --remember: remember the last logged-in user
+# --cmd sway: the command to run after a successful login
+command = "tuigreet --time --remember --cmd \"zsh -l -c 'dbus-run-session sway'\""
+
+# The user to run the greeter as.
+user = "_greetd"

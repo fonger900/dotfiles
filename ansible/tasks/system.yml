@@ -98,7 +98,7 @@
       # Files & apps
       - thunar
       - zathura
-      - zathura-pdf-mupdf
+      - zathura-pdf-poppler
       # Power management
       - tlp
       - tlp-rdw
@@ -114,6 +114,9 @@
       - vainfo
       # Image processing
       - imagemagick
+      # Login manager
+      - greetd
+      - tuigreet
       # Flatpak
       - flatpak
     state: present
@@ -211,3 +214,21 @@
     update_cache: true
   become: true
   when: ansible_facts['os_family'] == 'RedHat'
+
+- name: System | Configure greetd
+  ansible.builtin.copy:
+    src: "{{ dotfiles_dir }}/greetd/config.toml"
+    dest: /etc/greetd/config.toml
+    owner: root
+    group: root
+    mode: '0644'
+  become: true
+  when: ansible_facts['os_family'] == 'Debian'
+
+- name: System | Ensure greetd service is enabled
+  ansible.builtin.systemd:
+    name: greetd
+    state: started
+    enabled: yes
+  become: true
+  when: ansible_facts['os_family'] == 'Debian'
