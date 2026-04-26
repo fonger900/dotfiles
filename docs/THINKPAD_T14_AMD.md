@@ -80,6 +80,9 @@ Enable hardware video decode in Firefox:
 1. `about:config` → `media.ffmpeg.vaapi.enabled` = `true`
 2. `about:config` → `media.hardware-video-decoding.force-enabled` = `true`
 
+**Fix Small UI/Address Bar:**
+If the address bar is too small on this display, set `layout.css.devPixelsPerPx` to `1.25` or `1.5` in `about:config`. See [Firefox UI Scaling](./bugs/FIREFOX_UI_SCALING.md) for details.
+
 ---
 
 ## Display Scaling
