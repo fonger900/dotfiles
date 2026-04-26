@@ -17,7 +17,7 @@
     ],
     "modules-right": [
         "custom/easyeffects",
-        "wireplumber",
+        "pulseaudio",
         "backlight",
         "network",
         "cpu",
@@ -84,13 +84,13 @@
         }
     },
 
-    "wireplumber": {
+    "pulseaudio": {
         "format": "{icon} {volume}%",
         "format-muted": "󰝟",
         "format-icons": ["󰕿", "󰖀", "󰕾"],
         "on-click": "pavucontrol",
         "on-click-right": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
-        "tooltip-format": "{node_name}"
+        "tooltip-format": "{desc}"
     },
 
     "backlight": {

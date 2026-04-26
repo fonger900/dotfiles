@@ -54,7 +54,7 @@ window#waybar > box {
 /* ── Shared pill style ──────────────────────────────── */
 #mode,
 #clock,
-#wireplumber,
+#pulseaudio,
 #backlight,
 #network,
 #cpu,
@@ -78,8 +78,8 @@ window#waybar > box {
     padding: 2px 14px;
 }
 
-#wireplumber        { color: #ff9e64; font-size: 17px; }
-#wireplumber.muted  { color: #565f89; background: #1e2030; }
+#pulseaudio        { color: #ff9e64; font-size: 17px; }
+#pulseaudio.muted  { color: #565f89; background: #1e2030; }
 
 #backlight          { color: #e0af68; font-size: 17px; }
 
