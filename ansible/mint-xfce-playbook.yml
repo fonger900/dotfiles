@@ -9,7 +9,6 @@
     stow_packages:
       - zsh
       - tmux
-      - nvim
       - starship
       - ripgrep
       - newsboat

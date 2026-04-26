@@ -12,6 +12,15 @@
   ansible.builtin.command: mv "{{ ansible_env.HOME }}/.zshrc" "{{ ansible_env.HOME }}/.zshrc.bak"
   when: zshrc_stat.stat.exists and not zshrc_stat.stat.islnk
 
+- name: Dotfiles | Check for existing .tmux.conf
+  ansible.builtin.stat:
+    path: "{{ ansible_env.HOME }}/.tmux.conf"
+  register: tmux_stat
+
+- name: Dotfiles | Backup existing .tmux.conf if it is not a symlink
+  ansible.builtin.command: mv "{{ ansible_env.HOME }}/.tmux.conf" "{{ ansible_env.HOME }}/.tmux.conf.bak"
+  when: tmux_stat.stat.exists and not tmux_stat.stat.islnk
+
 - name: Dotfiles | Check for existing fontconfig config
   ansible.builtin.stat:
     path: "{{ ansible_env.HOME }}/.config/fontconfig/fonts.conf"
