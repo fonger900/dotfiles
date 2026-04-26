@@ -72,13 +72,14 @@ To keep the main repository generic and shareable, machine-specific or sensitive
 
 ## 🤖 AI Agent Environment & Persistence
 
-This repository is optimized for AI-driven development using **Antigravity**. To ensure session and chat history persistence, the environment relies on the **Secret Service (libsecret)** provided by **KeePassXC**.
+This repository is optimized for AI-driven development using **Antigravity**. To ensure session and chat history persistence, the environment relies on the **Secret Service (libsecret)** provided by **gnome-keyring**.
 
 ### Required Persistence Configuration
 If chat history is lost on restart, verify the following:
 
-1.  **Secret Service Provider**: **KeePassXC** must be running and the database must be **unlocked**.
-    - Settings -> Browser Integration -> Enable Secret Service (must be checked).
+1.  **Secret Service Provider**: **gnome-keyring** must be running.
+    - Start it in Sway with `exec gnome-keyring-daemon --start --components=secrets`.
+    - It is automatically unlocked by PAM on login.
 2.  **IDE Configuration**: `~/.antigravity/argv.json` must include:
     ```json
     "password-store": "gnome"

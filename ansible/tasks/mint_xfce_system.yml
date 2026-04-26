@@ -57,6 +57,8 @@
       # Power management
       - tlp
       - tlp-rdw
+      # Secret Service
+      - gnome-keyring
       # Theming
       - papirus-icon-theme
       - libgdk-pixbuf2.0-bin
