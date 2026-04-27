@@ -45,8 +45,8 @@ client.placeholder      $black   $bg   $fg   $black     $black
 include /etc/sway/config-vars.d/*
 
 ### Session / D-Bus
-exec systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP DISPLAY SWAYSOCK
-exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP XDG_DATA_DIRS DISPLAY SWAYSOCK
+exec systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP DISPLAY SWAYSOCK GNOME_KEYRING_CONTROL SSH_AUTH_SOCK
+exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP XDG_DATA_DIRS DISPLAY SWAYSOCK GNOME_KEYRING_CONTROL SSH_AUTH_SOCK
 
 ### Output
 output * scale 1.0
@@ -205,5 +205,6 @@ exec_always $HOME/.dotfiles/scripts/mic-mute-sync.sh
 exec_always $HOME/.dotfiles/scripts/import-gtk-settings.sh
 exec libinput-gestures-setup start
 exec gammastep -c $HOME/.config/redshift.conf
-exec gnome-keyring-daemon --start --components=secrets
+exec eval $(gnome-keyring-daemon --start --components=secrets,ssh,pkcs11)
 exec mako
+

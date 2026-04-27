@@ -54,8 +54,8 @@ setopt INTERACTIVE_COMMENTS
 
 # Forces Chrome and Electron apps to use the Secret Service (provided by KeePassXC) for password storage
 # Note: Ensure KeePassXC -> Settings -> Browser Integration -> Enable Secret Service is checked.
-export CHROME_CONFIG_FLAGS="--password-store=basic"
-export ELECTRON_PASSWORD_STORE="basic"
+export CHROME_CONFIG_FLAGS="--password-store=gnome"
+export ELECTRON_PASSWORD_STORE="gnome"
 export MOZ_ENABLE_WAYLAND=1
 
 # Scaling — T14 Gen 1 AMD: 14" 1920x1080 = ~157 DPI
