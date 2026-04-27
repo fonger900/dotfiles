@@ -113,6 +113,11 @@ window#waybar > box {
     font-size: 19px;
 }
 
+#bluetooth.disabled,
+#bluetooth.off {
+    color: @surface2;
+}
+
 #bluetooth.connected {
     color: @magenta;
 }
