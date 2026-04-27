@@ -94,6 +94,7 @@
       # Screenshots & notifications
       - grim
       - slurp
+      - mako-notifier
       - libnotify-bin
       # Files & apps
       - thunar

@@ -206,3 +206,4 @@ exec_always $HOME/.dotfiles/scripts/import-gtk-settings.sh
 exec libinput-gestures-setup start
 exec gammastep -c $HOME/.config/redshift.conf
 exec gnome-keyring-daemon --start --components=secrets
+exec mako
