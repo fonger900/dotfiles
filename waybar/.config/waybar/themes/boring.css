@@ -29,6 +29,6 @@
 @define-color teal      #b0b0b0;
 
 /* Opacity variants */
-@define-color bar_bg    rgba(22, 22, 22, 0.9);
+@define-color bar_bg    #161616;
 @define-color active_bg rgba(255, 255, 255, 0.1);
 @define-color hover_bg  rgba(255, 255, 255, 0.05);
