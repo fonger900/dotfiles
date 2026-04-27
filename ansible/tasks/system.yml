@@ -67,6 +67,7 @@
       - swayidle
       - swaylock
       - wofi
+      - rofi-wayland
       - wl-clipboard
       - xwayland
       - wayland-protocols
