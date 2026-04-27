@@ -7,13 +7,11 @@ dbus-send --session --dest=org.keepassxc.KeePassXC \
   2>/dev/null &
 
 # Capture + Blur
-# Note: 'magick' can be slow. If you want instant locking, 
-# consider a solid color or 'swaylock-effects'.
 grim "$LOCK_IMAGE"
 magick "$LOCK_IMAGE" -scale 5% -scale 2000% "$LOCK_IMAGE"
 
-# Lock - DO NOT use --daemonize here
+# Lock - Removed --daemonize to ensure swayidle waits for this to finish
 swaylock -i "$LOCK_IMAGE"
 
-# Cleanup runs ONLY after unlock
+# Cleanup runs after unlock
 rm -f "$LOCK_IMAGE"
