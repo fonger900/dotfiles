@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+# Don't start if already locked
+if pgrep -x swaylock > /dev/null; then
+    exit 0
+fi
+
 # Premium Blurred Lock Script
 # Depends: grim, imagemagick, swaylock
 

@@ -49,5 +49,5 @@ show-keyboard-layout
 
 # Behavior
 show-failed-attempts
-daemonize
+# daemonize
 ignore-empty-password
