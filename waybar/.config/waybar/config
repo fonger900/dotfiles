@@ -182,8 +182,8 @@
         "exec": "$HOME/.dotfiles/scripts/easyeffects-status.sh",
         "return-type": "json",
         "interval": 5,
-        "on-click": "flatpak run com.github.wwmm.easyeffects",
-        "on-click-right": "flatpak run com.github.wwmm.easyeffects --quit",
+        "on-click": "$HOME/.dotfiles/scripts/easyeffects-toggle.sh",
+        "on-click-right": "$HOME/.dotfiles/scripts/easyeffects-toggle.sh --quit",
         "tooltip": true
     },
 
