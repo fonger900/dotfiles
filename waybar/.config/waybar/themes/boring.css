@@ -1,0 +1,34 @@
+/* Boring / Focus Theme for Waybar */
+/* A monochrome, low-distraction theme */
+
+@define-color base      #161616;
+@define-color mantle    #1a1a1a;
+@define-color crust     #0d0d0d;
+
+@define-color text      #dddddd;
+@define-color subtext0  #aaaaaa;
+@define-color subtext1  #888888;
+
+@define-color surface0  #262626;
+@define-color surface1  #393939;
+@define-color surface2  #525252;
+
+@define-color overlay0  #737373;
+@define-color overlay1  #8c8c8c;
+@define-color overlay2  #a6a6a6;
+
+/* All functional colors mapped to shades of gray to remove distraction */
+@define-color blue      #bbbbbb;
+@define-color cyan      #cccccc;
+@define-color magenta   #b0b0b0;
+@define-color pink      #999999;
+@define-color red       #888888;
+@define-color orange    #999999;
+@define-color yellow    #aaaaaa;
+@define-color green     #cccccc;
+@define-color teal      #b0b0b0;
+
+/* Opacity variants */
+@define-color bar_bg    rgba(22, 22, 22, 0.9);
+@define-color active_bg rgba(255, 255, 255, 0.1);
+@define-color hover_bg  rgba(255, 255, 255, 0.05);
