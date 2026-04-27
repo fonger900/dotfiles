@@ -7,7 +7,9 @@
     font-family: Inter, "JetBrainsMono Nerd Font", sans-serif;
     font-size: 17px;
     min-height: 0;
-    transition: background-color 0.2s ease, color 0.2s ease;
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
 }
 
 window#waybar {
@@ -15,12 +17,12 @@ window#waybar {
     color: @text;
 }
 
-window#waybar>box {
+window#waybar > box {
     background: @bar_bg;
     border-radius: 14px;
     border: 1px solid @surface1;
-    margin: 6px 8px;
-    padding: 2px 8px;
+    margin: 4px 4px 0px;
+    padding: 2px 2px;
 }
 
 /* ── Workspaces ─────────────────────────────────────── */
@@ -194,11 +196,11 @@ window#waybar>box {
     padding: 2px 8px;
 }
 
-#tray>.passive {
+#tray > .passive {
     -gtk-icon-effect: dim;
 }
 
-#tray>.needs-attention {
+#tray > .needs-attention {
     -gtk-icon-effect: highlight;
     background: rgba(247, 118, 142, 0.15);
     border-radius: 8px;
