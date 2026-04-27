@@ -151,6 +151,18 @@ window#waybar > box {
     background: rgba(247, 118, 142, 0.15);
 }
 
+#tray {
+    padding: 0 10px;
+}
+
+#tray > .passive {
+    -gtk-icon-effect: dim;
+}
+
+#tray > .needs-attention {
+    -gtk-icon-effect: highlight;
+}
+
 #battery {
     color: @green;
     font-size: 19px;

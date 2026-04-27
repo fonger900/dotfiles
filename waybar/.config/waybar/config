@@ -183,8 +183,8 @@
         "tooltip-format": "{timeTo}\nCycles: {cycles}"
     },
     "tray": {
-        "icon-size": 16,
-        "spacing": 8
+        "icon-size": 18,
+        "spacing": 10
     },
     "group/utils": {
         "orientation": "horizontal",
