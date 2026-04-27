@@ -59,9 +59,9 @@ exec swayidle -w \
     resume       'brightnessctl -r' \
     timeout 300  '$HOME/.dotfiles/scripts/lock.sh' \
     timeout 600  'swaymsg "output * power off"' \
-    resume       'swaymsg "output * power on"' \
+    resume       'swaymsg "output * power on"; brightnessctl -r' \
     timeout 900  'systemctl suspend' \
-    before-sleep 'playerctl pause; $HOME/.dotfiles/scripts/lock.sh' \
+    before-sleep '$HOME/.dotfiles/scripts/lock.sh' \
     lock         '$HOME/.dotfiles/scripts/lock.sh'
 
 ### Input
@@ -198,11 +198,14 @@ for_window [app_id="pavucontrol"]                          floating enable
 for_window [app_id="thunar" title="File Operation Progress"] floating enable
 for_window [app_id=".*.dialog.*"]                          floating enable
 
-# Prevent idle/sleep when playing video
-for_window [app_id="firefox"] inhibit_idle fullscreen
-for_window [app_id="chromium"] inhibit_idle fullscreen
-for_window [app_id="google-chrome"] inhibit_idle fullscreen
-for_window [app_id="mpv"] inhibit_idle visible
+# Idle inhibition — prevent lock/sleep when media is playing or fullscreen
+for_window [app_id="firefox"]                  inhibit_idle fullscreen
+for_window [app_id="chromium"]                 inhibit_idle fullscreen
+for_window [app_id="google-chrome"]            inhibit_idle fullscreen
+for_window [app_id="mpv"]                      inhibit_idle visible
+for_window [app_id="vlc"]                      inhibit_idle visible
+for_window [app_id="io.github.celluloid_player"] inhibit_idle visible
+for_window [app_id="totem"]                    inhibit_idle visible
 
 include /etc/sway/config.d/*
 

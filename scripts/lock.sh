@@ -1,9 +1,18 @@
 #!/usr/bin/env bash
+# Robust lock script — blurs a screenshot of the current screen
 
-# Don't start if already locked
-if pgrep -x swaylock > /dev/null; then
+LOCKFILE="/tmp/.swaylock.lock"
+
+# 1. Bail out if swaylock is already running or starting up
+if [ -f "$LOCKFILE" ] || pgrep -x swaylock > /dev/null; then
     exit 0
 fi
+
+# 2. Claim this instance
+touch "$LOCKFILE"
+
+# 3. Lock KeePassXC database for security
+keepassxc --lock 2>/dev/null &
 
 # Premium Blurred Lock Script
 # Depends: grim, imagemagick, swaylock
@@ -15,13 +24,10 @@ grim "$LOCK_IMAGE"
 
 # Blur image
 # -scale 10% -scale 1000% is a very fast way to blur
-magick "$LOCK_IMAGE" -scale 10% -scale 1000% "$LOCK_IMAGE"
+magick "$LOCK_IMAGE" -scale 15% -scale 1000% "$LOCK_IMAGE"
 
-# Lock screen
+# 5. Lock screen with blurred screenshot (blocking — prevents double-suspend)
 swaylock -i "$LOCK_IMAGE"
 
-# Cleanup
-rm "$LOCK_IMAGE"
-
-# This ensures your passwords are safe while you are away
-keepassxc --lock
+# 6. Cleanup
+rm -f "$LOCKFILE" "$LOCK_IMAGE"
