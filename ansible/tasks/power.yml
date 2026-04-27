@@ -102,7 +102,7 @@
       # Sway + swayidle handle lock/suspend on lid close
       # logind only triggers suspend signal; swayidle's 'lock' event handles the rest
       HandleLidSwitch=suspend
-      HandleLidSwitchExternalPower=lock
+      HandleLidSwitchExternalPower=suspend
       HandleLidSwitchDocked=ignore
       HandlePowerKey=ignore
       # Prevent logind from managing idle — swayidle does this
