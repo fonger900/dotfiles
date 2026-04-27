@@ -1,32 +1,33 @@
 #!/usr/bin/env bash
-# lock.sh — Used for idle timeout (blocking, allows subsequent timers to run)
-# Also used for: before-sleep, manual lock ($mod+Escape)
-
 LOCKFILE="/tmp/.swaylock.lock"
 LOCK_IMAGE="/tmp/.swaylock-blur.png"
 
-# 1. Bail out if swaylock is already running or starting up
+# 1. Bail nếu đang chạy
 if [ -f "$LOCKFILE" ] || pgrep -x swaylock > /dev/null; then
-    exit 0
+  exit 0
 fi
 
-# 2. Claim this instance
+# 2. Claim + trap cleanup
 touch "$LOCKFILE"
+trap 'rm -f "$LOCKFILE" "$LOCK_IMAGE"' EXIT INT TERM
 
-# 3. Lock KeePassXC database
-keepassxc --lock 2>/dev/null &
+# 3. Lock KeePassXC
+dbus-send --session --dest=org.keepassxc.KeePassXC \
+  /keepassxc org.keepassxc.MainWindow.lockAllDatabases \
+  2>/dev/null &
 
-# 4. Capture screen & blur it
+# 4. Capture + blur
 grim "$LOCK_IMAGE"
-magick "$LOCK_IMAGE" -scale 15% -scale 1000% "$LOCK_IMAGE"
+if command -v magick &>/dev/null; then
+  magick "$LOCK_IMAGE" -filter Gaussian -blur 0x8 "$LOCK_IMAGE"
+else
+  convert "$LOCK_IMAGE" -scale 15% -scale 1000% "$LOCK_IMAGE"
+fi
 
 # 5. Lock screen
-# --daemonize: forks once the surface is ready so the caller (swayidle) can proceed
-# This is critical for before-sleep: swayidle must be unblocked to allow suspend
 swaylock --daemonize -i "$LOCK_IMAGE"
 
-# 6. Wait for swaylock to actually exit (user unlocked), then cleanup
+# 6. Chờ unlock rồi cleanup
 while pgrep -x swaylock > /dev/null; do
-    sleep 1
+  sleep 1
 done
-rm -f "$LOCKFILE" "$LOCK_IMAGE"

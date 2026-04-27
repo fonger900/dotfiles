@@ -63,7 +63,8 @@ exec swayidle -w \
     resume       'swaymsg "output * power on"; brightnessctl -r' \
     timeout 900  'systemctl suspend' \
     before-sleep '$HOME/.dotfiles/scripts/lock.sh' \
-    lock         '$HOME/.dotfiles/scripts/lock.sh'
+    lock         '$HOME/.dotfiles/scripts/lock.sh' \
+    idlehint     120
 
 # Hard suspend: ignores idle inhibitors — sleeps after 1h even while playing video
 exec swayidle timeout 3600 'systemctl suspend'
