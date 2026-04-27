@@ -15,16 +15,10 @@
         "clock"
     ],
     "modules-right": [
-        "idle_inhibitor",
-        "custom/keepassxc",
-        "custom/easyeffects",
-        "pulseaudio",
-        "backlight",
-        "network",
-        "bluetooth",
-        "cpu",
-        "memory",
-        "temperature",
+        "group/utils",
+        "group/hardware",
+        "group/connections",
+        "group/stats",
         "battery",
         "tray",
         "custom/power"
@@ -192,6 +186,41 @@
         "icon-size": 16,
         "spacing": 8
     },
+    "group/utils": {
+        "orientation": "horizontal",
+        "modules": [
+            "idle_inhibitor",
+            "custom/keepassxc",
+            "custom/easyeffects"
+        ]
+    },
+    "group/hardware": {
+        "orientation": "horizontal",
+        "modules": [
+            "pulseaudio",
+            "backlight"
+        ]
+    },
+    "group/connections": {
+        "orientation": "horizontal",
+        "modules": [
+            "network",
+            "bluetooth"
+        ]
+    },
+    "group/stats": {
+        "orientation": "horizontal",
+        "drawer": {
+            "transition-duration": 500,
+            "transition-left-to-right": false
+        },
+        "modules": [
+            "cpu",
+            "memory",
+            "temperature"
+        ]
+    },
+
     "idle_inhibitor": {
         "format": "{icon}",
         "format-icons": {
