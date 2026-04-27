@@ -19,7 +19,10 @@ dbus-send --session --dest=org.keepassxc.KeePassXC \
 # 4. Capture + blur
 grim "$LOCK_IMAGE"
 if command -v magick &>/dev/null; then
-  magick "$LOCK_IMAGE" -filter Gaussian -blur 0x8 "$LOCK_IMAGE"
+    # Nhanh nhất, pixel art effect
+    magick "$LOCK_IMAGE" \
+    -scale 5% -scale 2000% \
+    "$LOCK_IMAGE"
 else
   convert "$LOCK_IMAGE" -scale 15% -scale 1000% "$LOCK_IMAGE"
 fi
