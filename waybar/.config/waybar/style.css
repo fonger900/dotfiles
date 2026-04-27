@@ -173,6 +173,15 @@ window#waybar > box {
     padding: 2px 12px;
 }
 
+#custom-keepassxc {
+    color: @yellow;
+    font-size: 20px;
+}
+
+#custom-keepassxc.inactive {
+    color: @surface2;
+}
+
 #custom-easyeffects {
     color: @green;
     font-size: 21px;

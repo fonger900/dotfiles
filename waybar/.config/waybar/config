@@ -16,6 +16,7 @@
     ],
     "modules-right": [
         "idle_inhibitor",
+        "custom/keepassxc",
         "custom/easyeffects",
         "pulseaudio",
         "backlight",
@@ -197,6 +198,14 @@
             "activated": "󰈈",
             "deactivated": "󰈉"
         }
+    },
+    "custom/keepassxc": {
+        "exec": "$HOME/.dotfiles/scripts/keepassxc-status.sh",
+        "return-type": "json",
+        "interval": 5,
+        "on-click": "keepassxc",
+        "on-click-right": "pkill -x keepassxc",
+        "tooltip": true
     },
     "custom/easyeffects": {
         "exec": "$HOME/.dotfiles/scripts/easyeffects-status.sh",
