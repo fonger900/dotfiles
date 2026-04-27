@@ -172,8 +172,14 @@ window#waybar>box {
     min-width: 28px;
 }
 
+#custom-easyeffects.active {
+    color: @green;
+    background: @active_bg;
+}
+
 #custom-easyeffects.inactive {
     color: @surface2;
+    background: transparent;
 }
 
 #custom-power {
