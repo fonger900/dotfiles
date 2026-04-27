@@ -1,3 +1,6 @@
+/* Waybar Style with Theme Support */
+@import "theme.css";
+
 * {
     border: none;
     border-radius: 0;
@@ -9,11 +12,11 @@
 
 window#waybar {
     background: transparent;
-    color: #c0caf5;
+    color: @text;
 }
 
 window#waybar>box {
-    background: rgba(26, 27, 38, 0.85);
+    background: @bar_bg;
     border-radius: 14px;
     border: 1px solid rgba(122, 162, 247, 0.2);
     margin: 6px 8px;
@@ -25,31 +28,31 @@ window#waybar>box {
 #workspaces {
     margin: 3px 4px;
     padding: 0 2px;
-    background: #24283b;
+    background: @surface0;
     border-radius: 10px;
 }
 
 #workspaces button {
     padding: 2px 9px;
-    color: #565f89;
+    color: @overlay0;
     background: transparent;
     border-radius: 8px;
     font-size: 19px;
 }
 
 #workspaces button.focused {
-    color: #7aa2f7;
-    background: rgba(122, 162, 247, 0.15);
+    color: @blue;
+    background: @active_bg;
 }
 
 #workspaces button.urgent {
-    color: #f7768e;
+    color: @red;
     background: rgba(247, 118, 142, 0.15);
 }
 
 #workspaces button:hover {
-    color: #c0caf5;
-    background: rgba(192, 202, 245, 0.08);
+    color: @text;
+    background: @hover_bg;
 }
 
 /* ── Shared pill style ──────────────────────────────── */
@@ -69,7 +72,7 @@ window#waybar>box {
 #custom-power {
     padding: 2px 12px;
     margin: 4px 3px;
-    background: linear-gradient(180deg, #24283b 0%, #1e2030 100%);
+    background: linear-gradient(180deg, @surface0 0%, @mantle 100%);
     border-radius: 12px;
     border: 1px solid rgba(122, 162, 247, 0.1);
     box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.05);
@@ -77,107 +80,107 @@ window#waybar>box {
 
 /* ── Individual colors ──────────────────────────────── */
 #clock {
-    color: #7dcfff;
+    color: @cyan;
     font-weight: 600;
     padding: 2px 14px;
 }
 
 #pulseaudio {
-    color: #ff9e64;
+    color: @orange;
     font-size: 19px;
 }
 
 #pulseaudio.muted {
-    color: #565f89;
-    background: #1e2030;
+    color: @overlay0;
+    background: @mantle;
 }
 
 #backlight {
-    color: #e0af68;
+    color: @yellow;
     font-size: 19px;
 }
 
 #network {
-    color: #7dcfff;
+    color: @cyan;
     font-size: 19px;
 }
 
 #network.disconnected {
-    color: #565f89;
+    color: @overlay0;
 }
 
 #bluetooth {
-    color: #7aa2f7;
+    color: @blue;
     font-size: 19px;
 }
 
 #bluetooth.connected {
-    color: #bb9af7;
+    color: @magenta;
 }
 
 #cpu {
-    color: #7aa2f7;
+    color: @blue;
     font-size: 19px;
 }
 
 #memory {
-    color: #bb9af7;
+    color: @magenta;
     font-size: 19px;
 }
 
 #temperature {
-    color: #9ece6a;
+    color: @green;
     font-size: 19px;
 }
 
 #temperature.critical {
-    color: #f7768e;
+    color: @red;
     background: rgba(247, 118, 142, 0.15);
 }
 
 #battery {
-    color: #9ece6a;
+    color: @green;
     font-size: 19px;
 }
 
 #battery.charging {
-    color: #9ece6a;
+    color: @green;
     background: rgba(158, 206, 106, 0.12);
 }
 
 #battery.plugged {
-    color: #9ece6a;
+    color: @green;
 }
 
 #battery.warning:not(.charging) {
-    color: #e0af68;
+    color: @orange;
     background: rgba(224, 175, 104, 0.12);
 }
 
 #battery.critical:not(.charging) {
-    color: #1a1b26;
-    background: #f7768e;
+    color: @base;
+    background: @red;
     animation: blink 0.6s linear infinite alternate;
 }
 
 #custom-media {
-    color: #1a1b26;
-    background: #9ece6a;
+    color: @base;
+    background: @green;
     padding: 2px 12px;
 }
 
 #custom-easyeffects {
-    color: #9ece6a;
+    color: @green;
     font-size: 21px;
     min-width: 28px;
 }
 
 #custom-easyeffects.inactive {
-    color: #414868;
+    color: @surface2;
 }
 
 #custom-power {
-    color: #f7768e;
+    color: @red;
     background: rgba(247, 118, 142, 0.12);
     padding: 2px 12px;
     margin-right: 4px;
@@ -199,17 +202,17 @@ window#waybar>box {
 }
 
 #mode {
-    color: #e0af68;
+    color: @yellow;
     background: rgba(224, 175, 104, 0.15);
     font-style: italic;
 }
 
 /* ── Tooltip ────────────────────────────────────────── */
 tooltip {
-    background: #1a1b26;
+    background: @base;
     border: 1px solid rgba(122, 162, 247, 0.3);
     border-radius: 8px;
-    color: #c0caf5;
+    color: @text;
     padding: 4px;
 }
 
@@ -221,12 +224,12 @@ tooltip label {
 /* ── Animations ─────────────────────────────────────── */
 @keyframes blink {
     from {
-        background: #f7768e;
-        color: #1a1b26;
+        background: @red;
+        color: @base;
     }
 
     to {
-        background: #ff9e64;
-        color: #1a1b26;
+        background: @orange;
+        color: @base;
     }
 }
