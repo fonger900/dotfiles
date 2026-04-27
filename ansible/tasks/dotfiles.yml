@@ -39,10 +39,6 @@
     path: "{{ ansible_env.HOME }}/.config/fontconfig/fonts.conf"
   register: fontconfig_stat
 
-- name: Dotfiles | Backup existing fontconfig config if it is not a symlink
-  ansible.builtin.command: mv "{{ ansible_env.HOME }}/.config/fontconfig/fonts.conf" "{{ ansible_env.HOME }}/.config/fontconfig/fonts.conf.bak"
-  when: fontconfig_stat.stat.exists and not fontconfig_stat.stat.islnk
-
 
 - name: Dotfiles | Stow packages
   ansible.builtin.command: stow -v -R -t "{{ ansible_env.HOME }}" -d "{{ dotfiles_dir }}" {{ item }}
