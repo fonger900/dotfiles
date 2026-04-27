@@ -51,7 +51,7 @@ exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DE
 ### Output
 output * scale 1.0
 seat seat0 xcursor_theme Adwaita 28
-output * bg ~/.config/sway/wallpaper.jpg fill
+exec_always $HOME/.dotfiles/scripts/dynamic-wallpaper.sh
 
 ### Idle / Lock
 exec swayidle -w \
