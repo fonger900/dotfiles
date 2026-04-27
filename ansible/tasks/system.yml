@@ -92,6 +92,7 @@
       - libspa-0.2-bluetooth
       - upower
       - gammastep
+      - gamemode
       # Screenshots & notifications
       - grim
       - slurp
@@ -171,6 +172,7 @@
       - zathura
       - zathura-pdf-mupdf
       - gammastep
+      - gamemode
     state: present
     update_cache: true
   become: true
@@ -213,6 +215,7 @@
       - zathura
       - zathura-plugins-all
       - gammastep
+      - gamemode
     state: present
     update_cache: true
   become: true

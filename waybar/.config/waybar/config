@@ -190,9 +190,15 @@
         "orientation": "horizontal",
         "modules": [
             "idle_inhibitor",
+            "custom/gamemode",
             "custom/keepassxc",
             "custom/easyeffects"
         ]
+    },
+    "custom/gamemode": {
+        "exec": "gamemoded -s | grep -q 'is active' && echo '{\"text\":\"󰓓\",\"class\":\"active\",\"tooltip\":\"Gamemode: Active\"}' || echo '{\"text\":\"󰓓\",\"class\":\"inactive\",\"tooltip\":\"Gamemode: Inactive\"}'",
+        "return-type": "json",
+        "interval": 10
     },
     "group/hardware": {
         "orientation": "horizontal",
