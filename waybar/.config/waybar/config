@@ -6,7 +6,6 @@
     "margin-left": 10,
     "margin-right": 10,
     "spacing": 0,
-
     "modules-left": [
         "sway/workspaces",
         "sway/mode",
@@ -29,7 +28,6 @@
         "tray",
         "custom/power"
     ],
-
     "sway/workspaces": {
         "disable-scroll": true,
         "all-outputs": true,
@@ -45,11 +43,9 @@
             "default": "󰄯"
         }
     },
-
     "sway/mode": {
         "format": " {}"
     },
-
     "custom/media": {
         "format": "{icon} {}",
         "return-type": "json",
@@ -62,21 +58,21 @@
         "exec": "$HOME/.dotfiles/scripts/mediaplayer.sh 2>/dev/null",
         "on-click": "playerctl play-pause"
     },
-
     "clock": {
         "interval": 60,
         "format": "󱑒 {:%H:%M  󰃭 %a %d/%m}",
         "tooltip-format": "<tt><small>{calendar}</small></tt>",
         "calendar": {
             "mode": "month",
+            "mode-mon-col": 3,
             "weeks-pos": "right",
             "on-scroll": 1,
             "format": {
-                "months":   "<span color='#ff9e64'><b>{}</b></span>",
-                "days":     "<span color='#c0caf5'>{}</span>",
-                "weeks":    "<span color='#7dcfff'><b>W{}</b></span>",
+                "months": "<span color='#ff9e64'><b>{}</b></span>",
+                "days": "<span color='#c0caf5'><b>{}</b></span>",
+                "weeks": "<span color='#7dcfff'><b>W{}</b></span>",
                 "weekdays": "<span color='#bb9af7'><b>{}</b></span>",
-                "today":    "<span color='#1a1b26' background='#7aa2f7'><b>{}</b></span>"
+                "today": "<span color='#1a1b26' background='#7aa2f7'><b>{}</b></span>"
             }
         },
         "actions": {
@@ -85,7 +81,6 @@
             "on-scroll-down": "shift_down"
         }
     },
-
     "pulseaudio": {
         "format": "{icon} {volume}%",
         "format-bluetooth": "{icon} {volume}%",
@@ -98,13 +93,16 @@
             "phone": "",
             "portable": "",
             "car": "",
-            "default": ["󰕿", "󰖀", "󰕾"]
+            "default": [
+                "󰕿",
+                "󰖀",
+                "󰕾"
+            ]
         },
         "on-click": "pavucontrol",
         "on-click-right": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
         "tooltip-format": "{desc}"
     },
-
     "bluetooth": {
         "format": "",
         "format-connected": "󰂱",
@@ -115,16 +113,18 @@
         "tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%",
         "on-click": "blueman-manager"
     },
-
     "backlight": {
         "device": "amdgpu_bl0",
         "format": "{icon} {percent}%",
-        "format-icons": ["󰃞", "󰃟", "󰃠"],
+        "format-icons": [
+            "󰃞",
+            "󰃟",
+            "󰃠"
+        ],
         "on-scroll-up": "brightnessctl set 5%+",
         "on-scroll-down": "brightnessctl set 5%-",
         "tooltip": false
     },
-
     "network": {
         "interval": 5,
         "format-wifi": "󰖩 {essid}",
@@ -135,30 +135,30 @@
         "tooltip-format-ethernet": "{ifname}\n{ipaddr}",
         "on-click": "nm-connection-editor"
     },
-
     "cpu": {
         "interval": 5,
         "format": "󰍛 {usage}%",
         "tooltip-format": "CPU: {usage}%\nLoad: {load}",
         "on-click": "wezterm -e btop"
     },
-
     "memory": {
         "interval": 10,
         "format": "󰘚 {percentage}%",
         "tooltip-format": "Used: {used:0.1f}G / {total:0.1f}G",
         "on-click": "wezterm -e btop"
     },
-
     "temperature": {
         "interval": 5,
         "critical-threshold": 80,
         "format": "{icon} {temperatureC}°C",
         "format-critical": "󱗗 {temperatureC}°C",
-        "format-icons": ["󰔄", "󰔏", "󱗗"],
+        "format-icons": [
+            "󰔄",
+            "󰔏",
+            "󱗗"
+        ],
         "tooltip": false
     },
-
     "battery": {
         "interval": 30,
         "states": {
@@ -170,15 +170,25 @@
         "format-charging": "󱐋 {capacity}%",
         "format-plugged": "󰚥 {capacity}%",
         "format-full": "󰁹 Full",
-        "format-icons": ["󰂎", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
+        "format-icons": [
+            "󰂎",
+            "󰁺",
+            "󰁻",
+            "󰁼",
+            "󰁽",
+            "󰁾",
+            "󰁿",
+            "󰂀",
+            "󰂁",
+            "󰂂",
+            "󰁹"
+        ],
         "tooltip-format": "{timeTo}\nCycles: {cycles}"
     },
-
     "tray": {
         "icon-size": 16,
         "spacing": 8
     },
-
     "idle_inhibitor": {
         "format": "{icon}",
         "format-icons": {
@@ -194,7 +204,6 @@
         "on-click-right": "$HOME/.dotfiles/scripts/easyeffects-toggle.sh --quit",
         "tooltip": true
     },
-
     "custom/power": {
         "format": "󰐥",
         "tooltip": false,
