@@ -188,6 +188,11 @@ exec mkdir -p ~/Pictures/Screenshots
 bindsym Print        exec grim - | tee ~/Pictures/Screenshots/$(date +%Y-%m-%d_%H-%M-%S).png | wl-copy && notify-send "Screenshot" "Saved & copied"
 bindsym $mod+Shift+s exec grim -g "$(slurp)" - | tee ~/Pictures/Screenshots/$(date +%Y-%m-%d_%H-%M-%S).png | wl-copy && notify-send "Screenshot" "Region saved & copied"
 
+# Workspace Assignments
+assign [app_id="wezterm"] workspace number 1
+assign [app_id="firefox"] workspace number 2
+assign [app_id="nm-connection-editor"] workspace number 10
+
 ### Window Rules
 for_window [app_id="pavucontrol"]                          floating enable
 for_window [app_id="thunar" title="File Operation Progress"] floating enable
@@ -213,4 +218,11 @@ exec libinput-gestures-setup start
 exec gammastep -c $HOME/.config/redshift.conf
 exec eval $(gnome-keyring-daemon --start --components=secrets,ssh,pkcs11)
 exec mako
+
+# Launch Core Apps
+exec wezterm
+exec firefox
+
+# Start on Workspace 1
+exec swaymsg workspace number 1
 
