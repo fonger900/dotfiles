@@ -28,7 +28,7 @@
       - pipewire
       - zathura
       - redshift
-      - rofi
+      - fuzzel
       - mako
       - systemd
     
