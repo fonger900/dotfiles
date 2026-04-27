@@ -38,7 +38,7 @@ window#waybar>box {
     color: @overlay0;
     background: transparent;
     border-radius: 8px;
-    font-size: 19px;
+    font-size: 24px;
 }
 
 #workspaces button.focused {
@@ -96,7 +96,7 @@ window#waybar>box {
 
 #pulseaudio {
     color: @orange;
-    font-size: 19px;
+    font-size: 22px;
 }
 
 #pulseaudio.muted {
@@ -106,12 +106,12 @@ window#waybar>box {
 
 #backlight {
     color: @yellow;
-    font-size: 19px;
+    font-size: 22px;
 }
 
 #network {
     color: @cyan;
-    font-size: 19px;
+    font-size: 22px;
 }
 
 #network.disconnected {
@@ -120,7 +120,7 @@ window#waybar>box {
 
 #bluetooth {
     color: @blue;
-    font-size: 19px;
+    font-size: 22px;
 }
 
 #bluetooth.disabled,
@@ -134,17 +134,17 @@ window#waybar>box {
 
 #cpu {
     color: @blue;
-    font-size: 19px;
+    font-size: 22px;
 }
 
 #memory {
     color: @magenta;
-    font-size: 19px;
+    font-size: 22px;
 }
 
 #temperature {
     color: @green;
-    font-size: 19px;
+    font-size: 22px;
 }
 
 #temperature.critical {
@@ -166,7 +166,7 @@ window#waybar>box {
 
 #battery {
     color: @green;
-    font-size: 19px;
+    font-size: 22px;
 }
 
 #battery.charging {
@@ -198,7 +198,7 @@ window#waybar>box {
 
 #custom-easyeffects {
     color: @green;
-    font-size: 21px;
+    font-size: 24px;
     min-width: 28px;
 }
 
@@ -214,7 +214,7 @@ window#waybar>box {
 
 #idle_inhibitor {
     color: @blue;
-    font-size: 20px;
+    font-size: 24px;
 }
 
 #idle_inhibitor.activated {
@@ -224,7 +224,7 @@ window#waybar>box {
 
 #custom-gamemode {
     color: @green;
-    font-size: 20px;
+    font-size: 24px;
 }
 
 #custom-gamemode.inactive {
@@ -236,7 +236,7 @@ window#waybar>box {
     background: rgba(247, 118, 142, 0.12);
     padding: 2px 12px;
     margin-right: 4px;
-    font-size: 21px;
+    font-size: 24px;
 }
 
 #tray {
