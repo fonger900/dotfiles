@@ -42,8 +42,9 @@ window#waybar>box {
 }
 
 #workspaces button.focused {
-    color: @blue;
-    background: @active_bg;
+    color: @base;
+    background: @blue;
+    box-shadow: 0 0 5px rgba(137, 180, 250, 0.4);
 }
 
 #workspaces button.urgent {
