@@ -193,6 +193,12 @@ for_window [app_id="pavucontrol"]                          floating enable
 for_window [app_id="thunar" title="File Operation Progress"] floating enable
 for_window [app_id=".*.dialog.*"]                          floating enable
 
+# Prevent idle/sleep when playing video
+for_window [app_id="firefox"] inhibit_idle fullscreen
+for_window [app_id="chromium"] inhibit_idle fullscreen
+for_window [app_id="google-chrome"] inhibit_idle fullscreen
+for_window [app_id="mpv"] inhibit_idle visible
+
 include /etc/sway/config.d/*
 
 ### Autostart

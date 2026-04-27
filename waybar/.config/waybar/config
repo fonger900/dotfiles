@@ -16,6 +16,7 @@
         "clock"
     ],
     "modules-right": [
+        "idle_inhibitor",
         "custom/easyeffects",
         "pulseaudio",
         "backlight",
@@ -178,6 +179,13 @@
         "spacing": 8
     },
 
+    "idle_inhibitor": {
+        "format": "{icon}",
+        "format-icons": {
+            "activated": "󰈈",
+            "deactivated": "󰈉"
+        }
+    },
     "custom/easyeffects": {
         "exec": "$HOME/.dotfiles/scripts/easyeffects-status.sh",
         "return-type": "json",

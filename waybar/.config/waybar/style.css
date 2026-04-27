@@ -184,6 +184,16 @@ window#waybar > box {
     background: transparent;
 }
 
+#idle_inhibitor {
+    color: @blue;
+    font-size: 20px;
+}
+
+#idle_inhibitor.activated {
+    color: @red;
+    background: @active_bg;
+}
+
 #custom-power {
     color: @red;
     background: rgba(247, 118, 142, 0.12);
