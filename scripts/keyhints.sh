@@ -35,6 +35,6 @@ EOF
 echo -e "$hints" | fuzzel \
     --dmenu \
     --prompt "  Shortcuts " \
-    --width 35 \
+    --width 25 \
     --lines 18 \
     --no-icons
