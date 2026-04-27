@@ -1,0 +1,10 @@
+[Unit]
+Description=Update wallpaper every 30 minutes
+
+[Timer]
+OnBootSec=30s
+OnUnitActiveSec=30min
+Unit=dynamic-wallpaper.service
+
+[Install]
+WantedBy=timers.target

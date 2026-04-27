@@ -218,9 +218,8 @@ exec_always sh -c 'pkill -x waybar; sleep 0.5; waybar'
 exec blueman-applet
 exec fcitx5 -d
 
-exec $HOME/.dotfiles/scripts/bt_auto_off.sh
-exec_always $HOME/.dotfiles/scripts/mic-mute-sync.sh
-exec_always $HOME/.dotfiles/scripts/import-gtk-settings.sh
+exec $HOME/.dotfiles/scripts/mic-mute-sync.sh
+exec $HOME/.dotfiles/scripts/import-gtk-settings.sh
 exec libinput-gestures-setup start
 exec gammastep -c $HOME/.config/redshift.conf
 exec keepassxc --minimized
@@ -229,7 +228,3 @@ exec mako
 # Launch Core Apps
 exec wezterm
 exec firefox
-
-# Start on Workspace 1
-exec swaymsg workspace number 1
-

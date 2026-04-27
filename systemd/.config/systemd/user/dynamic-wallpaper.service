@@ -1,0 +1,9 @@
+[Unit]
+Description=Set wallpaper based on time of day
+After=graphical-session.target
+
+[Service]
+Type=oneshot
+ExecStart=%h/.dotfiles/scripts/dynamic-wallpaper.sh
+Environment=WAYLAND_DISPLAY=wayland-1
+Environment=SWAYSOCK=/run/user/1000/sway-ipc.1000.sock

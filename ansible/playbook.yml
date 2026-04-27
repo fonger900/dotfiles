@@ -29,6 +29,7 @@
       - zathura
       - redshift
       - mako
+      - systemd
     
     # Custom plugin directories
     zsh_custom: "{{ ansible_env.HOME }}/.oh-my-zsh/custom"
@@ -69,6 +70,23 @@
     - name: Include flatpak tasks
       ansible.builtin.include_tasks: tasks/flatpak.yml
       tags: ['flatpak']
+
+    - name: Systemd | Enable user timers
+      ansible.builtin.systemd:
+        name: "{{ item }}"
+        enabled: true
+        state: started
+        scope: user
+      loop:
+        - dynamic-wallpaper.timer
+      tags: ['systemd', 'dotfiles']
+
+    - name: Bluetooth | Disable auto-off script (handled natively)
+      ansible.builtin.file:
+        path: "{{ ansible_env.HOME }}/.local/bin/bt_auto_off.sh"
+        state: absent
+      ignore_errors: true
+      tags: ['bluetooth']
 
   handlers:
     - name: Restart TLP

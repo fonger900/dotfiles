@@ -1,25 +1,21 @@
 #!/usr/bin/env bash
-# Script to change Sway wallpaper based on the time of day
+# Set wallpaper based on current time of day — run once, not in a loop
+# Called by: sway/config exec_always OR systemd user timer
 
 WALLPAPER_DIR="$HOME/.config/sway/wallpapers"
+HOUR=$(date +%H)
 
-while true; do
-    HOUR=$(date +%H)
-    WP_FILE="$WALLPAPER_DIR/morning-wallpaper.jpg"
-    
-    if [ "$HOUR" -ge 6 ] && [ "$HOUR" -lt 12 ]; then
-        WP_FILE="$WALLPAPER_DIR/morning-wallpaper.jpg"
+if   [ "$HOUR" -ge 6  ] && [ "$HOUR" -lt 12 ]; then
+    WP="$WALLPAPER_DIR/morning-wallpaper.jpg"
+elif [ "$HOUR" -ge 12 ] && [ "$HOUR" -lt 18 ]; then
+    WP="$WALLPAPER_DIR/noon-wallpaper.png"
+elif [ "$HOUR" -ge 18 ] && [ "$HOUR" -lt 21 ]; then
+    WP="$WALLPAPER_DIR/night-wallpaper.png"
+else
+    WP="$WALLPAPER_DIR/night-wallpaper.png"
+fi
 
-    elif [ "$HOUR" -ge 12 ] && [ "$HOUR" -lt 18 ]; then
-        WP_FILE="$WALLPAPER_DIR/noon-wallpaper.png"
+# Fallback to default if file doesn't exist
+[ -f "$WP" ] || WP="$HOME/.config/sway/wallpaper.jpg"
 
-    elif [ "$HOUR" -ge 18 ] && [ "$HOUR" -lt 21 ]; then
-        WP_FILE="$WALLPAPER_DIR/night-wallpaper.png"
-
-    fi
-
-    swaymsg "output * bg \"$WP_FILE\" fill"
-
-    # Wait for 30 minutes before checking again
-    sleep 1800
-done
+swaymsg "output * bg \"$WP\" fill"
