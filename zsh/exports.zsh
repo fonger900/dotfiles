@@ -56,7 +56,8 @@ setopt INTERACTIVE_COMMENTS
 # Note: Ensure KeePassXC -> Settings -> Browser Integration -> Enable Secret Service is checked.
 export CHROME_CONFIG_FLAGS="--password-store=gnome"
 export ELECTRON_PASSWORD_STORE="gnome"
-export MOZ_ENABLE_WAYLAND=1
+# Use KeePassXC as the SSH agent
+export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/kpxc_server"
 
 # Scaling — T14 Gen 1 AMD: 14" 1920x1080 = ~157 DPI
 export GDK_SCALE=1
