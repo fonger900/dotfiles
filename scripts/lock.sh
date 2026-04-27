@@ -22,3 +22,6 @@ swaylock -i "$LOCK_IMAGE"
 
 # Cleanup
 rm "$LOCK_IMAGE"
+
+# This ensures your passwords are safe while you are away
+keepassxc --lock

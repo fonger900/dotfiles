@@ -45,8 +45,8 @@ client.placeholder      $black   $bg   $fg   $black     $black
 include /etc/sway/config-vars.d/*
 
 ### Session / D-Bus
-exec systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP DISPLAY SWAYSOCK GNOME_KEYRING_CONTROL SSH_AUTH_SOCK
-exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP XDG_DATA_DIRS DISPLAY SWAYSOCK GNOME_KEYRING_CONTROL SSH_AUTH_SOCK
+exec systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP DISPLAY SWAYSOCK SSH_AUTH_SOCK
+exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP XDG_DATA_DIRS DISPLAY SWAYSOCK SSH_AUTH_SOCK
 
 ### Output
 output * scale 1.0
