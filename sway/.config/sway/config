@@ -216,7 +216,7 @@ exec_always $HOME/.dotfiles/scripts/mic-mute-sync.sh
 exec_always $HOME/.dotfiles/scripts/import-gtk-settings.sh
 exec libinput-gestures-setup start
 exec gammastep -c $HOME/.config/redshift.conf
-exec eval $(gnome-keyring-daemon --start --components=secrets,ssh,pkcs11)
+exec keepassxc
 exec mako
 
 # Launch Core Apps
