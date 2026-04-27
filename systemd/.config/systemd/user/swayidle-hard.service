@@ -1,0 +1,13 @@
+[Unit]
+Description=Swayidle hard-suspend service (ignores inhibitors)
+After=graphical-session.target
+PartOf=graphical-session.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/swayidle \
+    timeout 3600 'systemctl suspend'
+Restart=always
+
+[Install]
+WantedBy=graphical-session.target

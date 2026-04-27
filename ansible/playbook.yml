@@ -71,7 +71,7 @@
       ansible.builtin.include_tasks: tasks/flatpak.yml
       tags: ['flatpak']
 
-    - name: Systemd | Enable user timers
+    - name: Systemd | Enable user services
       ansible.builtin.systemd:
         name: "{{ item }}"
         enabled: true
@@ -79,6 +79,8 @@
         scope: user
       loop:
         - dynamic-wallpaper.timer
+        - swayidle.service
+        - swayidle-hard.service
       tags: ['systemd', 'dotfiles']
 
     - name: Bluetooth | Disable auto-off script (handled natively)
