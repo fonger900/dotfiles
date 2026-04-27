@@ -113,8 +113,9 @@
       - vainfo
       # Image processing
       - imagemagick
-      # Secret Service
+      # Secret Service & Backup
       - keepassxc
+      - timeshift
       # Login manager
       - greetd
       - tuigreet
