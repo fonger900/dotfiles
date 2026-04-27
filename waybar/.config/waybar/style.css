@@ -17,7 +17,7 @@ window#waybar {
     color: @text;
 }
 
-window#waybar > box {
+window#waybar>box {
     background: @bar_bg;
     border-radius: 14px;
     border: 1px solid @surface1;
@@ -63,7 +63,7 @@ window#waybar > box {
 #tray,
 #custom-media,
 #custom-power,
-.modules-right > widget > box {
+.modules-right>widget>box {
     padding: 2px 4px;
     margin: 4px 3px;
     background: @surface0;
@@ -154,11 +154,11 @@ window#waybar > box {
     padding: 0 10px;
 }
 
-#tray > .passive {
+#tray>.passive {
     -gtk-icon-effect: dim;
 }
 
-#tray > .needs-attention {
+#tray>.needs-attention {
     -gtk-icon-effect: highlight;
 }
 
@@ -232,11 +232,11 @@ window#waybar > box {
     padding: 2px 8px;
 }
 
-#tray > .passive {
+#tray>.passive {
     -gtk-icon-effect: dim;
 }
 
-#tray > .needs-attention {
+#tray>.needs-attention {
     -gtk-icon-effect: highlight;
     background: rgba(247, 118, 142, 0.15);
     border-radius: 8px;
@@ -258,7 +258,7 @@ tooltip {
 }
 
 tooltip label {
-    font-size: 20px;
+    font-size: 18px;
     padding: 6px 10px;
 }
 
