@@ -235,9 +235,11 @@
     "idle_inhibitor": {
         "format": "{icon}",
         "format-icons": {
-            "activated": "󰅶 <span size='11000'>Stay Awake</span>",
-            "deactivated": "󰛑 <span size='11000'>Auto Sleep</span>"
-        }
+            "activated": "󰅶",
+            "deactivated": "󰛑"
+        },
+        "tooltip-format-activated": "Stay Awake: Auto-sleep is disabled",
+        "tooltip-format-deactivated": "Auto Sleep: System follows normal idle timers"
     },
     "custom/easyeffects": {
         "exec": "$HOME/.dotfiles/scripts/easyeffects-status.sh",
