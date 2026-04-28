@@ -213,14 +213,15 @@ window#waybar>box {
 }
 
 #idle_inhibitor {
-    color: @blue;
-    font-size: 20px;
+    color: @surface2;
+    font-size: 24px;
 }
 
 #idle_inhibitor.activated {
-    color: @red;
-    background: @active_bg;
+    color: @yellow;
+    background: rgba(249, 226, 175, 0.15);
 }
+
 
 #custom-gamemode {
     color: @green;
