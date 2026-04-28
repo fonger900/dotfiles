@@ -152,6 +152,55 @@ bluetoothctl
 sudo systemctl restart bluetooth
 ```
 
+### Bluetooth audio connected but silent
+
+If a headset shows `Connected: yes` in `bluetoothctl info <MAC>` but no Bluetooth sink appears in `wpctl status`, the Bluetooth link is up but the A2DP audio transport is stuck.
+
+Known failure signature:
+
+```bash
+bluetoothctl info 88:C9:E8:20:30:78
+# Connected: yes
+
+wpctl status
+# no WH-1000XM5 sink listed
+
+journalctl --user -u wireplumber --since '30 min ago' --no-pager
+# spa.bluez5: Failure in Bluetooth audio transport ...
+# pw.node: (bluez_output....) running -> error
+```
+
+Recovery steps:
+
+```bash
+# 1. Reset the user audio stack
+systemctl --user restart wireplumber pipewire pipewire-pulse
+
+# 2. Reconnect the headset cleanly
+bluetoothctl disconnect 88:C9:E8:20:30:78
+bluetoothctl connect 88:C9:E8:20:30:78
+
+# 3. Confirm the Bluetooth sink exists again
+pactl list sinks short
+# expect: bluez_output.88_C9_E8_20_30_78.1
+
+# 4. Make the headset the default output
+pactl set-default-sink bluez_output.88_C9_E8_20_30_78.1
+wpctl set-default 71   # use the current WH-1000XM5 node id from `wpctl status`
+```
+
+Verify:
+
+```bash
+wpctl status
+# expect:
+# Devices: WH-1000XM5 [bluez5]
+# Sinks:   WH-1000XM5
+# Default Configured Devices: bluez_output.88_C9_E8_20_30_78.1
+```
+
+If an app was already open when the sink was broken, restart playback once so it opens a fresh stream on the repaired default sink.
+
 ---
 
 ## Audio (PipeWire)
