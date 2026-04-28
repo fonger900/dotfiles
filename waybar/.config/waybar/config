@@ -235,8 +235,8 @@
     "idle_inhibitor": {
         "format": "{icon}",
         "format-icons": {
-            "activated": "󰅶",
-            "deactivated": "󰛑"
+            "activated": "󰅶 <span size='11000'>Stay Awake</span>",
+            "deactivated": "󰛑 <span size='11000'>Auto Sleep</span>"
         }
     },
     "custom/easyeffects": {

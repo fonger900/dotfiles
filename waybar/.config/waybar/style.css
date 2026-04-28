@@ -214,7 +214,7 @@ window#waybar>box {
 
 #idle_inhibitor {
     color: @surface2;
-    font-size: 24px;
+    font-size: 20px;
 }
 
 #idle_inhibitor.activated {
