@@ -2,9 +2,9 @@ name: Dotfiles CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -14,7 +14,7 @@ jobs:
   # 1. Filter: Detect which paths have changed to optimize subsequent jobs
   changes:
     name: 🔍 Detect Changes
-    runs-on: ubuntu-latest
+    runs-on: debian-latest
     outputs:
       ansible: ${{ steps.filter.outputs.ansible }}
       zsh: ${{ steps.filter.outputs.zsh }}
@@ -53,15 +53,15 @@ jobs:
         if: needs.changes.outputs.zsh == 'true' || needs.changes.outputs.scripts == 'true'
         uses: ludeeus/action-shellcheck@master
         with:
-          scandir: './zsh ./scripts'
+          scandir: "./zsh ./scripts"
           format: tty
           severity: warning
 
       - name: YAML Lint
         uses: ibiqlik/action-yamllint@v3
         with:
-          file_or_dir: '.'
-          config_file: '.yamllint'
+          file_or_dir: "."
+          config_file: ".yamllint"
 
       - name: StyLua Check
         if: needs.changes.outputs.lua == 'true'
