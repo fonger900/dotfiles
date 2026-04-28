@@ -80,8 +80,6 @@
         scope: user
       loop:
         - dynamic-wallpaper.timer
-        - swayidle.service
-        - swayidle-hard.service
       tags: ['systemd', 'dotfiles']
 
     - name: Bluetooth | Ensure auto-off service is enabled
