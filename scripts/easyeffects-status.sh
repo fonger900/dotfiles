@@ -13,10 +13,10 @@ if pgrep -x "easyeffects" > /dev/null; then
     fi
 
     if [ -n "$preset" ] && [ "$preset" != " " ]; then
-        echo "{\"text\": \"󰸶\", \"tooltip\": \"EasyEffects: $preset\", \"class\": \"active\"}"
+        echo "{\"text\": \"󰓃\", \"tooltip\": \"EasyEffects: $preset\", \"class\": \"active\"}"
     else
-        echo "{\"text\": \"󰸶\", \"tooltip\": \"EasyEffects: running\", \"class\": \"active\"}"
+        echo "{\"text\": \"󰓃\", \"tooltip\": \"EasyEffects: running\", \"class\": \"active\"}"
     fi
 else
-    echo "{\"text\": \"󰸷\", \"tooltip\": \"EasyEffects: off\", \"class\": \"inactive\"}"
+    echo "{\"text\": \"󰓄\", \"tooltip\": \"EasyEffects: off\", \"class\": \"inactive\"}"
 fi

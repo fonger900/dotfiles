@@ -198,15 +198,14 @@ window#waybar>box {
 
 
 #custom-easyeffects {
-    color: @green;
-    font-size: 21px;
-    min-width: 28px;
+    color: @surface2;
+    font-size: 20px;
 }
 
 #custom-easyeffects.active {
     color: @green;
-    background: @active_bg;
 }
+
 
 #custom-easyeffects.inactive {
     color: @surface2;
