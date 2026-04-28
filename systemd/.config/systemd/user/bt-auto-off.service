@@ -1,0 +1,13 @@
+[Unit]
+Description=Bluetooth auto-off daemon
+After=graphical-session.target
+PartOf=graphical-session.target
+
+[Service]
+Type=simple
+ExecStart=%h/.dotfiles/scripts/bt_auto_off.sh
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=graphical-session.target

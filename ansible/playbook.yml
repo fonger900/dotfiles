@@ -84,11 +84,12 @@
         - swayidle-hard.service
       tags: ['systemd', 'dotfiles']
 
-    - name: Bluetooth | Disable auto-off script (handled natively)
-      ansible.builtin.file:
-        path: "{{ ansible_env.HOME }}/.local/bin/bt_auto_off.sh"
-        state: absent
-      ignore_errors: true
+    - name: Bluetooth | Ensure auto-off service is enabled
+      ansible.builtin.systemd:
+        name: bt-auto-off.service
+        enabled: true
+        state: started
+        scope: user
       tags: ['bluetooth']
 
   handlers:
