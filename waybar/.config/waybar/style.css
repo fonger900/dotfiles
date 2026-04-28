@@ -19,33 +19,34 @@ window#waybar {
 
 window#waybar>box {
     background: @bar_bg;
-    border-radius: 14px;
+    border-radius: 12px;
     border: 1px solid @surface1;
     margin: 4px 4px 0px;
-    padding: 2px 2px;
+    padding: 2px 4px;
 }
 
 /* ── Workspaces ─────────────────────────────────────── */
 #workspaces {
     margin: 3px 4px;
     padding: 0 2px;
-    background: @surface0;
-    border-radius: 10px;
+    background: transparent;
 }
 
 #workspaces button {
-    padding: 2px 9px;
+    padding: 0px 10px;
     color: @overlay0;
     background: transparent;
-    border-radius: 8px;
-    font-size: 19px;
+    border-radius: 0;
+    font-size: 20px;
+    border-bottom: 3px solid transparent;
 }
 
 #workspaces button.focused {
-    color: @base;
-    background: @blue;
-    box-shadow: 0 0 5px rgba(137, 180, 250, 0.4);
+    color: @blue;
+    background: transparent;
+    border-bottom: 3px solid @blue;
 }
+
 
 #workspaces button.urgent {
     color: @red;
