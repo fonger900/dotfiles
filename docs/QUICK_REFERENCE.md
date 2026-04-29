@@ -42,6 +42,19 @@
 
 ---
 
+## 📖 Document Viewer (Zathura)
+
+| Keymap | Action |
+|--------|--------|
+| `r`    | Toggle Recolor (Dark Mode) |
+| `i`    | Toggle Index (Table of Contents) |
+| `f`    | Follow Links |
+| `C-i`  | Zoom In |
+| `C-o`  | Zoom Out |
+| `/`    | Search |
+
+---
+
 ## 🐚 Shell Aliases
 
 | Tool | Alias | Action |
