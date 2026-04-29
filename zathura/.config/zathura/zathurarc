@@ -1,25 +1,25 @@
-# General
-set font "JetBrains Mono 12"
-set page-padding 10
-set scroll-step 50
+# --- Giao diện tối giản ---
+set statusbar-h-padding 0
+set statusbar-v-padding 0
+set show-scrollbars false
+set guioptions ""
 
-# Recolor — sepia mode
+# --- Màu sắc dễ chịu (Recolor) ---
+# Nhấn Ctrl + R để bật/tắt chế độ này khi đọc đêm
 set recolor "true"
 set recolor-keephue "true"
-set recolor-lightcolor "#f4ecd8"   # nền kem
-set recolor-darkcolor "#433422"    # chữ nâu
+set recolor-lightcolor "#1a1a1a" # Nền xám tối của ThinkPad
+set recolor-darkcolor  "#dcdcdc" # Chữ xám sáng
 
-# UI minimal
-set statusbar-h-padding 10
-set statusbar-v-padding 5
-set default-bg "#f4ecd8"
-set statusbar-bg "#e8dcc8"
-set statusbar-fg "#433422"
-set inputbar-bg "#e8dcc8"
-set inputbar-fg "#433422"
+# --- Cuộn chuột mượt hơn ---
+set scroll-step 50
+set scroll-full-overlap 0.01
+set scroll-wrap true
 
-# Behavior
-set zoom-min 10
-set guioptions ""              # ẩn thanh toolbar
-set scroll-page-aware "true"
-set smooth-scroll "true"
+# --- Tìm kiếm thông minh ---
+set incremental-search true
+set search-hadjust true
+
+# --- Clipboard ---
+# Tự động copy nội dung khi bôi đen (rất tiện để paste vào ghi chú)
+set selection-clipboard clipboard
