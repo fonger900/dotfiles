@@ -1,26 +1,9 @@
-# Zathura Configuration - Catppuccin Mocha
-# ----------------------------------------
-
-# General settings
-set font "JetBrains Mono 12"
-set page-padding 10
-set scroll-step 50
-set selection-clipboard clipboard
-set render-loading "false"
-set scroll-page-aware "true"
-set smooth-scroll "true"
-set zoom-min 10
-set guioptions ""
-
-# Catppuccin Mocha colors
-# -----------------------
+# Catppuccin Mocha for Zathura
 set default-bg                  "#1E1E2E"
 set default-fg                  "#CDD6F4"
 
 set statusbar-fg                "#CDD6F4"
 set statusbar-bg                "#181825"
-set statusbar-h-padding         10
-set statusbar-v-padding         5
 
 set inputbar-bg                 "#1E1E2E"
 set inputbar-fg                 "#F5E0DC"
@@ -46,15 +29,5 @@ set completion-highlight-bg     "#F5C2E7"
 set recolor-lightcolor          "#1E1E2E"
 set recolor-darkcolor           "#CDD6F4"
 
-# Enable recolor (dark mode) by default
 set recolor                     "true"
 set recolor-keephue             "true"
-
-# Keybindings
-# -----------
-map r recolor
-map i display-index
-map [normal] p print
-map [normal] f follow
-map [normal] <C-i> zoom in
-map [normal] <C-o> zoom out

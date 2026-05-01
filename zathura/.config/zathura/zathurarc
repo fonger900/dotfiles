@@ -1,25 +1,60 @@
-# --- Giao diện tối giản ---
-set statusbar-h-padding 0
-set statusbar-v-padding 0
-set show-scrollbars false
+# Zathura Configuration - Catppuccin Mocha
+# ----------------------------------------
+    
+# General settings
+set font "JetBrains Mono Nerd Font 12"
+set page-padding 10
+set scroll-step 50
+set selection-clipboard clipboard
+set render-loading "false"
+set scroll-page-aware "true"
+set smooth-scroll "true"
+set zoom-min 10
 set guioptions ""
 
-# --- Màu sắc dễ chịu (Recolor) ---
-# Nhấn Ctrl + R để bật/tắt chế độ này khi đọc đêm
-set recolor "true"
-set recolor-keephue "true"
-set recolor-lightcolor "#1a1a1a" # Nền xám tối của ThinkPad
-set recolor-darkcolor  "#dcdcdc" # Chữ xám sáng
+# Catppuccin Mocha colors
+# -----------------------
+set default-bg                  "#1E1E2E"
+set default-fg                  "#CDD6F4"
 
-# --- Cuộn chuột mượt hơn ---
-set scroll-step 50
-set scroll-full-overlap 0.01
-set scroll-wrap true
+set statusbar-fg                "#CDD6F4"
+set statusbar-bg                "#181825"
+set statusbar-h-padding         10
+set statusbar-v-padding         5
 
-# --- Tìm kiếm thông minh ---
-set incremental-search true
-set search-hadjust true
+set inputbar-bg                 "#1E1E2E"
+set inputbar-fg                 "#F5E0DC"
 
-# --- Clipboard ---
-# Tự động copy nội dung khi bôi đen (rất tiện để paste vào ghi chú)
-set selection-clipboard clipboard
+set notification-bg             "#1E1E2E"
+set notification-fg             "#F5E0DC"
+
+set notification-error-bg       "#1E1E2E"
+set notification-error-fg       "#F38BA8"
+
+set notification-warning-bg     "#1E1E2E"
+set notification-warning-fg     "#FAE3B0"
+
+set highlight-color             "#F9E2AF"
+set highlight-active-color      "#F5C2E7"
+
+set completion-bg               "#313244"
+set completion-fg               "#F5C2E7"
+
+set completion-highlight-fg     "#1E1E2E"
+set completion-highlight-bg     "#F5C2E7"
+
+set recolor-lightcolor          "#1E1E2E"
+set recolor-darkcolor           "#CDD6F4"
+
+# Enable recolor (dark mode) by default
+set recolor                     "true"
+set recolor-keephue             "true"
+
+# Keybindings
+# -----------
+map r recolor
+map i display-index
+map [normal] p print
+map [normal] f follow
+map [normal] <C-i> zoom in
+map [normal] <C-o> zoom out

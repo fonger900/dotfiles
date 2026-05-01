@@ -1,0 +1,7 @@
+# Zathura Keybindings
+map r recolor
+map i display-index
+map [normal] p print
+map [normal] f follow
+map [normal] <C-i> zoom in
+map [normal] <C-o> zoom out
